@@ -1,10 +1,15 @@
+import { Field as BaseField } from "@base-ui/react/field";
 import { useSelector } from "@tanstack/react-form";
-import { useFieldContext, useFormContext } from "#/hooks/demo.form-context";
-import Button from "#/components/ui/Button";
-import { useMemo, type ComponentProps } from "react";
-import type Input from "#/components/ui/Input";
-import { Field } from "#/components/ui/Field";
 import { ArrowRightIcon } from "lucide-react";
+import { type ComponentProps, useMemo } from "react";
+
+import Button from "#/components/ui/Button";
+import Checkbox from "#/components/ui/Checkbox";
+import { Field } from "#/components/ui/Field";
+import type Input from "#/components/ui/Input";
+import { OTPField as BaseOTPField } from "#/components/ui/OTPField";
+
+import { useFieldContext, useFormContext } from "./context";
 
 function ErrorMessage({ errors }: { errors: string | { message: string }[] }) {
   const error = useMemo(() => errors?.[0], [errors]);
@@ -33,6 +38,55 @@ export function TextField({
         onBlur={field.handleBlur}
         onValueChange={(v) => field.handleChange(v)}
       />
+      {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
+    </Field.Root>
+  );
+}
+
+export function OTPField({
+  label,
+  split,
+  ...props
+}: { label: string; split?: boolean } & ComponentProps<
+  typeof BaseOTPField.Root
+>) {
+  const field = useFieldContext<string>();
+  const errors = useSelector(field.store, (state) => state.meta.errors);
+
+  return (
+    <Field.Root>
+      <Field.Label>{label}</Field.Label>
+      <BaseOTPField.Root
+        {...props}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onValueChange={(v) => field.handleChange(v)}
+      >
+        <BaseOTPField.Inputs split={split} />
+      </BaseOTPField.Root>
+      {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
+    </Field.Root>
+  );
+}
+
+export function CheckboxField({
+  label,
+  ...props
+}: { label: string } & ComponentProps<typeof Checkbox>) {
+  const field = useFieldContext<boolean>();
+  const errors = useSelector(field.store, (state) => state.meta.errors);
+
+  return (
+    <Field.Root>
+      <BaseField.Label className="flex items-center gap-2 text-sm">
+        <Checkbox
+          {...props}
+          checked={field.state.value}
+          onBlur={field.handleBlur}
+          onCheckedChange={(v) => field.handleChange(v)}
+        />
+        {label}
+      </BaseField.Label>
       {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
     </Field.Root>
   );
