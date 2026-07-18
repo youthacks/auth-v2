@@ -1,5 +1,11 @@
+import { revalidateLogic } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { KeyIcon } from "lucide-react";
+
+import { discoverLogin } from "#/actions/auth/discovery";
+import { discoverLoginSchema } from "#/actions/auth/discovery/schemas";
+
 import logo from "#/assets/logos/youthacks-logo.svg";
 import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
@@ -9,9 +15,28 @@ export const Route = createFileRoute("/auth/")({
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
+  const { mutateAsync } = useMutation({
+    mutationFn: discoverLogin,
+  });
+
   const form = useAppForm({
     defaultValues: {
       email: "",
+    },
+    validators: {
+      onDynamic: discoverLoginSchema,
+    },
+    validationLogic: revalidateLogic(),
+
+    onSubmit: async ({ value }) => {
+      const result = await mutateAsync({ data: value });
+
+      if (result.type === "signup") {
+        await navigate({ to: "/auth/signup" });
+      } else {
+        // redirect to login page
+      }
     },
   });
 
@@ -34,6 +59,7 @@ function RouteComponent() {
           form.handleSubmit();
         }}
         className="mt-6 space-y-4"
+        noValidate
       >
         <form.AppField name="email">
           {(field) => (
@@ -41,7 +67,7 @@ function RouteComponent() {
               type="email"
               size="lg"
               label="Email"
-              placeholder="joe.bloggs@example.com"
+              placeholder="email@example.com"
               autoComplete="email"
               autoFocus
             />

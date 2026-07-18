@@ -12,9 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
-import { Route as AuthSignupOtpRouteImport } from './routes/auth/signup/otp'
-import { Route as AuthSignupProfileRouteImport } from './routes/auth/signup/profile'
-import { Route as AuthSignupTermsRouteImport } from './routes/auth/signup/terms'
+import { Route as AuthFinishRouteImport } from './routes/auth/finish'
+import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
+import { Route as AuthSignupIdOtpRouteImport } from './routes/auth/signup/$id/otp'
+import { Route as AuthSignupIdTermsRouteImport } from './routes/auth/signup/$id/terms'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,70 +32,81 @@ const AuthIndexRoute = AuthIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const AuthSignupOtpRoute = AuthSignupOtpRouteImport.update({
-  id: '/signup/otp',
-  path: '/signup/otp',
+const AuthFinishRoute = AuthFinishRouteImport.update({
+  id: '/finish',
+  path: '/finish',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const AuthSignupProfileRoute = AuthSignupProfileRouteImport.update({
-  id: '/signup/profile',
-  path: '/signup/profile',
+const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
+  id: '/signup/',
+  path: '/signup/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
-const AuthSignupTermsRoute = AuthSignupTermsRouteImport.update({
-  id: '/signup/terms',
-  path: '/signup/terms',
+const AuthSignupIdOtpRoute = AuthSignupIdOtpRouteImport.update({
+  id: '/signup/$id/otp',
+  path: '/signup/$id/otp',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthSignupIdTermsRoute = AuthSignupIdTermsRouteImport.update({
+  id: '/signup/$id/terms',
+  path: '/signup/$id/terms',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/auth/finish': typeof AuthFinishRoute
   '/auth/': typeof AuthIndexRoute
-  '/auth/signup/otp': typeof AuthSignupOtpRoute
-  '/auth/signup/profile': typeof AuthSignupProfileRoute
-  '/auth/signup/terms': typeof AuthSignupTermsRoute
+  '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
+  '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth/finish': typeof AuthFinishRoute
   '/auth': typeof AuthIndexRoute
-  '/auth/signup/otp': typeof AuthSignupOtpRoute
-  '/auth/signup/profile': typeof AuthSignupProfileRoute
-  '/auth/signup/terms': typeof AuthSignupTermsRoute
+  '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
+  '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
+  '/auth/finish': typeof AuthFinishRoute
   '/auth/': typeof AuthIndexRoute
-  '/auth/signup/otp': typeof AuthSignupOtpRoute
-  '/auth/signup/profile': typeof AuthSignupProfileRoute
-  '/auth/signup/terms': typeof AuthSignupTermsRoute
+  '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
+  '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/auth'
+    | '/auth/finish'
     | '/auth/'
-    | '/auth/signup/otp'
-    | '/auth/signup/profile'
-    | '/auth/signup/terms'
+    | '/auth/signup/'
+    | '/auth/signup/$id/otp'
+    | '/auth/signup/$id/terms'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth/finish'
     | '/auth'
-    | '/auth/signup/otp'
-    | '/auth/signup/profile'
-    | '/auth/signup/terms'
+    | '/auth/signup'
+    | '/auth/signup/$id/otp'
+    | '/auth/signup/$id/terms'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/auth/finish'
     | '/auth/'
-    | '/auth/signup/otp'
-    | '/auth/signup/profile'
-    | '/auth/signup/terms'
+    | '/auth/signup/'
+    | '/auth/signup/$id/otp'
+    | '/auth/signup/$id/terms'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -125,42 +137,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/auth/signup/otp': {
-      id: '/auth/signup/otp'
-      path: '/signup/otp'
-      fullPath: '/auth/signup/otp'
-      preLoaderRoute: typeof AuthSignupOtpRouteImport
+    '/auth/finish': {
+      id: '/auth/finish'
+      path: '/finish'
+      fullPath: '/auth/finish'
+      preLoaderRoute: typeof AuthFinishRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/auth/signup/profile': {
-      id: '/auth/signup/profile'
-      path: '/signup/profile'
-      fullPath: '/auth/signup/profile'
-      preLoaderRoute: typeof AuthSignupProfileRouteImport
+    '/auth/signup/': {
+      id: '/auth/signup/'
+      path: '/signup'
+      fullPath: '/auth/signup/'
+      preLoaderRoute: typeof AuthSignupIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
-    '/auth/signup/terms': {
-      id: '/auth/signup/terms'
-      path: '/signup/terms'
-      fullPath: '/auth/signup/terms'
-      preLoaderRoute: typeof AuthSignupTermsRouteImport
+    '/auth/signup/$id/otp': {
+      id: '/auth/signup/$id/otp'
+      path: '/signup/$id/otp'
+      fullPath: '/auth/signup/$id/otp'
+      preLoaderRoute: typeof AuthSignupIdOtpRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/auth/signup/$id/terms': {
+      id: '/auth/signup/$id/terms'
+      path: '/signup/$id/terms'
+      fullPath: '/auth/signup/$id/terms'
+      preLoaderRoute: typeof AuthSignupIdTermsRouteImport
       parentRoute: typeof AuthRouteRoute
     }
   }
 }
 
 interface AuthRouteRouteChildren {
+  AuthFinishRoute: typeof AuthFinishRoute
   AuthIndexRoute: typeof AuthIndexRoute
-  AuthSignupOtpRoute: typeof AuthSignupOtpRoute
-  AuthSignupProfileRoute: typeof AuthSignupProfileRoute
-  AuthSignupTermsRoute: typeof AuthSignupTermsRoute
+  AuthSignupIndexRoute: typeof AuthSignupIndexRoute
+  AuthSignupIdOtpRoute: typeof AuthSignupIdOtpRoute
+  AuthSignupIdTermsRoute: typeof AuthSignupIdTermsRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthFinishRoute: AuthFinishRoute,
   AuthIndexRoute: AuthIndexRoute,
-  AuthSignupOtpRoute: AuthSignupOtpRoute,
-  AuthSignupProfileRoute: AuthSignupProfileRoute,
-  AuthSignupTermsRoute: AuthSignupTermsRoute,
+  AuthSignupIndexRoute: AuthSignupIndexRoute,
+  AuthSignupIdOtpRoute: AuthSignupIdOtpRoute,
+  AuthSignupIdTermsRoute: AuthSignupIdTermsRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(

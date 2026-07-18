@@ -1,16 +1,33 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { acceptSignupTerms } from "#/actions/auth/signup";
+import { acceptSignupTermsSchema } from "#/actions/auth/signup/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/signup/terms")({
+export const Route = createFileRoute("/auth/signup/$id/terms")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
+  const { mutateAsync } = useMutation({
+    mutationFn: acceptSignupTerms,
+  });
+
   const form = useAppForm({
     defaultValues: {
       termsAccepted: false,
       privacyAccepted: false,
+    },
+    validators: {
+      onChange: acceptSignupTermsSchema,
+    },
+
+    onSubmit: async ({ value }) => {
+      const result = await mutateAsync({ data: value });
+
+      await navigate({ to: "/auth/finish" });
     },
   });
 

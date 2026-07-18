@@ -1,15 +1,32 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { verifySignupOtp } from "#/actions/auth/signup";
+import { verifySignupOtpSchema } from "#/actions/auth/signup/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/signup/otp")({
+export const Route = createFileRoute("/auth/signup/$id/otp")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
+  const { mutateAsync } = useMutation({
+    mutationFn: verifySignupOtp,
+  });
+
   const form = useAppForm({
     defaultValues: {
       otp: "",
+    },
+    validators: {
+      onChange: verifySignupOtpSchema,
+    },
+
+    onSubmit: async ({ value }) => {
+      const result = await mutateAsync({ data: value });
+
+      await navigate({ to: "/auth/signup/$id/terms" });
     },
   });
 
@@ -31,7 +48,12 @@ function RouteComponent() {
       >
         <form.AppField name="otp">
           {(field) => (
-            <field.OTPField label="One-time code" length={6} autoFocus />
+            <field.OTPField
+              label="One-time code"
+              length={6}
+              hideError
+              autoFocus
+            />
           )}
         </form.AppField>
         <form.AppForm>

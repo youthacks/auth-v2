@@ -1,19 +1,38 @@
+import { revalidateLogic } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+
+import { createSignup } from "#/actions/auth/signup";
+import { createSignupSchema } from "#/actions/auth/signup/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/signup/profile")({
+export const Route = createFileRoute("/auth/signup/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const navigate = Route.useNavigate();
+  const { mutateAsync } = useMutation({
+    mutationFn: createSignup,
+  });
+
   const form = useAppForm({
     defaultValues: {
       email: "joe.bloggs@example.com",
       firstName: "",
       lastName: "",
-      displayName: "",
       dateOfBirth: "",
+    },
+    validators: {
+      onDynamic: createSignupSchema,
+    },
+    validationLogic: revalidateLogic(),
+
+    onSubmit: async ({ value }) => {
+      const result = await mutateAsync({ data: value });
+
+      await navigate({ to: "/auth/signup/$id/otp", params: { id: result.id } });
     },
   });
 

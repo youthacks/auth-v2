@@ -46,8 +46,9 @@ export function TextField({
 export function OTPField({
   label,
   split,
+  hideError = false,
   ...props
-}: { label: string; split?: boolean } & ComponentProps<
+}: { label: string; split?: boolean; hideError?: boolean } & ComponentProps<
   typeof BaseOTPField.Root
 >) {
   const field = useFieldContext<string>();
@@ -64,7 +65,9 @@ export function OTPField({
       >
         <BaseOTPField.Inputs split={split} />
       </BaseOTPField.Root>
-      {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
+      {field.state.meta.isTouched && !hideError && (
+        <ErrorMessage errors={errors} />
+      )}
     </Field.Root>
   );
 }
@@ -101,13 +104,15 @@ export function SubmitButton({
 }: ComponentProps<typeof Button>) {
   const form = useFormContext();
   return (
-    <form.Subscribe selector={(state) => [state.canSubmit, state.isSubmitting]}>
-      {([canSubmit, isSubmitting]) => (
+    <form.Subscribe
+      selector={(state) => [state.isDirty, state.canSubmit, state.isSubmitting]}
+    >
+      {([isDirty, canSubmit, isSubmitting]) => (
         <Button
           {...props}
           color={color}
           type={type}
-          disabled={disabled || !canSubmit || isSubmitting}
+          disabled={disabled || !isDirty || !canSubmit || isSubmitting}
         >
           {children}
           <ArrowRightIcon strokeWidth={2.5} className="size-4" />
