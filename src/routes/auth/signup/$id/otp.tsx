@@ -4,6 +4,7 @@ import { verifySignupOtp } from "#/actions/auth/signup";
 import { verifySignupOtpSchema } from "#/actions/auth/signup/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
+import FormMessage from "#/components/form/FormMessage";
 
 export const Route = createFileRoute("/auth/signup/$id/otp")({
   component: RouteComponent,
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/auth/signup/$id/otp")({
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const params = Route.useParams();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: verifySignupOtp,
     onSuccess: async () => {
       await navigate({ to: "/auth/signup/$id/terms" });
@@ -38,6 +39,12 @@ function RouteComponent() {
       <p className="mt-1 text-neutral-600">
         Enter the code we just sent to your email,
       </p>
+
+      {error && (
+        <FormMessage state="error" className="mt-6">
+          {error.message}
+        </FormMessage>
+      )}
 
       <form
         onSubmit={(ev) => {

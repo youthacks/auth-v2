@@ -4,6 +4,7 @@ import { acceptSignupTerms } from "#/actions/auth/signup";
 import { acceptSignupTermsSchema } from "#/actions/auth/signup/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
+import FormMessage from "#/components/form/FormMessage";
 
 export const Route = createFileRoute("/auth/signup/$id/terms")({
   component: RouteComponent,
@@ -13,7 +14,7 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
   const params = Route.useParams();
   const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: acceptSignupTerms,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["auth"] });
@@ -78,6 +79,12 @@ function RouteComponent() {
       </div>
 
       <hr className="mt-6 border-neutral-300" />
+
+      {error && (
+        <FormMessage state="error" className="mt-6">
+          {error.message}
+        </FormMessage>
+      )}
 
       <form
         onSubmit={(ev) => {

@@ -1,7 +1,8 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { KeyIcon } from "lucide-react";
+import { CheckIcon, KeyIcon, TriangleAlertIcon } from "lucide-react";
+import z from "zod";
 
 import { discoverLogin } from "#/actions/auth/discovery";
 import { discoverLoginSchema } from "#/actions/auth/discovery/schemas";
@@ -9,14 +10,19 @@ import { discoverLoginSchema } from "#/actions/auth/discovery/schemas";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
+import FormMessage from "#/components/form/FormMessage";
 
 export const Route = createFileRoute("/auth/")({
+  validateSearch: z.object({
+    exit: z.boolean().optional().catch(undefined),
+  }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
-  const { mutate, isPending } = useMutation({
+  const search = Route.useSearch();
+  const { mutate, isPending, error, submittedAt } = useMutation({
     mutationFn: discoverLogin,
     onSuccess: async (result, { data: { email } }) => {
       if (result.type === "signup") {
@@ -50,6 +56,17 @@ function RouteComponent() {
       {/* <p className="mt-2 text-sm text-neutral-600">
         use signup@example.com, login@example.com, or login-org@example.com
       </p> */}
+
+      {error && (
+        <FormMessage state="error" className="mt-6">
+          {error.message}
+        </FormMessage>
+      )}
+      {search.exit && !submittedAt && (
+        <FormMessage state="success" className="mt-6">
+          You've logged out.
+        </FormMessage>
+      )}
 
       <form
         onSubmit={(ev) => {

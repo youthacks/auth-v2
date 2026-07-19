@@ -21,7 +21,7 @@ function RouteComponent() {
     mutationFn: () => logout(),
     onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      await navigate({ to: "/auth" });
+      await navigate({ to: "/auth", search: { exit: true } });
     },
   });
 
