@@ -16,8 +16,15 @@ export const Route = createFileRoute("/auth/")({
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
-  const { mutateAsync } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: discoverLogin,
+    onSuccess: async (result, { data: { email } }) => {
+      if (result.type === "signup") {
+        await navigate({ to: "/auth/signup", search: { email } });
+      } else {
+        // redirect to login page
+      }
+    },
   });
 
   const form = useAppForm({
@@ -29,15 +36,7 @@ function RouteComponent() {
     },
     validationLogic: revalidateLogic(),
 
-    onSubmit: async ({ value }) => {
-      const result = await mutateAsync({ data: value });
-
-      if (result.type === "signup") {
-        await navigate({ to: "/auth/signup" });
-      } else {
-        // redirect to login page
-      }
-    },
+    onSubmit: ({ value }) => mutate({ data: value }),
   });
 
   return (
@@ -74,7 +73,7 @@ function RouteComponent() {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton size="lg" className="w-full">
+          <form.SubmitButton disabled={isPending} size="lg" className="w-full">
             Next
           </form.SubmitButton>
         </form.AppForm>

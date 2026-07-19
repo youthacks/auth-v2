@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { acceptSignupTerms } from "#/actions/auth/signup";
 import { acceptSignupTermsSchema } from "#/actions/auth/signup/schemas";
@@ -11,8 +11,14 @@ export const Route = createFileRoute("/auth/signup/$id/terms")({
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
-  const { mutateAsync } = useMutation({
+  const params = Route.useParams();
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
     mutationFn: acceptSignupTerms,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["auth"] });
+      await navigate({ to: "/auth/finish" });
+    },
   });
 
   const form = useAppForm({
@@ -24,11 +30,7 @@ function RouteComponent() {
       onChange: acceptSignupTermsSchema,
     },
 
-    onSubmit: async ({ value }) => {
-      const result = await mutateAsync({ data: value });
-
-      await navigate({ to: "/auth/finish" });
-    },
+    onSubmit: ({ value }) => mutate({ data: { ...value, id: params.id } }),
   });
 
   return (
@@ -98,7 +100,7 @@ function RouteComponent() {
           </form.AppField>
         </div>
         <form.AppForm>
-          <form.SubmitButton size="lg" className="w-full">
+          <form.SubmitButton disabled={isPending} size="lg" className="w-full">
             Sign up
           </form.SubmitButton>
         </form.AppForm>

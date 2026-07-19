@@ -1,6 +1,7 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import z from "zod";
 
 import { createSignup } from "#/actions/auth/signup";
 import { createSignupSchema } from "#/actions/auth/signup/schemas";
@@ -8,18 +9,25 @@ import logo from "#/assets/logos/youthacks-logo.svg";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/auth/signup/")({
+  validateSearch: z.object({
+    email: z.email(),
+  }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
-  const { mutateAsync } = useMutation({
+  const search = Route.useSearch();
+  const { mutate, isPending } = useMutation({
     mutationFn: createSignup,
+    onSuccess: async (result) => {
+      await navigate({ to: "/auth/signup/$id/otp", params: { id: result.id } });
+    },
   });
 
   const form = useAppForm({
     defaultValues: {
-      email: "joe.bloggs@example.com",
+      email: search.email,
       firstName: "",
       lastName: "",
       dateOfBirth: "",
@@ -29,11 +37,7 @@ function RouteComponent() {
     },
     validationLogic: revalidateLogic(),
 
-    onSubmit: async ({ value }) => {
-      const result = await mutateAsync({ data: value });
-
-      await navigate({ to: "/auth/signup/$id/otp", params: { id: result.id } });
-    },
+    onSubmit: ({ value }) => mutate({ data: value }),
   });
 
   return (
@@ -91,7 +95,7 @@ function RouteComponent() {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton size="lg" className="w-full">
+          <form.SubmitButton disabled={isPending} size="lg" className="w-full">
             Next
           </form.SubmitButton>
         </form.AppForm>

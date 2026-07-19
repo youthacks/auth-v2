@@ -11,8 +11,12 @@ export const Route = createFileRoute("/auth/signup/$id/otp")({
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
-  const { mutateAsync } = useMutation({
+  const params = Route.useParams();
+  const { mutate, isPending } = useMutation({
     mutationFn: verifySignupOtp,
+    onSuccess: async () => {
+      await navigate({ to: "/auth/signup/$id/terms" });
+    },
   });
 
   const form = useAppForm({
@@ -23,11 +27,8 @@ function RouteComponent() {
       onChange: verifySignupOtpSchema,
     },
 
-    onSubmit: async ({ value }) => {
-      const result = await mutateAsync({ data: value });
-
-      await navigate({ to: "/auth/signup/$id/terms" });
-    },
+    onSubmit: ({ value }) =>
+      mutate({ data: { otp: value.otp, id: params.id } }),
   });
 
   return (
@@ -57,7 +58,7 @@ function RouteComponent() {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton size="lg" className="w-full">
+          <form.SubmitButton disabled={isPending} size="lg" className="w-full">
             Next
           </form.SubmitButton>
         </form.AppForm>

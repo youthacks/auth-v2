@@ -11,6 +11,7 @@ import TanStackQueryDevtools from "../integrations/query/devtools";
 import appCss from "../styles.css?url";
 
 import type { QueryClient } from "@tanstack/react-query";
+import { getCurrentUserQuery } from "#/actions/auth/session/queries";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -37,6 +38,12 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
+  beforeLoad: async ({ context }) => {
+    const user = await context.queryClient.ensureQueryData(
+      getCurrentUserQuery(),
+    );
+    return { user };
+  },
   shellComponent: RootDocument,
 });
 
