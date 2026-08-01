@@ -27,8 +27,11 @@ function RouteComponent() {
     onSuccess: async (result, { data: { email } }) => {
       if (result.type === "signup") {
         await navigate({ to: "/auth/signup", search: { email } });
-      } else {
-        // redirect to login page
+      } else if (result.type === "login") {
+        await navigate({
+          to: "/auth/login/$id/otp",
+          params: { id: result.id },
+        });
       }
     },
   });

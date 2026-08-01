@@ -33,6 +33,11 @@ export type Session = Prisma.SessionModel
  */
 export type Signup = Prisma.SignupModel
 /**
+ * Model Login
+ * 
+ */
+export type Login = Prisma.LoginModel
+/**
  * Model Verification
  * 
  */

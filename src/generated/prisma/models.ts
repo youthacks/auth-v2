@@ -11,5 +11,6 @@
 export type * from './models/User.ts'
 export type * from './models/Session.ts'
 export type * from './models/Signup.ts'
+export type * from './models/Login.ts'
 export type * from './models/Verification.ts'
 export type * from './commonInputTypes.ts'

@@ -387,6 +387,7 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Signup: 'Signup',
+  Login: 'Login',
   Verification: 'Verification'
 } as const
 
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "signup" | "verification"
+    modelProps: "user" | "session" | "signup" | "login" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -629,6 +630,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Login: {
+      payload: Prisma.$LoginPayload<ExtArgs>
+      fields: Prisma.LoginFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LoginFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LoginFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        findFirst: {
+          args: Prisma.LoginFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LoginFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        findMany: {
+          args: Prisma.LoginFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>[]
+        }
+        create: {
+          args: Prisma.LoginCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        createMany: {
+          args: Prisma.LoginCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LoginCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>[]
+        }
+        delete: {
+          args: Prisma.LoginDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        update: {
+          args: Prisma.LoginUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        deleteMany: {
+          args: Prisma.LoginDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LoginUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LoginUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>[]
+        }
+        upsert: {
+          args: Prisma.LoginUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginPayload>
+        }
+        aggregate: {
+          args: Prisma.LoginAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLogin>
+        }
+        groupBy: {
+          args: Prisma.LoginGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LoginCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginCountAggregateOutputType> | number
+        }
+      }
+    }
     Verification: {
       payload: Prisma.$VerificationPayload<ExtArgs>
       fields: Prisma.VerificationFieldRefs
@@ -777,6 +852,18 @@ export const SignupScalarFieldEnum = {
 } as const
 
 export type SignupScalarFieldEnum = (typeof SignupScalarFieldEnum)[keyof typeof SignupScalarFieldEnum]
+
+
+export const LoginScalarFieldEnum = {
+  id: 'id',
+  verifierHash: 'verifierHash',
+  userId: 'userId',
+  verificationId: 'verificationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoginScalarFieldEnum = (typeof LoginScalarFieldEnum)[keyof typeof LoginScalarFieldEnum]
 
 
 export const VerificationScalarFieldEnum = {
@@ -960,6 +1047,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   signup?: Prisma.SignupOmit
+  login?: Prisma.LoginOmit
   verification?: Prisma.VerificationOmit
 }
 

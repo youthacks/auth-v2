@@ -17,6 +17,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   sessions  Session[]
+  logins    Login[]
 }
 
 model Session {
@@ -47,6 +48,20 @@ model Signup {
   updatedAt DateTime @updatedAt
 }
 
+model Login {
+  id           String @id
+  verifierHash Bytes
+
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  verificationId String?
+  verification   Verification? @relation(fields: [verificationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Verification {
   id String @id
 
@@ -57,4 +72,5 @@ model Verification {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   signups   Signup[]
+  logins    Login[]
 }

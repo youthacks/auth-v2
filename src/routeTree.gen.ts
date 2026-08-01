@@ -14,6 +14,7 @@ import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AuthIndexRouteImport } from './routes/auth/index'
 import { Route as AuthFinishRouteImport } from './routes/auth/finish'
 import { Route as AuthSignupIndexRouteImport } from './routes/auth/signup/index'
+import { Route as AuthLoginIdOtpRouteImport } from './routes/auth/login.$id/otp'
 import { Route as AuthSignupIdOtpRouteImport } from './routes/auth/signup/$id/otp'
 import { Route as AuthSignupIdTermsRouteImport } from './routes/auth/signup/$id/terms'
 
@@ -42,6 +43,11 @@ const AuthSignupIndexRoute = AuthSignupIndexRouteImport.update({
   path: '/signup/',
   getParentRoute: () => AuthRouteRoute,
 } as any)
+const AuthLoginIdOtpRoute = AuthLoginIdOtpRouteImport.update({
+  id: '/login/$id/otp',
+  path: '/login/$id/otp',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 const AuthSignupIdOtpRoute = AuthSignupIdOtpRouteImport.update({
   id: '/signup/$id/otp',
   path: '/signup/$id/otp',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/auth/finish': typeof AuthFinishRoute
   '/auth/': typeof AuthIndexRoute
   '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/login/$id/otp': typeof AuthLoginIdOtpRoute
   '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/auth/finish': typeof AuthFinishRoute
   '/auth': typeof AuthIndexRoute
   '/auth/signup': typeof AuthSignupIndexRoute
+  '/auth/login/$id/otp': typeof AuthLoginIdOtpRoute
   '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/auth/finish': typeof AuthFinishRoute
   '/auth/': typeof AuthIndexRoute
   '/auth/signup/': typeof AuthSignupIndexRoute
+  '/auth/login/$id/otp': typeof AuthLoginIdOtpRoute
   '/auth/signup/$id/otp': typeof AuthSignupIdOtpRoute
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
 }
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/auth/finish'
     | '/auth/'
     | '/auth/signup/'
+    | '/auth/login/$id/otp'
     | '/auth/signup/$id/otp'
     | '/auth/signup/$id/terms'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/auth/finish'
     | '/auth'
     | '/auth/signup'
+    | '/auth/login/$id/otp'
     | '/auth/signup/$id/otp'
     | '/auth/signup/$id/terms'
   id:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/auth/finish'
     | '/auth/'
     | '/auth/signup/'
+    | '/auth/login/$id/otp'
     | '/auth/signup/$id/otp'
     | '/auth/signup/$id/terms'
   fileRoutesById: FileRoutesById
@@ -151,6 +163,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupIndexRouteImport
       parentRoute: typeof AuthRouteRoute
     }
+    '/auth/login/$id/otp': {
+      id: '/auth/login/$id/otp'
+      path: '/login/$id/otp'
+      fullPath: '/auth/login/$id/otp'
+      preLoaderRoute: typeof AuthLoginIdOtpRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/auth/signup/$id/otp': {
       id: '/auth/signup/$id/otp'
       path: '/signup/$id/otp'
@@ -172,6 +191,7 @@ interface AuthRouteRouteChildren {
   AuthFinishRoute: typeof AuthFinishRoute
   AuthIndexRoute: typeof AuthIndexRoute
   AuthSignupIndexRoute: typeof AuthSignupIndexRoute
+  AuthLoginIdOtpRoute: typeof AuthLoginIdOtpRoute
   AuthSignupIdOtpRoute: typeof AuthSignupIdOtpRoute
   AuthSignupIdTermsRoute: typeof AuthSignupIdTermsRoute
 }
@@ -180,6 +200,7 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthFinishRoute: AuthFinishRoute,
   AuthIndexRoute: AuthIndexRoute,
   AuthSignupIndexRoute: AuthSignupIndexRoute,
+  AuthLoginIdOtpRoute: AuthLoginIdOtpRoute,
   AuthSignupIdOtpRoute: AuthSignupIdOtpRoute,
   AuthSignupIdTermsRoute: AuthSignupIdTermsRoute,
 }

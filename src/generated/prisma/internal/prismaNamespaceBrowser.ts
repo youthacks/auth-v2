@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Signup: 'Signup',
+  Login: 'Login',
   Verification: 'Verification'
 } as const
 
@@ -108,6 +109,18 @@ export const SignupScalarFieldEnum = {
 } as const
 
 export type SignupScalarFieldEnum = (typeof SignupScalarFieldEnum)[keyof typeof SignupScalarFieldEnum]
+
+
+export const LoginScalarFieldEnum = {
+  id: 'id',
+  verifierHash: 'verifierHash',
+  userId: 'userId',
+  verificationId: 'verificationId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoginScalarFieldEnum = (typeof LoginScalarFieldEnum)[keyof typeof LoginScalarFieldEnum]
 
 
 export const VerificationScalarFieldEnum = {
