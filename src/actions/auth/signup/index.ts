@@ -51,6 +51,18 @@ export const createSignup = createServerFn({ method: "POST" })
     return { id };
   });
 
+export const getSignup = createServerFn()
+  .middleware([requireSignup])
+  .handler(async ({ context }) => {
+    const { signup } = context;
+    return {
+      id: signup.id,
+      email: signup.email,
+      firstName: signup.firstName,
+      emailVerified: signup.emailVerified,
+    };
+  });
+
 export const verifySignupOtp = createServerFn({ method: "POST" })
   .validator(verifySignupOtpSchema)
   .middleware([requireSignup])

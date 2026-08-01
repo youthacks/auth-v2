@@ -1,10 +1,5 @@
 import { cva, type VariantProps } from "cva";
-import {
-  CheckCircle2Icon,
-  InfoIcon,
-  type LucideIcon,
-  TriangleAlertIcon,
-} from "lucide-react";
+import { CheckCircle2Icon, InfoIcon, TriangleAlertIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import type { Merge } from "#/types";
 

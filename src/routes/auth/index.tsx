@@ -1,16 +1,16 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { CheckIcon, KeyIcon, TriangleAlertIcon } from "lucide-react";
+import { KeyIcon } from "lucide-react";
 import z from "zod";
 
 import { discoverLogin } from "#/actions/auth/discovery";
 import { discoverLoginSchema } from "#/actions/auth/discovery/schemas";
 
 import logo from "#/assets/logos/youthacks-logo.svg";
+import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
-import FormMessage from "#/components/form/FormMessage";
 
 export const Route = createFileRoute("/auth/")({
   validateSearch: z.object({
@@ -47,7 +47,7 @@ function RouteComponent() {
 
   return (
     <div className="p-8">
-      <img src={logo} alt="" className="mb-4 h-8" />
+      <img src={logo} alt="" className="mb-4 h-6" />
       <h1 className="font-heading text-3xl font-bold">Log in or sign up</h1>
       <p className="mt-1 text-neutral-600">
         to continue to{" "}

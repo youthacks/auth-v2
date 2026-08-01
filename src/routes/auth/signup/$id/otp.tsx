@@ -1,18 +1,27 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { verifySignupOtp } from "#/actions/auth/signup";
+import { getSignupQuery } from "#/actions/auth/signup/queries";
 import { verifySignupOtpSchema } from "#/actions/auth/signup/schemas";
-import logo from "#/assets/logos/youthacks-logo.svg";
-import { useAppForm } from "#/integrations/form";
+import { FormHeader } from "#/components/form/FormHeader";
 import FormMessage from "#/components/form/FormMessage";
+import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/auth/signup/$id/otp")({
+  loader: async ({ params, context }) => {
+    await context.queryClient.ensureQueryData(
+      getSignupQuery({ id: params.id }),
+    );
+  },
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const params = Route.useParams();
+
+  const { data: signup } = useSuspenseQuery(getSignupQuery({ id: params.id }));
+
   const { mutate, isPending, error } = useMutation({
     mutationFn: verifySignupOtp,
     onSuccess: async () => {
@@ -34,7 +43,10 @@ function RouteComponent() {
 
   return (
     <div className="p-8">
-      <img src={logo} alt="" className="mb-4 h-8" />
+      <FormHeader
+        firstName={signup.firstName}
+        onLogout={() => navigate({ to: "/auth" })}
+      />
       <h1 className="font-heading text-3xl font-bold">Verify your email</h1>
       <p className="mt-1 text-neutral-600">
         Enter the code we just sent to your email,

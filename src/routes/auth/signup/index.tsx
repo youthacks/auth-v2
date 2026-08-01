@@ -1,13 +1,13 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeftIcon } from "lucide-react";
 import z from "zod";
 
 import { createSignup } from "#/actions/auth/signup";
 import { createSignupSchema } from "#/actions/auth/signup/schemas";
-import logo from "#/assets/logos/youthacks-logo.svg";
-import { useAppForm } from "#/integrations/form";
 import FormMessage from "#/components/form/FormMessage";
+import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/auth/signup/")({
   validateSearch: z.object({
@@ -43,7 +43,14 @@ function RouteComponent() {
 
   return (
     <div className="p-8">
-      <img src={logo} alt="" className="mb-4 h-8" />
+      <Link
+        to="/auth"
+        className="mb-6 flex max-w-fit items-center gap-1.5 text-neutral-600 underline-offset-2 transition hover:text-neutral-900 hover:underline"
+      >
+        <ArrowLeftIcon strokeWidth={2.5} className="size-4" />
+        <span className="text-sm leading-none font-semibold">Back</span>
+      </Link>
+
       <h1 className="font-heading text-3xl font-bold">Nice to meet you!</h1>
       <p className="mt-1 text-neutral-600">Tell us a little about yourself.</p>
 

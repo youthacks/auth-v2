@@ -9,16 +9,14 @@ export const maybeSession = createMiddleware().server(async ({ next }) => {
   });
 });
 
-export const requireSession = createMiddleware()
-  .middleware([maybeSession])
-  .server(async ({ next }) => {
-    const { session, user } = await getSession();
+export const requireSession = createMiddleware().server(async ({ next }) => {
+  const { session, user } = await getSession();
 
-    if (!session) {
-      throw new Error("Not authenticated");
-    }
+  if (!session) {
+    throw new Error("Not authenticated");
+  }
 
-    return next({
-      context: { session, user },
-    });
+  return next({
+    context: { session, user },
   });
+});
