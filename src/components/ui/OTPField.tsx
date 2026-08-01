@@ -4,6 +4,7 @@ import { createContext, use, useMemo } from "react";
 
 type OTPFieldContext = {
   length: number;
+  autoFocus?: boolean;
 };
 const OTPFieldContext = createContext<OTPFieldContext | null>(null);
 
@@ -17,9 +18,14 @@ function useOTPFieldContext() {
   return context;
 }
 
-function Root({ className, children, ...props }: BaseOTPField.Root.Props) {
+function Root({
+  className,
+  children,
+  autoFocus,
+  ...props
+}: BaseOTPField.Root.Props) {
   return (
-    <OTPFieldContext value={{ length: props.length }}>
+    <OTPFieldContext value={{ length: props.length, autoFocus }}>
       <BaseOTPField.Root
         {...props}
         className={clsx("flex items-center gap-3", className)}
@@ -51,7 +57,7 @@ function Inputs({
   split = false,
   ...props
 }: BaseOTPField.Input.Props & { split?: boolean }) {
-  const { length } = useOTPFieldContext();
+  const { length, autoFocus } = useOTPFieldContext();
   const halfLength = useMemo(() => Math.ceil(length / 2), [length]);
 
   if (split) {
@@ -63,6 +69,7 @@ function Inputs({
             // biome-ignore lint/suspicious/noArrayIndexKey: intentional
             key={index}
             aria-label={`Character ${index + 1} of ${length}`}
+            autoFocus={autoFocus && index === 0}
           />
         ))}
         <Separator />
@@ -84,6 +91,7 @@ function Inputs({
       // biome-ignore lint/suspicious/noArrayIndexKey: intentional
       key={index}
       aria-label={`Character ${index + 1} of ${length}`}
+      autoFocus={autoFocus && index === 0}
     />
   ));
 }
