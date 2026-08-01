@@ -5,9 +5,9 @@ export const customId = customAlphabet(
   8,
 );
 
-export const genUserId = () => `u:${customId()}`;
-export const genLoginId = () => `la:${customId()}`;
-export const genSignupId = () => `sa:${customId()}`;
+export const genUserId = () => `user:${customId()}`;
+export const genSessionId = () => `sess:${customId(32)}`;
 
-export const genSessionId = () => `s:${customId(32)}`;
-export const genVerificationId = () => `v:${customId(32)}`;
+export const genLoginId = () => customId();
+export const genSignupId = () => customId();
+export const genVerificationId = () => customId(32);
