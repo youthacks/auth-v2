@@ -22,7 +22,7 @@ function RouteComponent() {
   const { mutate: onLogout, isPending } = useMutation({
     mutationFn: () => logout(),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
+      queryClient.removeQueries({ queryKey: ["auth", "session"] });
       await navigate({ to: "/auth", search: { exit: true } });
     },
   });
