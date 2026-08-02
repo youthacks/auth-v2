@@ -7,6 +7,13 @@
 }
 
 @layer base {
+  body, html {
+    @apply h-full;
+  }
+  body {
+    @apply overflow-y-auto;
+  }
+
   body,
   .font-sans {
     /* ss01: single-storey 'g' */
