@@ -4,8 +4,6 @@ import {
   Outlet,
   redirect,
 } from "@tanstack/react-router";
-import logo from "#/assets/logos/youthacks-logo.svg";
-import ConsoleNavItem from "#/components/console/ConsoleNavItem";
 import {
   HomeIcon,
   LayoutGridIcon,
@@ -13,6 +11,8 @@ import {
   UserCircle2Icon,
   Users2Icon,
 } from "lucide-react";
+import logo from "#/assets/logos/youthacks-logo.svg";
+import ConsoleNavItem from "#/components/console/ConsoleNavItem";
 import ConsoleUserDropdown from "#/components/console/ConsoleUserDropdown";
 
 const ConsoleNavLink = createLink(ConsoleNavItem);
