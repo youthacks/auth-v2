@@ -13,7 +13,7 @@ function RouteComponent() {
         className="fixed inset-0 -z-10 h-full w-full object-cover"
         alt="Background"
       />
-      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-8 pt-16">
+      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-8">
         <div className="mx-auto w-full max-w-lg overflow-clip rounded-xl border border-neutral-300 bg-white shadow-md">
           <Outlet />
         </div>
