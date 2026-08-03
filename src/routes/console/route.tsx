@@ -6,7 +6,13 @@ import {
 } from "@tanstack/react-router";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import ConsoleNavItem from "#/components/console/ConsoleNavItem";
-import { HomeIcon, NotebookTextIcon, UserCircle2Icon } from "lucide-react";
+import {
+  HomeIcon,
+  LayoutGridIcon,
+  NotebookTextIcon,
+  UserCircle2Icon,
+  Users2Icon,
+} from "lucide-react";
 import ConsoleUserDropdown from "#/components/console/ConsoleUserDropdown";
 
 const ConsoleNavLink = createLink(ConsoleNavItem);
@@ -50,6 +56,25 @@ function RouteComponent() {
                 icon={UserCircle2Icon}
               >
                 Account
+              </ConsoleNavLink>
+            </div>
+            <p className="mt-4 mb-1.5 text-sm font-semibold text-neutral-600">
+              Manage
+            </p>
+            <div className="space-y-0.5">
+              <ConsoleNavLink
+                to="/console/manage/users"
+                activeProps={{ active: true }}
+                icon={Users2Icon}
+              >
+                Users
+              </ConsoleNavLink>
+              <ConsoleNavLink
+                to="/console/manage/apps"
+                activeProps={{ active: true }}
+                icon={LayoutGridIcon}
+              >
+                Applications
               </ConsoleNavLink>
             </div>
           </div>

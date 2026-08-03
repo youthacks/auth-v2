@@ -12,7 +12,7 @@ export default function ConsoleNavItem({
     <a
       {...props}
       className={clsx(
-        "relative isolate -mx-3 flex h-10 items-center gap-1.5 rounded-md border px-3",
+        "relative isolate -mx-3 flex h-9 items-center gap-1.5 rounded-md border px-3",
         active
           ? "border-neutral-300 bg-white text-rose-700 shadow-xs"
           : "border-transparent text-neutral-600 transition-colors hover:bg-neutral-200",
@@ -20,7 +20,7 @@ export default function ConsoleNavItem({
     >
       <div
         className={clsx(
-          "absolute top-3 left-1 h-4 w-0.5 -translate-y-px rounded-full bg-current transition",
+          "absolute top-2.5 left-1 h-4 w-0.5 -translate-y-px rounded-full bg-current transition",
           !active && "scale-y-0 opacity-0",
         )}
       ></div>
