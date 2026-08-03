@@ -4,7 +4,7 @@ import type { ComponentProps } from "react";
 import type { Merge } from "#/types";
 
 export const formMessage = cva({
-  base: "mt-6 flex gap-2 rounded-md border p-2.5 px-3 inset-shadow-xs",
+  base: "flex gap-2 rounded-md border p-2.5 px-3 inset-shadow-xs",
   variants: {
     state: {
       info: "border-neutral-200 bg-neutral-100 text-neutral-600",
