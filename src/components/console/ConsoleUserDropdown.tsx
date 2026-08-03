@@ -1,14 +1,25 @@
 import { Menu } from "@base-ui/react/menu";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { Link } from "@tanstack/react-router";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronUpIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import { logout } from "#/actions/auth/session";
 import { getCurrentUserQuery } from "#/actions/auth/session/queries";
 
 export default function ConsoleUserDropdown() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { data: user } = useSuspenseQuery(getCurrentUserQuery());
   const { mutate, isPending } = useMutation({
     mutationFn: () => logout(),
+    onSuccess: async () => {
+      queryClient.removeQueries({ queryKey: ["auth", "session"] });
+      await navigate({ to: "/auth" });
+    },
   });
 
   return (
