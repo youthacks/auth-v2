@@ -42,3 +42,18 @@ export type Login = Prisma.LoginModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model App
+ * 
+ */
+export type App = Prisma.AppModel
+/**
+ * Model AppOAuth2Config
+ * 
+ */
+export type AppOAuth2Config = Prisma.AppOAuth2ConfigModel
+/**
+ * Model AppConsent
+ * 
+ */
+export type AppConsent = Prisma.AppConsentModel

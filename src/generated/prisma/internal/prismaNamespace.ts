@@ -388,7 +388,10 @@ export const ModelName = {
   Session: 'Session',
   Signup: 'Signup',
   Login: 'Login',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  App: 'App',
+  AppOAuth2Config: 'AppOAuth2Config',
+  AppConsent: 'AppConsent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -404,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "signup" | "login" | "verification"
+    modelProps: "user" | "session" | "signup" | "login" | "verification" | "app" | "appOAuth2Config" | "appConsent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -778,6 +781,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    App: {
+      payload: Prisma.$AppPayload<ExtArgs>
+      fields: Prisma.AppFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AppFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AppFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        findFirst: {
+          args: Prisma.AppFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AppFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        findMany: {
+          args: Prisma.AppFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>[]
+        }
+        create: {
+          args: Prisma.AppCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        createMany: {
+          args: Prisma.AppCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AppCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>[]
+        }
+        delete: {
+          args: Prisma.AppDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        update: {
+          args: Prisma.AppUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        deleteMany: {
+          args: Prisma.AppDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AppUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AppUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>[]
+        }
+        upsert: {
+          args: Prisma.AppUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppPayload>
+        }
+        aggregate: {
+          args: Prisma.AppAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApp>
+        }
+        groupBy: {
+          args: Prisma.AppGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AppCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppCountAggregateOutputType> | number
+        }
+      }
+    }
+    AppOAuth2Config: {
+      payload: Prisma.$AppOAuth2ConfigPayload<ExtArgs>
+      fields: Prisma.AppOAuth2ConfigFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AppOAuth2ConfigFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AppOAuth2ConfigFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        findFirst: {
+          args: Prisma.AppOAuth2ConfigFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AppOAuth2ConfigFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        findMany: {
+          args: Prisma.AppOAuth2ConfigFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>[]
+        }
+        create: {
+          args: Prisma.AppOAuth2ConfigCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        createMany: {
+          args: Prisma.AppOAuth2ConfigCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AppOAuth2ConfigCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>[]
+        }
+        delete: {
+          args: Prisma.AppOAuth2ConfigDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        update: {
+          args: Prisma.AppOAuth2ConfigUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        deleteMany: {
+          args: Prisma.AppOAuth2ConfigDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AppOAuth2ConfigUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AppOAuth2ConfigUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>[]
+        }
+        upsert: {
+          args: Prisma.AppOAuth2ConfigUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppOAuth2ConfigPayload>
+        }
+        aggregate: {
+          args: Prisma.AppOAuth2ConfigAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAppOAuth2Config>
+        }
+        groupBy: {
+          args: Prisma.AppOAuth2ConfigGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppOAuth2ConfigGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AppOAuth2ConfigCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppOAuth2ConfigCountAggregateOutputType> | number
+        }
+      }
+    }
+    AppConsent: {
+      payload: Prisma.$AppConsentPayload<ExtArgs>
+      fields: Prisma.AppConsentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AppConsentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AppConsentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        findFirst: {
+          args: Prisma.AppConsentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AppConsentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        findMany: {
+          args: Prisma.AppConsentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>[]
+        }
+        create: {
+          args: Prisma.AppConsentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        createMany: {
+          args: Prisma.AppConsentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AppConsentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>[]
+        }
+        delete: {
+          args: Prisma.AppConsentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        update: {
+          args: Prisma.AppConsentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        deleteMany: {
+          args: Prisma.AppConsentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AppConsentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AppConsentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>[]
+        }
+        upsert: {
+          args: Prisma.AppConsentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AppConsentPayload>
+        }
+        aggregate: {
+          args: Prisma.AppConsentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAppConsent>
+        }
+        groupBy: {
+          args: Prisma.AppConsentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppConsentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AppConsentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AppConsentCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -876,6 +1101,42 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const AppScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  homepageUrl: 'homepageUrl',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppScalarFieldEnum = (typeof AppScalarFieldEnum)[keyof typeof AppScalarFieldEnum]
+
+
+export const AppOAuth2ConfigScalarFieldEnum = {
+  appId: 'appId',
+  clientId: 'clientId',
+  encryptedClientSecret: 'encryptedClientSecret',
+  redirectUris: 'redirectUris',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppOAuth2ConfigScalarFieldEnum = (typeof AppOAuth2ConfigScalarFieldEnum)[keyof typeof AppOAuth2ConfigScalarFieldEnum]
+
+
+export const AppConsentScalarFieldEnum = {
+  appId: 'appId',
+  userId: 'userId',
+  scopes: 'scopes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppConsentScalarFieldEnum = (typeof AppConsentScalarFieldEnum)[keyof typeof AppConsentScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1049,6 +1310,9 @@ export type GlobalOmitConfig = {
   signup?: Prisma.SignupOmit
   login?: Prisma.LoginOmit
   verification?: Prisma.VerificationOmit
+  app?: Prisma.AppOmit
+  appOAuth2Config?: Prisma.AppOAuth2ConfigOmit
+  appConsent?: Prisma.AppConsentOmit
 }
 
 /* Types for Logging */

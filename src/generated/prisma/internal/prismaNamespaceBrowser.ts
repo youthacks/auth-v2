@@ -55,7 +55,10 @@ export const ModelName = {
   Session: 'Session',
   Signup: 'Signup',
   Login: 'Login',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  App: 'App',
+  AppOAuth2Config: 'AppOAuth2Config',
+  AppConsent: 'AppConsent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -133,6 +136,42 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const AppScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  homepageUrl: 'homepageUrl',
+  ownerId: 'ownerId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppScalarFieldEnum = (typeof AppScalarFieldEnum)[keyof typeof AppScalarFieldEnum]
+
+
+export const AppOAuth2ConfigScalarFieldEnum = {
+  appId: 'appId',
+  clientId: 'clientId',
+  encryptedClientSecret: 'encryptedClientSecret',
+  redirectUris: 'redirectUris',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppOAuth2ConfigScalarFieldEnum = (typeof AppOAuth2ConfigScalarFieldEnum)[keyof typeof AppOAuth2ConfigScalarFieldEnum]
+
+
+export const AppConsentScalarFieldEnum = {
+  appId: 'appId',
+  userId: 'userId',
+  scopes: 'scopes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppConsentScalarFieldEnum = (typeof AppConsentScalarFieldEnum)[keyof typeof AppConsentScalarFieldEnum]
 
 
 export const SortOrder = {

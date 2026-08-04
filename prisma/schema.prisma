@@ -14,10 +14,13 @@ model User {
   email       String   @unique
   dateOfBirth DateTime
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   sessions  Session[]
   logins    Login[]
+  ownedApps App[]
+  consents  AppConsent[]
 }
 
 model Session {
@@ -52,8 +55,8 @@ model Login {
   id           String @id
   verifierHash Bytes
 
-  userId       String
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   verificationId String?
   verification   Verification? @relation(fields: [verificationId], references: [id])
@@ -73,4 +76,48 @@ model Verification {
   updatedAt DateTime @updatedAt
   signups   Signup[]
   logins    Login[]
+}
+
+model App {
+  id String @id
+
+  name        String
+  description String?
+  homepageUrl String
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  oauth2Config AppOAuth2Config?
+  consents     AppConsent[]
+}
+
+model AppOAuth2Config {
+  appId String @id
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  clientId              String
+  encryptedClientSecret Bytes
+
+  redirectUris String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AppConsent {
+  appId  String
+  userId String
+  app    App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  scopes String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([appId, userId])
 }

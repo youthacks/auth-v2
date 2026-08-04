@@ -4,7 +4,9 @@ import type { VariantProps } from "cva";
 import type { Merge } from "#/types";
 import { input } from "./Input";
 
-const Root = BaseField.Root;
+function Root({ className, ...props }: BaseField.Root.Props) {
+  return <BaseField.Root {...props} className={clsx("grid", className)} />;
+}
 const Item = BaseField.Item;
 
 function Label({ className, ...props }: BaseField.Label.Props) {

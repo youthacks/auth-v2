@@ -7,6 +7,7 @@ export const customId = customAlphabet(
 
 export const genUserId = () => `user:${customId()}`;
 export const genSessionId = () => `sess:${customId(32)}`;
+export const genAppId = () => `app:${customId()}`;
 
 export const genLoginId = () => customId();
 export const genSignupId = () => customId();

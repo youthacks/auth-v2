@@ -8,6 +8,7 @@ import Checkbox from "#/components/ui/Checkbox";
 import { Field } from "#/components/ui/Field";
 import type Input from "#/components/ui/Input";
 import { OTPField as BaseOTPField } from "#/components/ui/OTPField";
+import Textarea from "#/components/ui/Textarea";
 
 import { useFieldContext, useFormContext } from "./context";
 
@@ -24,8 +25,9 @@ function ErrorMessage({ errors }: { errors: string | { message: string }[] }) {
 
 export function TextField({
   label,
+  description,
   ...props
-}: { label: string } & ComponentProps<typeof Input>) {
+}: { label: string; description?: string } & ComponentProps<typeof Input>) {
   const field = useFieldContext<string>();
   const errors = useSelector(field.store, (state) => state.meta.errors);
 
@@ -38,6 +40,30 @@ export function TextField({
         onBlur={field.handleBlur}
         onValueChange={(v) => field.handleChange(v)}
       />
+      {description && <Field.Description>{description}</Field.Description>}
+      {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
+    </Field.Root>
+  );
+}
+
+export function TextareaField({
+  label,
+  description,
+  ...props
+}: { label: string; description?: string } & ComponentProps<"textarea">) {
+  const field = useFieldContext<string>();
+  const errors = useSelector(field.store, (state) => state.meta.errors);
+
+  return (
+    <Field.Root>
+      <Field.Label>{label}</Field.Label>
+      <Textarea
+        {...props}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(ev) => field.handleChange(ev.target.value)}
+      />
+      {description && <Field.Description>{description}</Field.Description>}
       {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
     </Field.Root>
   );
@@ -115,7 +141,7 @@ export function SubmitButton({
           disabled={disabled || !isDirty || !canSubmit || isSubmitting}
         >
           {children}
-          <ArrowRightIcon strokeWidth={2.5} className="size-4" />
+          {/*<ArrowRightIcon strokeWidth={2.5} className="size-4" />*/}
         </Button>
       )}
     </form.Subscribe>

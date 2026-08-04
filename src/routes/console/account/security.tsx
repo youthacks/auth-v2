@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   EllipsisVerticalIcon,
@@ -6,9 +7,8 @@ import {
   MailIcon,
   RectangleEllipsisIcon,
 } from "lucide-react";
-import Button from "#/components/ui/Button";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCurrentUserQuery } from "#/actions/auth/session/queries";
+import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/console/account/security")({
   component: RouteComponent,
