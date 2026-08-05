@@ -1,18 +1,19 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PlusIcon } from "lucide-react";
-
 import { getAllAppsQuery } from "#/actions/console/manage/apps/queries";
 import Button from "#/components/ui/Button";
 import { Dialog } from "#/components/ui/Dialog";
 import NewAppDialog from "./-new";
-import { Link } from "@tanstack/react-router";
 
 dayjs.extend(relativeTime);
 
 export const Route = createFileRoute("/console/manage/apps/")({
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(getAllAppsQuery());
+  },
   component: RouteComponent,
 });
 

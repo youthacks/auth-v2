@@ -1120,7 +1120,7 @@ export const AppOAuth2ConfigScalarFieldEnum = {
   appId: 'appId',
   clientId: 'clientId',
   encryptedClientSecret: 'encryptedClientSecret',
-  redirectUris: 'redirectUris',
+  allowedCallbackUrls: 'allowedCallbackUrls',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

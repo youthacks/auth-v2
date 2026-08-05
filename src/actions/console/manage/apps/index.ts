@@ -14,8 +14,8 @@ export const createApp = createServerFn({ method: "POST" })
       data: {
         id,
         name: data.name,
-        description: data.description,
-        homepageUrl: data.homepageUrl || null,
+        description: data.description || null,
+        homepageUrl: data.homepageUrl,
         ownerId: context.session.userId,
       },
     });
@@ -42,6 +42,11 @@ export const getAppById = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const app = await prisma.app.findUnique({
       where: { id: data.id },
+      include: {
+        oauth2Config: {
+          select: { appId: true },
+        },
+      },
     });
 
     if (!app) {

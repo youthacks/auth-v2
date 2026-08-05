@@ -28,7 +28,7 @@ export type AppOAuth2ConfigMinAggregateOutputType = {
   appId: string | null
   clientId: string | null
   encryptedClientSecret: runtime.Bytes | null
-  redirectUris: string | null
+  allowedCallbackUrls: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -37,7 +37,7 @@ export type AppOAuth2ConfigMaxAggregateOutputType = {
   appId: string | null
   clientId: string | null
   encryptedClientSecret: runtime.Bytes | null
-  redirectUris: string | null
+  allowedCallbackUrls: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -46,7 +46,7 @@ export type AppOAuth2ConfigCountAggregateOutputType = {
   appId: number
   clientId: number
   encryptedClientSecret: number
-  redirectUris: number
+  allowedCallbackUrls: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -57,7 +57,7 @@ export type AppOAuth2ConfigMinAggregateInputType = {
   appId?: true
   clientId?: true
   encryptedClientSecret?: true
-  redirectUris?: true
+  allowedCallbackUrls?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -66,7 +66,7 @@ export type AppOAuth2ConfigMaxAggregateInputType = {
   appId?: true
   clientId?: true
   encryptedClientSecret?: true
-  redirectUris?: true
+  allowedCallbackUrls?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -75,7 +75,7 @@ export type AppOAuth2ConfigCountAggregateInputType = {
   appId?: true
   clientId?: true
   encryptedClientSecret?: true
-  redirectUris?: true
+  allowedCallbackUrls?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -157,7 +157,7 @@ export type AppOAuth2ConfigGroupByOutputType = {
   appId: string
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt: Date
   updatedAt: Date
   _count: AppOAuth2ConfigCountAggregateOutputType | null
@@ -187,7 +187,7 @@ export type AppOAuth2ConfigWhereInput = {
   appId?: Prisma.StringFilter<"AppOAuth2Config"> | string
   clientId?: Prisma.StringFilter<"AppOAuth2Config"> | string
   encryptedClientSecret?: Prisma.BytesFilter<"AppOAuth2Config"> | runtime.Bytes
-  redirectUris?: Prisma.StringFilter<"AppOAuth2Config"> | string
+  allowedCallbackUrls?: Prisma.StringFilter<"AppOAuth2Config"> | string
   createdAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   app?: Prisma.XOR<Prisma.AppScalarRelationFilter, Prisma.AppWhereInput>
@@ -197,7 +197,7 @@ export type AppOAuth2ConfigOrderByWithRelationInput = {
   appId?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
   encryptedClientSecret?: Prisma.SortOrder
-  redirectUris?: Prisma.SortOrder
+  allowedCallbackUrls?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   app?: Prisma.AppOrderByWithRelationInput
@@ -210,7 +210,7 @@ export type AppOAuth2ConfigWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AppOAuth2ConfigWhereInput | Prisma.AppOAuth2ConfigWhereInput[]
   clientId?: Prisma.StringFilter<"AppOAuth2Config"> | string
   encryptedClientSecret?: Prisma.BytesFilter<"AppOAuth2Config"> | runtime.Bytes
-  redirectUris?: Prisma.StringFilter<"AppOAuth2Config"> | string
+  allowedCallbackUrls?: Prisma.StringFilter<"AppOAuth2Config"> | string
   createdAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   app?: Prisma.XOR<Prisma.AppScalarRelationFilter, Prisma.AppWhereInput>
@@ -220,7 +220,7 @@ export type AppOAuth2ConfigOrderByWithAggregationInput = {
   appId?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
   encryptedClientSecret?: Prisma.SortOrder
-  redirectUris?: Prisma.SortOrder
+  allowedCallbackUrls?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.AppOAuth2ConfigCountOrderByAggregateInput
@@ -235,7 +235,7 @@ export type AppOAuth2ConfigScalarWhereWithAggregatesInput = {
   appId?: Prisma.StringWithAggregatesFilter<"AppOAuth2Config"> | string
   clientId?: Prisma.StringWithAggregatesFilter<"AppOAuth2Config"> | string
   encryptedClientSecret?: Prisma.BytesWithAggregatesFilter<"AppOAuth2Config"> | runtime.Bytes
-  redirectUris?: Prisma.StringWithAggregatesFilter<"AppOAuth2Config"> | string
+  allowedCallbackUrls?: Prisma.StringWithAggregatesFilter<"AppOAuth2Config"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AppOAuth2Config"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AppOAuth2Config"> | Date | string
 }
@@ -243,7 +243,7 @@ export type AppOAuth2ConfigScalarWhereWithAggregatesInput = {
 export type AppOAuth2ConfigCreateInput = {
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt?: Date | string
   updatedAt?: Date | string
   app: Prisma.AppCreateNestedOneWithoutOauth2ConfigInput
@@ -253,7 +253,7 @@ export type AppOAuth2ConfigUncheckedCreateInput = {
   appId: string
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -261,7 +261,7 @@ export type AppOAuth2ConfigUncheckedCreateInput = {
 export type AppOAuth2ConfigUpdateInput = {
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   app?: Prisma.AppUpdateOneRequiredWithoutOauth2ConfigNestedInput
@@ -271,7 +271,7 @@ export type AppOAuth2ConfigUncheckedUpdateInput = {
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -280,7 +280,7 @@ export type AppOAuth2ConfigCreateManyInput = {
   appId: string
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -288,7 +288,7 @@ export type AppOAuth2ConfigCreateManyInput = {
 export type AppOAuth2ConfigUpdateManyMutationInput = {
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -297,7 +297,7 @@ export type AppOAuth2ConfigUncheckedUpdateManyInput = {
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -311,7 +311,7 @@ export type AppOAuth2ConfigCountOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
   encryptedClientSecret?: Prisma.SortOrder
-  redirectUris?: Prisma.SortOrder
+  allowedCallbackUrls?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -320,7 +320,7 @@ export type AppOAuth2ConfigMaxOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
   encryptedClientSecret?: Prisma.SortOrder
-  redirectUris?: Prisma.SortOrder
+  allowedCallbackUrls?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -329,7 +329,7 @@ export type AppOAuth2ConfigMinOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   clientId?: Prisma.SortOrder
   encryptedClientSecret?: Prisma.SortOrder
-  redirectUris?: Prisma.SortOrder
+  allowedCallbackUrls?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -369,7 +369,7 @@ export type AppOAuth2ConfigUncheckedUpdateOneWithoutAppNestedInput = {
 export type AppOAuth2ConfigCreateWithoutAppInput = {
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -377,7 +377,7 @@ export type AppOAuth2ConfigCreateWithoutAppInput = {
 export type AppOAuth2ConfigUncheckedCreateWithoutAppInput = {
   clientId: string
   encryptedClientSecret: runtime.Bytes
-  redirectUris: string
+  allowedCallbackUrls: string
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -401,7 +401,7 @@ export type AppOAuth2ConfigUpdateToOneWithWhereWithoutAppInput = {
 export type AppOAuth2ConfigUpdateWithoutAppInput = {
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -409,7 +409,7 @@ export type AppOAuth2ConfigUpdateWithoutAppInput = {
 export type AppOAuth2ConfigUncheckedUpdateWithoutAppInput = {
   clientId?: Prisma.StringFieldUpdateOperationsInput | string
   encryptedClientSecret?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
-  redirectUris?: Prisma.StringFieldUpdateOperationsInput | string
+  allowedCallbackUrls?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -420,7 +420,7 @@ export type AppOAuth2ConfigSelect<ExtArgs extends runtime.Types.Extensions.Inter
   appId?: boolean
   clientId?: boolean
   encryptedClientSecret?: boolean
-  redirectUris?: boolean
+  allowedCallbackUrls?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
@@ -430,7 +430,7 @@ export type AppOAuth2ConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   appId?: boolean
   clientId?: boolean
   encryptedClientSecret?: boolean
-  redirectUris?: boolean
+  allowedCallbackUrls?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
@@ -440,7 +440,7 @@ export type AppOAuth2ConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   appId?: boolean
   clientId?: boolean
   encryptedClientSecret?: boolean
-  redirectUris?: boolean
+  allowedCallbackUrls?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
@@ -450,12 +450,12 @@ export type AppOAuth2ConfigSelectScalar = {
   appId?: boolean
   clientId?: boolean
   encryptedClientSecret?: boolean
-  redirectUris?: boolean
+  allowedCallbackUrls?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AppOAuth2ConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"appId" | "clientId" | "encryptedClientSecret" | "redirectUris" | "createdAt" | "updatedAt", ExtArgs["result"]["appOAuth2Config"]>
+export type AppOAuth2ConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"appId" | "clientId" | "encryptedClientSecret" | "allowedCallbackUrls" | "createdAt" | "updatedAt", ExtArgs["result"]["appOAuth2Config"]>
 export type AppOAuth2ConfigInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
 }
@@ -475,7 +475,7 @@ export type $AppOAuth2ConfigPayload<ExtArgs extends runtime.Types.Extensions.Int
     appId: string
     clientId: string
     encryptedClientSecret: runtime.Bytes
-    redirectUris: string
+    allowedCallbackUrls: string
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["appOAuth2Config"]>
@@ -905,7 +905,7 @@ export interface AppOAuth2ConfigFieldRefs {
   readonly appId: Prisma.FieldRef<"AppOAuth2Config", 'String'>
   readonly clientId: Prisma.FieldRef<"AppOAuth2Config", 'String'>
   readonly encryptedClientSecret: Prisma.FieldRef<"AppOAuth2Config", 'Bytes'>
-  readonly redirectUris: Prisma.FieldRef<"AppOAuth2Config", 'String'>
+  readonly allowedCallbackUrls: Prisma.FieldRef<"AppOAuth2Config", 'String'>
   readonly createdAt: Prisma.FieldRef<"AppOAuth2Config", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"AppOAuth2Config", 'DateTime'>
 }

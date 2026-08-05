@@ -30,7 +30,11 @@ import { Route as ConsoleManageAppsIndexRouteImport } from './routes/console/man
 import { Route as ConsoleManageAppsIdRouteRouteImport } from './routes/console/manage/apps/$id/route'
 import { Route as ConsoleManageUsersIndexRouteImport } from './routes/console/manage/users/index'
 import { Route as ConsoleManageAppsIdIndexRouteImport } from './routes/console/manage/apps/$id/index'
-import { Route as ConsoleManageAppsIdAuthRouteImport } from './routes/console/manage/apps/$id/auth'
+import { Route as ConsoleManageAppsIdAddRouteRouteImport } from './routes/console/manage/apps/$id/add/route'
+import { Route as ConsoleManageAppsIdOauth2RouteImport } from './routes/console/manage/apps/$id/oauth2'
+import { Route as ConsoleManageAppsIdAddIndexRouteImport } from './routes/console/manage/apps/$id/add/index'
+import { Route as ConsoleManageAppsIdAddOauth2RouteImport } from './routes/console/manage/apps/$id/add/oauth2'
+import { Route as ConsoleManageAppsIdAddSamlRouteImport } from './routes/console/manage/apps/$id/add/saml'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -139,11 +143,36 @@ const ConsoleManageAppsIdIndexRoute =
     path: '/',
     getParentRoute: () => ConsoleManageAppsIdRouteRoute,
   } as any)
-const ConsoleManageAppsIdAuthRoute = ConsoleManageAppsIdAuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => ConsoleManageAppsIdRouteRoute,
-} as any)
+const ConsoleManageAppsIdAddRouteRoute =
+  ConsoleManageAppsIdAddRouteRouteImport.update({
+    id: '/add',
+    path: '/add',
+    getParentRoute: () => ConsoleManageAppsIdRouteRoute,
+  } as any)
+const ConsoleManageAppsIdOauth2Route =
+  ConsoleManageAppsIdOauth2RouteImport.update({
+    id: '/oauth2',
+    path: '/oauth2',
+    getParentRoute: () => ConsoleManageAppsIdRouteRoute,
+  } as any)
+const ConsoleManageAppsIdAddIndexRoute =
+  ConsoleManageAppsIdAddIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ConsoleManageAppsIdAddRouteRoute,
+  } as any)
+const ConsoleManageAppsIdAddOauth2Route =
+  ConsoleManageAppsIdAddOauth2RouteImport.update({
+    id: '/oauth2',
+    path: '/oauth2',
+    getParentRoute: () => ConsoleManageAppsIdAddRouteRoute,
+  } as any)
+const ConsoleManageAppsIdAddSamlRoute =
+  ConsoleManageAppsIdAddSamlRouteImport.update({
+    id: '/saml',
+    path: '/saml',
+    getParentRoute: () => ConsoleManageAppsIdAddRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -166,8 +195,12 @@ export interface FileRoutesByFullPath {
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
   '/console/manage/apps/': typeof ConsoleManageAppsIndexRoute
   '/console/manage/users/': typeof ConsoleManageUsersIndexRoute
-  '/console/manage/apps/$id/auth': typeof ConsoleManageAppsIdAuthRoute
+  '/console/manage/apps/$id/add': typeof ConsoleManageAppsIdAddRouteRouteWithChildren
+  '/console/manage/apps/$id/oauth2': typeof ConsoleManageAppsIdOauth2Route
   '/console/manage/apps/$id/': typeof ConsoleManageAppsIdIndexRoute
+  '/console/manage/apps/$id/add/oauth2': typeof ConsoleManageAppsIdAddOauth2Route
+  '/console/manage/apps/$id/add/saml': typeof ConsoleManageAppsIdAddSamlRoute
+  '/console/manage/apps/$id/add/': typeof ConsoleManageAppsIdAddIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -186,8 +219,11 @@ export interface FileRoutesByTo {
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
   '/console/manage/apps': typeof ConsoleManageAppsIndexRoute
   '/console/manage/users': typeof ConsoleManageUsersIndexRoute
-  '/console/manage/apps/$id/auth': typeof ConsoleManageAppsIdAuthRoute
+  '/console/manage/apps/$id/oauth2': typeof ConsoleManageAppsIdOauth2Route
   '/console/manage/apps/$id': typeof ConsoleManageAppsIdIndexRoute
+  '/console/manage/apps/$id/add/oauth2': typeof ConsoleManageAppsIdAddOauth2Route
+  '/console/manage/apps/$id/add/saml': typeof ConsoleManageAppsIdAddSamlRoute
+  '/console/manage/apps/$id/add': typeof ConsoleManageAppsIdAddIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -211,8 +247,12 @@ export interface FileRoutesById {
   '/auth/signup/$id/terms': typeof AuthSignupIdTermsRoute
   '/console/manage/apps/': typeof ConsoleManageAppsIndexRoute
   '/console/manage/users/': typeof ConsoleManageUsersIndexRoute
-  '/console/manage/apps/$id/auth': typeof ConsoleManageAppsIdAuthRoute
+  '/console/manage/apps/$id/add': typeof ConsoleManageAppsIdAddRouteRouteWithChildren
+  '/console/manage/apps/$id/oauth2': typeof ConsoleManageAppsIdOauth2Route
   '/console/manage/apps/$id/': typeof ConsoleManageAppsIdIndexRoute
+  '/console/manage/apps/$id/add/oauth2': typeof ConsoleManageAppsIdAddOauth2Route
+  '/console/manage/apps/$id/add/saml': typeof ConsoleManageAppsIdAddSamlRoute
+  '/console/manage/apps/$id/add/': typeof ConsoleManageAppsIdAddIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -237,8 +277,12 @@ export interface FileRouteTypes {
     | '/auth/signup/$id/terms'
     | '/console/manage/apps/'
     | '/console/manage/users/'
-    | '/console/manage/apps/$id/auth'
+    | '/console/manage/apps/$id/add'
+    | '/console/manage/apps/$id/oauth2'
     | '/console/manage/apps/$id/'
+    | '/console/manage/apps/$id/add/oauth2'
+    | '/console/manage/apps/$id/add/saml'
+    | '/console/manage/apps/$id/add/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -257,8 +301,11 @@ export interface FileRouteTypes {
     | '/auth/signup/$id/terms'
     | '/console/manage/apps'
     | '/console/manage/users'
-    | '/console/manage/apps/$id/auth'
+    | '/console/manage/apps/$id/oauth2'
     | '/console/manage/apps/$id'
+    | '/console/manage/apps/$id/add/oauth2'
+    | '/console/manage/apps/$id/add/saml'
+    | '/console/manage/apps/$id/add'
   id:
     | '__root__'
     | '/'
@@ -281,8 +328,12 @@ export interface FileRouteTypes {
     | '/auth/signup/$id/terms'
     | '/console/manage/apps/'
     | '/console/manage/users/'
-    | '/console/manage/apps/$id/auth'
+    | '/console/manage/apps/$id/add'
+    | '/console/manage/apps/$id/oauth2'
     | '/console/manage/apps/$id/'
+    | '/console/manage/apps/$id/add/oauth2'
+    | '/console/manage/apps/$id/add/saml'
+    | '/console/manage/apps/$id/add/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -440,12 +491,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsoleManageAppsIdIndexRouteImport
       parentRoute: typeof ConsoleManageAppsIdRouteRoute
     }
-    '/console/manage/apps/$id/auth': {
-      id: '/console/manage/apps/$id/auth'
-      path: '/auth'
-      fullPath: '/console/manage/apps/$id/auth'
-      preLoaderRoute: typeof ConsoleManageAppsIdAuthRouteImport
+    '/console/manage/apps/$id/add': {
+      id: '/console/manage/apps/$id/add'
+      path: '/add'
+      fullPath: '/console/manage/apps/$id/add'
+      preLoaderRoute: typeof ConsoleManageAppsIdAddRouteRouteImport
       parentRoute: typeof ConsoleManageAppsIdRouteRoute
+    }
+    '/console/manage/apps/$id/oauth2': {
+      id: '/console/manage/apps/$id/oauth2'
+      path: '/oauth2'
+      fullPath: '/console/manage/apps/$id/oauth2'
+      preLoaderRoute: typeof ConsoleManageAppsIdOauth2RouteImport
+      parentRoute: typeof ConsoleManageAppsIdRouteRoute
+    }
+    '/console/manage/apps/$id/add/': {
+      id: '/console/manage/apps/$id/add/'
+      path: '/'
+      fullPath: '/console/manage/apps/$id/add/'
+      preLoaderRoute: typeof ConsoleManageAppsIdAddIndexRouteImport
+      parentRoute: typeof ConsoleManageAppsIdAddRouteRoute
+    }
+    '/console/manage/apps/$id/add/oauth2': {
+      id: '/console/manage/apps/$id/add/oauth2'
+      path: '/oauth2'
+      fullPath: '/console/manage/apps/$id/add/oauth2'
+      preLoaderRoute: typeof ConsoleManageAppsIdAddOauth2RouteImport
+      parentRoute: typeof ConsoleManageAppsIdAddRouteRoute
+    }
+    '/console/manage/apps/$id/add/saml': {
+      id: '/console/manage/apps/$id/add/saml'
+      path: '/saml'
+      fullPath: '/console/manage/apps/$id/add/saml'
+      preLoaderRoute: typeof ConsoleManageAppsIdAddSamlRouteImport
+      parentRoute: typeof ConsoleManageAppsIdAddRouteRoute
     }
   }
 }
@@ -489,14 +568,35 @@ const ConsoleAccountRouteRouteChildren: ConsoleAccountRouteRouteChildren = {
 const ConsoleAccountRouteRouteWithChildren =
   ConsoleAccountRouteRoute._addFileChildren(ConsoleAccountRouteRouteChildren)
 
+interface ConsoleManageAppsIdAddRouteRouteChildren {
+  ConsoleManageAppsIdAddOauth2Route: typeof ConsoleManageAppsIdAddOauth2Route
+  ConsoleManageAppsIdAddSamlRoute: typeof ConsoleManageAppsIdAddSamlRoute
+  ConsoleManageAppsIdAddIndexRoute: typeof ConsoleManageAppsIdAddIndexRoute
+}
+
+const ConsoleManageAppsIdAddRouteRouteChildren: ConsoleManageAppsIdAddRouteRouteChildren =
+  {
+    ConsoleManageAppsIdAddOauth2Route: ConsoleManageAppsIdAddOauth2Route,
+    ConsoleManageAppsIdAddSamlRoute: ConsoleManageAppsIdAddSamlRoute,
+    ConsoleManageAppsIdAddIndexRoute: ConsoleManageAppsIdAddIndexRoute,
+  }
+
+const ConsoleManageAppsIdAddRouteRouteWithChildren =
+  ConsoleManageAppsIdAddRouteRoute._addFileChildren(
+    ConsoleManageAppsIdAddRouteRouteChildren,
+  )
+
 interface ConsoleManageAppsIdRouteRouteChildren {
-  ConsoleManageAppsIdAuthRoute: typeof ConsoleManageAppsIdAuthRoute
+  ConsoleManageAppsIdAddRouteRoute: typeof ConsoleManageAppsIdAddRouteRouteWithChildren
+  ConsoleManageAppsIdOauth2Route: typeof ConsoleManageAppsIdOauth2Route
   ConsoleManageAppsIdIndexRoute: typeof ConsoleManageAppsIdIndexRoute
 }
 
 const ConsoleManageAppsIdRouteRouteChildren: ConsoleManageAppsIdRouteRouteChildren =
   {
-    ConsoleManageAppsIdAuthRoute: ConsoleManageAppsIdAuthRoute,
+    ConsoleManageAppsIdAddRouteRoute:
+      ConsoleManageAppsIdAddRouteRouteWithChildren,
+    ConsoleManageAppsIdOauth2Route: ConsoleManageAppsIdOauth2Route,
     ConsoleManageAppsIdIndexRoute: ConsoleManageAppsIdIndexRoute,
   }
 

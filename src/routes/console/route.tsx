@@ -30,7 +30,7 @@ export const Route = createFileRoute("/console")({
 function RouteComponent() {
   return (
     <div className="flex h-full bg-neutral-100">
-      <div className="flex-1"></div>
+      <div className="min-w-0 flex-1"></div>
       <div className="flex w-full max-w-7xl flex-none">
         <div className="flex h-full w-80 flex-col justify-between gap-8 overflow-y-auto border-r border-neutral-300 p-8">
           <div>
@@ -85,7 +85,7 @@ function RouteComponent() {
           <Outlet />
         </div>
       </div>
-      <div className="flex-1 bg-white"></div>
+      <div className="min-w-0 flex-1 bg-white"></div>
     </div>
   );
 }

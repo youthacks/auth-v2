@@ -34,7 +34,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      <div className="sticky top-0 flex gap-5 border-b border-neutral-300 bg-white px-8 pt-4">
+      <div className="sticky top-0 z-10 flex gap-5 border-b border-neutral-300 bg-white px-8 pt-4">
         <Link
           from={Route.fullPath}
           to="."
@@ -52,20 +52,37 @@ function RouteComponent() {
         >
           Settings
         </Link>
-        <Link
-          from={Route.fullPath}
-          to="./auth"
-          className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
-          activeProps={{
-            className: "border-rose-700 text-rose-700",
-          }}
-          inactiveProps={{
-            className:
-              "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
-          }}
-        >
-          Authentication
-        </Link>
+        {data.oauth2Config ? (
+          <Link
+            from={Route.fullPath}
+            to="./oauth2"
+            className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
+            activeProps={{
+              className: "border-rose-700 text-rose-700",
+            }}
+            inactiveProps={{
+              className:
+                "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
+            }}
+          >
+            OAuth2
+          </Link>
+        ) : (
+          <Link
+            from={Route.fullPath}
+            to="./add"
+            className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
+            activeProps={{
+              className: "border-rose-700 text-rose-700",
+            }}
+            inactiveProps={{
+              className:
+                "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
+            }}
+          >
+            Authentication
+          </Link>
+        )}
       </div>
 
       <Outlet />
