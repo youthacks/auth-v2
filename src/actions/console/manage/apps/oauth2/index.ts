@@ -41,3 +41,15 @@ export const getAppOAuth2Config = createServerFn({ method: "GET" })
       allowedCallbackUrls: config.allowedCallbackUrls.split("\n"),
     };
   });
+
+export const updateAppOAuth2Config = createServerFn({ method: "POST" })
+  .middleware([withApplication])
+  .validator(createAppOAuth2Schema)
+  .handler(async ({ data, context }) => {
+    await prisma.appOAuth2Config.update({
+      where: { appId: context.app.id },
+      data: {
+        allowedCallbackUrls: data.allowedCallbackUrls.join("\n"),
+      },
+    });
+  });

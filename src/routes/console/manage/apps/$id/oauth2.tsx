@@ -1,14 +1,20 @@
 import { useClipboard } from "@mantine/hooks";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { revalidateLogic } from "@tanstack/react-form";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import clsx from "clsx";
 import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
+import { updateAppOAuth2Config } from "#/actions/console/manage/apps/oauth2";
 import { getAppOAuth2ConfigQuery } from "#/actions/console/manage/apps/oauth2/queries";
+import { updateAppOAuth2Schema } from "#/actions/console/manage/apps/oauth2/schemas";
+import Button from "#/components/ui/Button";
 import { Field } from "#/components/ui/Field";
 import { useAppForm } from "#/integrations/form";
-import Button from "#/components/ui/Button";
-import Input from "#/components/ui/Input";
 
 export const Route = createFileRoute("/console/manage/apps/$id/oauth2")({
   loader: async ({ params, context }) => {
@@ -89,12 +95,33 @@ function CopyField({
 
 function RouteComponent() {
   const params = Route.useParams();
+  const queryClient = useQueryClient();
 
   const { data } = useSuspenseQuery(getAppOAuth2ConfigQuery({ id: params.id }));
 
+  const { mutateAsync, isPending, error } = useMutation({
+    mutationFn: updateAppOAuth2Config,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["console", "manage", "apps", "oauth2"],
+      });
+    },
+  });
+
   const form = useAppForm({
     defaultValues: {
-      allowedCallbackUrls: "",
+      allowedCallbackUrls: data.allowedCallbackUrls.join("\n"),
+    },
+    validators: {
+      onDynamic: updateAppOAuth2Schema,
+    },
+    validationLogic: revalidateLogic(),
+
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        await mutateAsync({ data: { ...value, id: params.id } });
+        formApi.reset(value);
+      } catch (_e) {}
     },
   });
 
@@ -123,7 +150,7 @@ function RouteComponent() {
             ev.stopPropagation();
             form.handleSubmit();
           }}
-          className="mt-3 space-y-4"
+          className="mt-4 space-y-4"
         >
           {/*{error && <FormMessage state="error">{error.message}</FormMessage>}*/}
           <form.AppField name="allowedCallbackUrls">
@@ -147,7 +174,10 @@ function RouteComponent() {
       </section>
       <section>
         <h2 className="font-heading text-xl font-bold">Danger zone</h2>
-        <div className="mt-2 flex gap-3 opacity-50">
+        <p className="mt-0.5 text-sm text-neutral-600">
+          These actions will break existing integrations.
+        </p>
+        <div className="mt-3 flex gap-3 opacity-50">
           <Button size="sm">Disable login</Button>
           <Button size="sm" color="danger">
             Rotate client secret

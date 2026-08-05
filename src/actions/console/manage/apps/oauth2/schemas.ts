@@ -43,3 +43,7 @@ const zAllowedCallbackUrls = () =>
 export const createAppOAuth2Schema = z.object({
   allowedCallbackUrls: zAllowedCallbackUrls(),
 });
+
+export const updateAppOAuth2Schema = z.object({
+  allowedCallbackUrls: zAllowedCallbackUrls(),
+});
