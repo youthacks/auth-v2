@@ -5,3 +5,9 @@ export const createAppSchema = z.object({
   description: z.string(),
   homepageUrl: z.string().min(1, "Required"),
 });
+
+export const updateAppSchema = z.object({
+  name: z.string().min(1, "Required"),
+  description: z.string(),
+  homepageUrl: z.string().min(1, "Required"),
+});

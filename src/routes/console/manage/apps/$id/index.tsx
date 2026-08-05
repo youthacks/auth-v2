@@ -1,6 +1,14 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { revalidateLogic } from "@tanstack/react-form";
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { updateApp } from "#/actions/console/manage/apps";
 import { getAppByIdQuery } from "#/actions/console/manage/apps/queries";
+import { updateAppSchema } from "#/actions/console/manage/apps/schemas";
+import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/console/manage/apps/$id/")({
@@ -9,7 +17,18 @@ export const Route = createFileRoute("/console/manage/apps/$id/")({
 
 function InfoSection() {
   const params = Route.useParams();
+  const queryClient = useQueryClient();
+
   const { data } = useSuspenseQuery(getAppByIdQuery({ id: params.id }));
+
+  const { mutateAsync, isPending, error } = useMutation({
+    mutationFn: updateApp,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["console", "manage", "apps"],
+      });
+    },
+  });
 
   const form = useAppForm({
     defaultValues: {
@@ -17,10 +36,26 @@ function InfoSection() {
       description: data.description || "",
       homepageUrl: data.homepageUrl || "",
     },
+    validators: {
+      onDynamic: updateAppSchema,
+    },
+    validationLogic: revalidateLogic(),
+
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        await mutateAsync({ data: { ...value, id: params.id } });
+        formApi.reset(value);
+      } catch (_e) {}
+    },
   });
 
   return (
     <section>
+      {error && (
+        <FormMessage state="error" className="mb-4">
+          {error.message}
+        </FormMessage>
+      )}
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
@@ -53,7 +88,7 @@ function InfoSection() {
           )}
         </form.AppField>
         <form.AppForm>
-          <form.SubmitButton className="w-fit!">
+          <form.SubmitButton disabled={isPending} className="w-fit!">
             <span>Save</span>
           </form.SubmitButton>
         </form.AppForm>

@@ -1,6 +1,6 @@
-import { getAppByIdQuery } from "#/actions/console/manage/apps/queries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { getAppByIdQuery } from "#/actions/console/manage/apps/queries";
 
 export const Route = createFileRoute("/console/manage/apps/$id")({
   loader: async ({ params, context }) => {

@@ -3,7 +3,8 @@ import z from "zod";
 import { prisma } from "#/db";
 import { genAppId } from "#/lib/id";
 import { requireSession } from "#/middleware/requireSession";
-import { createAppSchema } from "./schemas";
+import { withApplication } from "#/middleware/withApplication";
+import { createAppSchema, updateAppSchema } from "./schemas";
 
 export const createApp = createServerFn({ method: "POST" })
   .middleware([requireSession])
@@ -54,4 +55,18 @@ export const getAppById = createServerFn({ method: "GET" })
     }
 
     return app;
+  });
+
+export const updateApp = createServerFn({ method: "POST" })
+  .middleware([withApplication])
+  .validator(updateAppSchema)
+  .handler(async ({ data, context }) => {
+    await prisma.app.update({
+      where: { id: context.app.id },
+      data: {
+        name: data.name,
+        description: data.description || null,
+        homepageUrl: data.homepageUrl,
+      },
+    });
   });
