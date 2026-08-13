@@ -12,7 +12,7 @@ import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/")({
+export const Route = createFileRoute("/_auth/auth/")({
   validateSearch: z.object({
     exit: z.boolean().optional().catch(undefined),
   }),

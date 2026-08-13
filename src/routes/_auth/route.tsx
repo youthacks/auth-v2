@@ -1,18 +1,7 @@
-import {
-  createFileRoute,
-  Outlet,
-  retainSearchParams,
-} from "@tanstack/react-router";
-import z from "zod";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import background from "#/assets/backgrounds/coolashack5.jpg";
 
-export const Route = createFileRoute("/auth")({
-  validateSearch: z.object({
-    return_to: z.string().optional(),
-  }),
-  search: {
-    middlewares: [retainSearchParams(["return_to"])],
-  },
+export const Route = createFileRoute("/_auth")({
   component: RouteComponent,
 });
 

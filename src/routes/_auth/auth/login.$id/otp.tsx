@@ -11,7 +11,7 @@ import { FormHeader } from "#/components/form/FormHeader";
 import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/login/$id/otp")({
+export const Route = createFileRoute("/_auth/auth/login/$id/otp")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(getLoginQuery({ id: params.id }));
   },

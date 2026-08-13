@@ -9,7 +9,7 @@ import { createSignupSchema } from "#/actions/auth/signup/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
 
-export const Route = createFileRoute("/auth/signup/")({
+export const Route = createFileRoute("/_auth/auth/signup/")({
   validateSearch: z.object({
     email: z.email(),
   }),
