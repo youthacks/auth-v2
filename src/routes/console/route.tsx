@@ -18,9 +18,9 @@ import ConsoleUserDropdown from "#/components/console/ConsoleUserDropdown";
 const ConsoleNavLink = createLink(ConsoleNavItem);
 
 export const Route = createFileRoute("/console")({
-  beforeLoad: async ({ context }) => {
+  beforeLoad: async ({ context, location }) => {
     if (!context.user) {
-      throw redirect({ to: "/auth" });
+      throw redirect({ to: "/auth", search: { return_to: location.pathname } });
     }
     return { user: context.user };
   },
