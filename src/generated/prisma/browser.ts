@@ -57,3 +57,8 @@ export type AppOAuth2Config = Prisma.AppOAuth2ConfigModel
  * 
  */
 export type AppConsent = Prisma.AppConsentModel
+/**
+ * Model OAuthExchangeCode
+ * 
+ */
+export type OAuthExchangeCode = Prisma.OAuthExchangeCodeModel

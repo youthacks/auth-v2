@@ -391,7 +391,8 @@ export const ModelName = {
   Verification: 'Verification',
   App: 'App',
   AppOAuth2Config: 'AppOAuth2Config',
-  AppConsent: 'AppConsent'
+  AppConsent: 'AppConsent',
+  OAuthExchangeCode: 'OAuthExchangeCode'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -407,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "signup" | "login" | "verification" | "app" | "appOAuth2Config" | "appConsent"
+    modelProps: "user" | "session" | "signup" | "login" | "verification" | "app" | "appOAuth2Config" | "appConsent" | "oAuthExchangeCode"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1003,6 +1004,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OAuthExchangeCode: {
+      payload: Prisma.$OAuthExchangeCodePayload<ExtArgs>
+      fields: Prisma.OAuthExchangeCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OAuthExchangeCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OAuthExchangeCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        findFirst: {
+          args: Prisma.OAuthExchangeCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OAuthExchangeCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        findMany: {
+          args: Prisma.OAuthExchangeCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>[]
+        }
+        create: {
+          args: Prisma.OAuthExchangeCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        createMany: {
+          args: Prisma.OAuthExchangeCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.OAuthExchangeCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>[]
+        }
+        delete: {
+          args: Prisma.OAuthExchangeCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        update: {
+          args: Prisma.OAuthExchangeCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.OAuthExchangeCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OAuthExchangeCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.OAuthExchangeCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.OAuthExchangeCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OAuthExchangeCodePayload>
+        }
+        aggregate: {
+          args: Prisma.OAuthExchangeCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOAuthExchangeCode>
+        }
+        groupBy: {
+          args: Prisma.OAuthExchangeCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OAuthExchangeCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OAuthExchangeCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OAuthExchangeCodeCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1137,6 +1212,18 @@ export const AppConsentScalarFieldEnum = {
 } as const
 
 export type AppConsentScalarFieldEnum = (typeof AppConsentScalarFieldEnum)[keyof typeof AppConsentScalarFieldEnum]
+
+
+export const OAuthExchangeCodeScalarFieldEnum = {
+  code: 'code',
+  scopes: 'scopes',
+  appId: 'appId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OAuthExchangeCodeScalarFieldEnum = (typeof OAuthExchangeCodeScalarFieldEnum)[keyof typeof OAuthExchangeCodeScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1313,6 +1400,7 @@ export type GlobalOmitConfig = {
   app?: Prisma.AppOmit
   appOAuth2Config?: Prisma.AppOAuth2ConfigOmit
   appConsent?: Prisma.AppConsentOmit
+  oAuthExchangeCode?: Prisma.OAuthExchangeCodeOmit
 }
 
 /* Types for Logging */

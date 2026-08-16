@@ -21,6 +21,10 @@ model User {
   logins    Login[]
   ownedApps App[]
   consents  AppConsent[]
+
+  oauthExchangeCodes OAuthExchangeCode[]
+  oauthAccessTokens  OAuthAccessToken[]
+  oauthRefreshTokens OAuthRefreshToken[]
 }
 
 model Session {
@@ -32,6 +36,9 @@ model Session {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  oauthAccessTokens  OAuthAccessToken[]
+  oauthRefreshTokens OAuthRefreshToken[]
 }
 
 model Signup {
@@ -91,15 +98,18 @@ model App {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  oauth2Config AppOAuth2Config?
-  consents     AppConsent[]
+  oauth2Config       AppOAuth2Config?
+  consents           AppConsent[]
+  oauthExchangeCodes OAuthExchangeCode[]
+  oauthAccessTokens  OAuthAccessToken[]
+  oauthRefreshTokens OAuthRefreshToken[]
 }
 
 model AppOAuth2Config {
   appId String @id
   app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
 
-  clientId              String
+  clientId              String @unique
   encryptedClientSecret Bytes
 
   allowedCallbackUrls String
@@ -120,4 +130,56 @@ model AppConsent {
   updatedAt DateTime @updatedAt
 
   @@id([appId, userId])
+}
+
+model OAuthExchangeCode {
+  code   String @id
+  scopes String
+
+  appId String
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model OAuthAccessToken {
+  id         String @id
+  secretHash Bytes
+  scopes     String
+
+  appId String
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sessionId String?
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model OAuthRefreshToken {
+  id         String @id
+  secretHash Bytes
+  scopes     String
+
+  appId String
+  app   App    @relation(fields: [appId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  sessionId String?
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  authTime  DateTime
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
 }

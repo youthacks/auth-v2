@@ -58,7 +58,8 @@ export const ModelName = {
   Verification: 'Verification',
   App: 'App',
   AppOAuth2Config: 'AppOAuth2Config',
-  AppConsent: 'AppConsent'
+  AppConsent: 'AppConsent',
+  OAuthExchangeCode: 'OAuthExchangeCode'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -172,6 +173,18 @@ export const AppConsentScalarFieldEnum = {
 } as const
 
 export type AppConsentScalarFieldEnum = (typeof AppConsentScalarFieldEnum)[keyof typeof AppConsentScalarFieldEnum]
+
+
+export const OAuthExchangeCodeScalarFieldEnum = {
+  code: 'code',
+  scopes: 'scopes',
+  appId: 'appId',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OAuthExchangeCodeScalarFieldEnum = (typeof OAuthExchangeCodeScalarFieldEnum)[keyof typeof OAuthExchangeCodeScalarFieldEnum]
 
 
 export const SortOrder = {

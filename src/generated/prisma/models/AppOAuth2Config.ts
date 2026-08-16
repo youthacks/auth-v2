@@ -205,16 +205,16 @@ export type AppOAuth2ConfigOrderByWithRelationInput = {
 
 export type AppOAuth2ConfigWhereUniqueInput = Prisma.AtLeast<{
   appId?: string
+  clientId?: string
   AND?: Prisma.AppOAuth2ConfigWhereInput | Prisma.AppOAuth2ConfigWhereInput[]
   OR?: Prisma.AppOAuth2ConfigWhereInput[]
   NOT?: Prisma.AppOAuth2ConfigWhereInput | Prisma.AppOAuth2ConfigWhereInput[]
-  clientId?: Prisma.StringFilter<"AppOAuth2Config"> | string
   encryptedClientSecret?: Prisma.BytesFilter<"AppOAuth2Config"> | runtime.Bytes
   allowedCallbackUrls?: Prisma.StringFilter<"AppOAuth2Config"> | string
   createdAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"AppOAuth2Config"> | Date | string
   app?: Prisma.XOR<Prisma.AppScalarRelationFilter, Prisma.AppWhereInput>
-}, "appId">
+}, "appId" | "clientId">
 
 export type AppOAuth2ConfigOrderByWithAggregationInput = {
   appId?: Prisma.SortOrder

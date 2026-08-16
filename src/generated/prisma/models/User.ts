@@ -202,6 +202,7 @@ export type UserWhereInput = {
   logins?: Prisma.LoginListRelationFilter
   ownedApps?: Prisma.AppListRelationFilter
   consents?: Prisma.AppConsentListRelationFilter
+  exchangeCodes?: Prisma.OAuthExchangeCodeListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -216,6 +217,7 @@ export type UserOrderByWithRelationInput = {
   logins?: Prisma.LoginOrderByRelationAggregateInput
   ownedApps?: Prisma.AppOrderByRelationAggregateInput
   consents?: Prisma.AppConsentOrderByRelationAggregateInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -233,6 +235,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   logins?: Prisma.LoginListRelationFilter
   ownedApps?: Prisma.AppListRelationFilter
   consents?: Prisma.AppConsentListRelationFilter
+  exchangeCodes?: Prisma.OAuthExchangeCodeListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -273,6 +276,7 @@ export type UserCreateInput = {
   logins?: Prisma.LoginCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -287,6 +291,7 @@ export type UserUncheckedCreateInput = {
   logins?: Prisma.LoginUncheckedCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppUncheckedCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentUncheckedCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -301,6 +306,7 @@ export type UserUpdateInput = {
   logins?: Prisma.LoginUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -315,6 +321,7 @@ export type UserUncheckedUpdateInput = {
   logins?: Prisma.LoginUncheckedUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUncheckedUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUncheckedUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -446,6 +453,20 @@ export type UserUpdateOneRequiredWithoutConsentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutConsentsInput, Prisma.UserUpdateWithoutConsentsInput>, Prisma.UserUncheckedUpdateWithoutConsentsInput>
 }
 
+export type UserCreateNestedOneWithoutExchangeCodesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExchangeCodesInput, Prisma.UserUncheckedCreateWithoutExchangeCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExchangeCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExchangeCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExchangeCodesInput, Prisma.UserUncheckedCreateWithoutExchangeCodesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExchangeCodesInput
+  upsert?: Prisma.UserUpsertWithoutExchangeCodesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExchangeCodesInput, Prisma.UserUpdateWithoutExchangeCodesInput>, Prisma.UserUncheckedUpdateWithoutExchangeCodesInput>
+}
+
 export type UserCreateWithoutSessionsInput = {
   id: string
   firstName: string
@@ -457,6 +478,7 @@ export type UserCreateWithoutSessionsInput = {
   logins?: Prisma.LoginCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -470,6 +492,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   logins?: Prisma.LoginUncheckedCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppUncheckedCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentUncheckedCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -499,6 +522,7 @@ export type UserUpdateWithoutSessionsInput = {
   logins?: Prisma.LoginUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -512,6 +536,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   logins?: Prisma.LoginUncheckedUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUncheckedUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUncheckedUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutLoginsInput = {
@@ -525,6 +550,7 @@ export type UserCreateWithoutLoginsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutLoginsInput = {
@@ -538,6 +564,7 @@ export type UserUncheckedCreateWithoutLoginsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppUncheckedCreateNestedManyWithoutOwnerInput
   consents?: Prisma.AppConsentUncheckedCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutLoginsInput = {
@@ -567,6 +594,7 @@ export type UserUpdateWithoutLoginsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLoginsInput = {
@@ -580,6 +608,7 @@ export type UserUncheckedUpdateWithoutLoginsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUncheckedUpdateManyWithoutOwnerNestedInput
   consents?: Prisma.AppConsentUncheckedUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOwnedAppsInput = {
@@ -593,6 +622,7 @@ export type UserCreateWithoutOwnedAppsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   logins?: Prisma.LoginCreateNestedManyWithoutUserInput
   consents?: Prisma.AppConsentCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOwnedAppsInput = {
@@ -606,6 +636,7 @@ export type UserUncheckedCreateWithoutOwnedAppsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   logins?: Prisma.LoginUncheckedCreateNestedManyWithoutUserInput
   consents?: Prisma.AppConsentUncheckedCreateNestedManyWithoutUserInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOwnedAppsInput = {
@@ -635,6 +666,7 @@ export type UserUpdateWithoutOwnedAppsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   logins?: Prisma.LoginUpdateManyWithoutUserNestedInput
   consents?: Prisma.AppConsentUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOwnedAppsInput = {
@@ -648,6 +680,7 @@ export type UserUncheckedUpdateWithoutOwnedAppsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   logins?: Prisma.LoginUncheckedUpdateManyWithoutUserNestedInput
   consents?: Prisma.AppConsentUncheckedUpdateManyWithoutUserNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutConsentsInput = {
@@ -661,6 +694,7 @@ export type UserCreateWithoutConsentsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   logins?: Prisma.LoginCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppCreateNestedManyWithoutOwnerInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutConsentsInput = {
@@ -674,6 +708,7 @@ export type UserUncheckedCreateWithoutConsentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   logins?: Prisma.LoginUncheckedCreateNestedManyWithoutUserInput
   ownedApps?: Prisma.AppUncheckedCreateNestedManyWithoutOwnerInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutConsentsInput = {
@@ -703,6 +738,7 @@ export type UserUpdateWithoutConsentsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   logins?: Prisma.LoginUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUpdateManyWithoutOwnerNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutConsentsInput = {
@@ -716,6 +752,79 @@ export type UserUncheckedUpdateWithoutConsentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   logins?: Prisma.LoginUncheckedUpdateManyWithoutUserNestedInput
   ownedApps?: Prisma.AppUncheckedUpdateManyWithoutOwnerNestedInput
+  exchangeCodes?: Prisma.OAuthExchangeCodeUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExchangeCodesInput = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  dateOfBirth: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  logins?: Prisma.LoginCreateNestedManyWithoutUserInput
+  ownedApps?: Prisma.AppCreateNestedManyWithoutOwnerInput
+  consents?: Prisma.AppConsentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExchangeCodesInput = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  dateOfBirth: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  logins?: Prisma.LoginUncheckedCreateNestedManyWithoutUserInput
+  ownedApps?: Prisma.AppUncheckedCreateNestedManyWithoutOwnerInput
+  consents?: Prisma.AppConsentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExchangeCodesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExchangeCodesInput, Prisma.UserUncheckedCreateWithoutExchangeCodesInput>
+}
+
+export type UserUpsertWithoutExchangeCodesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExchangeCodesInput, Prisma.UserUncheckedUpdateWithoutExchangeCodesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExchangeCodesInput, Prisma.UserUncheckedCreateWithoutExchangeCodesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExchangeCodesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExchangeCodesInput, Prisma.UserUncheckedUpdateWithoutExchangeCodesInput>
+}
+
+export type UserUpdateWithoutExchangeCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  logins?: Prisma.LoginUpdateManyWithoutUserNestedInput
+  ownedApps?: Prisma.AppUpdateManyWithoutOwnerNestedInput
+  consents?: Prisma.AppConsentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExchangeCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  dateOfBirth?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  logins?: Prisma.LoginUncheckedUpdateManyWithoutUserNestedInput
+  ownedApps?: Prisma.AppUncheckedUpdateManyWithoutOwnerNestedInput
+  consents?: Prisma.AppConsentUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -728,6 +837,7 @@ export type UserCountOutputType = {
   logins: number
   ownedApps: number
   consents: number
+  exchangeCodes: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -735,6 +845,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   logins?: boolean | UserCountOutputTypeCountLoginsArgs
   ownedApps?: boolean | UserCountOutputTypeCountOwnedAppsArgs
   consents?: boolean | UserCountOutputTypeCountConsentsArgs
+  exchangeCodes?: boolean | UserCountOutputTypeCountExchangeCodesArgs
 }
 
 /**
@@ -775,6 +886,13 @@ export type UserCountOutputTypeCountConsentsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.AppConsentWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExchangeCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OAuthExchangeCodeWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -788,6 +906,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   logins?: boolean | Prisma.User$loginsArgs<ExtArgs>
   ownedApps?: boolean | Prisma.User$ownedAppsArgs<ExtArgs>
   consents?: boolean | Prisma.User$consentsArgs<ExtArgs>
+  exchangeCodes?: boolean | Prisma.User$exchangeCodesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -827,6 +946,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   logins?: boolean | Prisma.User$loginsArgs<ExtArgs>
   ownedApps?: boolean | Prisma.User$ownedAppsArgs<ExtArgs>
   consents?: boolean | Prisma.User$consentsArgs<ExtArgs>
+  exchangeCodes?: boolean | Prisma.User$exchangeCodesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -839,6 +959,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     logins: Prisma.$LoginPayload<ExtArgs>[]
     ownedApps: Prisma.$AppPayload<ExtArgs>[]
     consents: Prisma.$AppConsentPayload<ExtArgs>[]
+    exchangeCodes: Prisma.$OAuthExchangeCodePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1246,6 +1367,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   logins<T extends Prisma.User$loginsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loginsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoginPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   ownedApps<T extends Prisma.User$ownedAppsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedAppsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   consents<T extends Prisma.User$consentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$consentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AppConsentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  exchangeCodes<T extends Prisma.User$exchangeCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exchangeCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OAuthExchangeCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1766,6 +1888,30 @@ export type User$consentsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.AppConsentScalarFieldEnum | Prisma.AppConsentScalarFieldEnum[]
+}
+
+/**
+ * User.exchangeCodes
+ */
+export type User$exchangeCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OAuthExchangeCode
+   */
+  select?: Prisma.OAuthExchangeCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OAuthExchangeCode
+   */
+  omit?: Prisma.OAuthExchangeCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OAuthExchangeCodeInclude<ExtArgs> | null
+  where?: Prisma.OAuthExchangeCodeWhereInput
+  orderBy?: Prisma.OAuthExchangeCodeOrderByWithRelationInput | Prisma.OAuthExchangeCodeOrderByWithRelationInput[]
+  cursor?: Prisma.OAuthExchangeCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OAuthExchangeCodeScalarFieldEnum | Prisma.OAuthExchangeCodeScalarFieldEnum[]
 }
 
 /**
