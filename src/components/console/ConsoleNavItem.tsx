@@ -20,7 +20,7 @@ export default function ConsoleNavItem({
     >
       <div
         className={clsx(
-          "absolute top-2.5 left-1 h-4 w-0.5 -translate-y-px rounded-full bg-current transition",
+          "absolute top-3 left-1 h-4 w-0.5 -translate-y-px rounded-full bg-current transition",
           !active && "scale-y-0 opacity-0",
         )}
       ></div>
