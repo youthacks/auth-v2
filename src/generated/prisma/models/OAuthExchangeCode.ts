@@ -30,7 +30,7 @@ export type OAuthExchangeCodeMinAggregateOutputType = {
   appId: string | null
   userId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
+  expiresAt: Date | null
 }
 
 export type OAuthExchangeCodeMaxAggregateOutputType = {
@@ -39,7 +39,7 @@ export type OAuthExchangeCodeMaxAggregateOutputType = {
   appId: string | null
   userId: string | null
   createdAt: Date | null
-  updatedAt: Date | null
+  expiresAt: Date | null
 }
 
 export type OAuthExchangeCodeCountAggregateOutputType = {
@@ -48,7 +48,7 @@ export type OAuthExchangeCodeCountAggregateOutputType = {
   appId: number
   userId: number
   createdAt: number
-  updatedAt: number
+  expiresAt: number
   _all: number
 }
 
@@ -59,7 +59,7 @@ export type OAuthExchangeCodeMinAggregateInputType = {
   appId?: true
   userId?: true
   createdAt?: true
-  updatedAt?: true
+  expiresAt?: true
 }
 
 export type OAuthExchangeCodeMaxAggregateInputType = {
@@ -68,7 +68,7 @@ export type OAuthExchangeCodeMaxAggregateInputType = {
   appId?: true
   userId?: true
   createdAt?: true
-  updatedAt?: true
+  expiresAt?: true
 }
 
 export type OAuthExchangeCodeCountAggregateInputType = {
@@ -77,7 +77,7 @@ export type OAuthExchangeCodeCountAggregateInputType = {
   appId?: true
   userId?: true
   createdAt?: true
-  updatedAt?: true
+  expiresAt?: true
   _all?: true
 }
 
@@ -159,7 +159,7 @@ export type OAuthExchangeCodeGroupByOutputType = {
   appId: string
   userId: string
   createdAt: Date
-  updatedAt: Date
+  expiresAt: Date
   _count: OAuthExchangeCodeCountAggregateOutputType | null
   _min: OAuthExchangeCodeMinAggregateOutputType | null
   _max: OAuthExchangeCodeMaxAggregateOutputType | null
@@ -189,7 +189,7 @@ export type OAuthExchangeCodeWhereInput = {
   appId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   userId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   createdAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
+  expiresAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
   app?: Prisma.XOR<Prisma.AppScalarRelationFilter, Prisma.AppWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -200,7 +200,7 @@ export type OAuthExchangeCodeOrderByWithRelationInput = {
   appId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   app?: Prisma.AppOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -214,7 +214,7 @@ export type OAuthExchangeCodeWhereUniqueInput = Prisma.AtLeast<{
   appId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   userId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   createdAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
+  expiresAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
   app?: Prisma.XOR<Prisma.AppScalarRelationFilter, Prisma.AppWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "code">
@@ -225,7 +225,7 @@ export type OAuthExchangeCodeOrderByWithAggregationInput = {
   appId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
   _count?: Prisma.OAuthExchangeCodeCountOrderByAggregateInput
   _max?: Prisma.OAuthExchangeCodeMaxOrderByAggregateInput
   _min?: Prisma.OAuthExchangeCodeMinOrderByAggregateInput
@@ -240,16 +240,16 @@ export type OAuthExchangeCodeScalarWhereWithAggregatesInput = {
   appId?: Prisma.StringWithAggregatesFilter<"OAuthExchangeCode"> | string
   userId?: Prisma.StringWithAggregatesFilter<"OAuthExchangeCode"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OAuthExchangeCode"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OAuthExchangeCode"> | Date | string
+  expiresAt?: Prisma.DateTimeWithAggregatesFilter<"OAuthExchangeCode"> | Date | string
 }
 
 export type OAuthExchangeCodeCreateInput = {
   code: string
   scopes: string
   createdAt?: Date | string
-  updatedAt?: Date | string
-  app: Prisma.AppCreateNestedOneWithoutExchangeCodesInput
-  user: Prisma.UserCreateNestedOneWithoutExchangeCodesInput
+  expiresAt: Date | string
+  app: Prisma.AppCreateNestedOneWithoutOauthExchangeCodesInput
+  user: Prisma.UserCreateNestedOneWithoutOauthExchangeCodesInput
 }
 
 export type OAuthExchangeCodeUncheckedCreateInput = {
@@ -258,16 +258,16 @@ export type OAuthExchangeCodeUncheckedCreateInput = {
   appId: string
   userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeUpdateInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  app?: Prisma.AppUpdateOneRequiredWithoutExchangeCodesNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutExchangeCodesNestedInput
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  app?: Prisma.AppUpdateOneRequiredWithoutOauthExchangeCodesNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutOauthExchangeCodesNestedInput
 }
 
 export type OAuthExchangeCodeUncheckedUpdateInput = {
@@ -276,7 +276,7 @@ export type OAuthExchangeCodeUncheckedUpdateInput = {
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeCreateManyInput = {
@@ -285,14 +285,14 @@ export type OAuthExchangeCodeCreateManyInput = {
   appId: string
   userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeUpdateManyMutationInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeUncheckedUpdateManyInput = {
@@ -301,7 +301,7 @@ export type OAuthExchangeCodeUncheckedUpdateManyInput = {
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeListRelationFilter = {
@@ -320,7 +320,7 @@ export type OAuthExchangeCodeCountOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
 }
 
 export type OAuthExchangeCodeMaxOrderByAggregateInput = {
@@ -329,7 +329,7 @@ export type OAuthExchangeCodeMaxOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
 }
 
 export type OAuthExchangeCodeMinOrderByAggregateInput = {
@@ -338,7 +338,7 @@ export type OAuthExchangeCodeMinOrderByAggregateInput = {
   appId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
+  expiresAt?: Prisma.SortOrder
 }
 
 export type OAuthExchangeCodeCreateNestedManyWithoutUserInput = {
@@ -429,8 +429,8 @@ export type OAuthExchangeCodeCreateWithoutUserInput = {
   code: string
   scopes: string
   createdAt?: Date | string
-  updatedAt?: Date | string
-  app: Prisma.AppCreateNestedOneWithoutExchangeCodesInput
+  expiresAt: Date | string
+  app: Prisma.AppCreateNestedOneWithoutOauthExchangeCodesInput
 }
 
 export type OAuthExchangeCodeUncheckedCreateWithoutUserInput = {
@@ -438,7 +438,7 @@ export type OAuthExchangeCodeUncheckedCreateWithoutUserInput = {
   scopes: string
   appId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeCreateOrConnectWithoutUserInput = {
@@ -475,15 +475,15 @@ export type OAuthExchangeCodeScalarWhereInput = {
   appId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   userId?: Prisma.StringFilter<"OAuthExchangeCode"> | string
   createdAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
+  expiresAt?: Prisma.DateTimeFilter<"OAuthExchangeCode"> | Date | string
 }
 
 export type OAuthExchangeCodeCreateWithoutAppInput = {
   code: string
   scopes: string
   createdAt?: Date | string
-  updatedAt?: Date | string
-  user: Prisma.UserCreateNestedOneWithoutExchangeCodesInput
+  expiresAt: Date | string
+  user: Prisma.UserCreateNestedOneWithoutOauthExchangeCodesInput
 }
 
 export type OAuthExchangeCodeUncheckedCreateWithoutAppInput = {
@@ -491,7 +491,7 @@ export type OAuthExchangeCodeUncheckedCreateWithoutAppInput = {
   scopes: string
   userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeCreateOrConnectWithoutAppInput = {
@@ -524,15 +524,15 @@ export type OAuthExchangeCodeCreateManyUserInput = {
   scopes: string
   appId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeUpdateWithoutUserInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  app?: Prisma.AppUpdateOneRequiredWithoutExchangeCodesNestedInput
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  app?: Prisma.AppUpdateOneRequiredWithoutOauthExchangeCodesNestedInput
 }
 
 export type OAuthExchangeCodeUncheckedUpdateWithoutUserInput = {
@@ -540,7 +540,7 @@ export type OAuthExchangeCodeUncheckedUpdateWithoutUserInput = {
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeUncheckedUpdateManyWithoutUserInput = {
@@ -548,7 +548,7 @@ export type OAuthExchangeCodeUncheckedUpdateManyWithoutUserInput = {
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   appId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeCreateManyAppInput = {
@@ -556,15 +556,15 @@ export type OAuthExchangeCodeCreateManyAppInput = {
   scopes: string
   userId: string
   createdAt?: Date | string
-  updatedAt?: Date | string
+  expiresAt: Date | string
 }
 
 export type OAuthExchangeCodeUpdateWithoutAppInput = {
   code?: Prisma.StringFieldUpdateOperationsInput | string
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  user?: Prisma.UserUpdateOneRequiredWithoutExchangeCodesNestedInput
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutOauthExchangeCodesNestedInput
 }
 
 export type OAuthExchangeCodeUncheckedUpdateWithoutAppInput = {
@@ -572,7 +572,7 @@ export type OAuthExchangeCodeUncheckedUpdateWithoutAppInput = {
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OAuthExchangeCodeUncheckedUpdateManyWithoutAppInput = {
@@ -580,7 +580,7 @@ export type OAuthExchangeCodeUncheckedUpdateManyWithoutAppInput = {
   scopes?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -591,7 +591,7 @@ export type OAuthExchangeCodeSelect<ExtArgs extends runtime.Types.Extensions.Int
   appId?: boolean
   userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
+  expiresAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oAuthExchangeCode"]>
@@ -602,7 +602,7 @@ export type OAuthExchangeCodeSelectCreateManyAndReturn<ExtArgs extends runtime.T
   appId?: boolean
   userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
+  expiresAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oAuthExchangeCode"]>
@@ -613,7 +613,7 @@ export type OAuthExchangeCodeSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   appId?: boolean
   userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
+  expiresAt?: boolean
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oAuthExchangeCode"]>
@@ -624,10 +624,10 @@ export type OAuthExchangeCodeSelectScalar = {
   appId?: boolean
   userId?: boolean
   createdAt?: boolean
-  updatedAt?: boolean
+  expiresAt?: boolean
 }
 
-export type OAuthExchangeCodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "scopes" | "appId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["oAuthExchangeCode"]>
+export type OAuthExchangeCodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"code" | "scopes" | "appId" | "userId" | "createdAt" | "expiresAt", ExtArgs["result"]["oAuthExchangeCode"]>
 export type OAuthExchangeCodeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   app?: boolean | Prisma.AppDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -653,7 +653,7 @@ export type $OAuthExchangeCodePayload<ExtArgs extends runtime.Types.Extensions.I
     appId: string
     userId: string
     createdAt: Date
-    updatedAt: Date
+    expiresAt: Date
   }, ExtArgs["result"]["oAuthExchangeCode"]>
   composites: {}
 }
@@ -1084,7 +1084,7 @@ export interface OAuthExchangeCodeFieldRefs {
   readonly appId: Prisma.FieldRef<"OAuthExchangeCode", 'String'>
   readonly userId: Prisma.FieldRef<"OAuthExchangeCode", 'String'>
   readonly createdAt: Prisma.FieldRef<"OAuthExchangeCode", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"OAuthExchangeCode", 'DateTime'>
+  readonly expiresAt: Prisma.FieldRef<"OAuthExchangeCode", 'DateTime'>
 }
     
 

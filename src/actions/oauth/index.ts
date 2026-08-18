@@ -4,6 +4,7 @@ import { oauthAuthorizeSchema } from "./schemas";
 import { prisma } from "#/db";
 import z from "zod";
 import { nanoid } from "nanoid";
+import dayjs from "dayjs";
 
 export const oauthAuthorizeSilently = createServerFn()
   .middleware([requireSession])
@@ -43,6 +44,7 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
         scopes: data.scope,
         appId: oauth2Config.appId,
         userId: context.user.id,
+        expiresAt: dayjs().add(15, "minutes").toDate(),
       },
     });
 

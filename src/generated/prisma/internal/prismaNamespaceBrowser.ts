@@ -59,7 +59,9 @@ export const ModelName = {
   App: 'App',
   AppOAuth2Config: 'AppOAuth2Config',
   AppConsent: 'AppConsent',
-  OAuthExchangeCode: 'OAuthExchangeCode'
+  OAuthExchangeCode: 'OAuthExchangeCode',
+  OAuthAccessToken: 'OAuthAccessToken',
+  OAuthRefreshToken: 'OAuthRefreshToken'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -181,10 +183,40 @@ export const OAuthExchangeCodeScalarFieldEnum = {
   appId: 'appId',
   userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  expiresAt: 'expiresAt'
 } as const
 
 export type OAuthExchangeCodeScalarFieldEnum = (typeof OAuthExchangeCodeScalarFieldEnum)[keyof typeof OAuthExchangeCodeScalarFieldEnum]
+
+
+export const OAuthAccessTokenScalarFieldEnum = {
+  id: 'id',
+  secretHash: 'secretHash',
+  scopes: 'scopes',
+  appId: 'appId',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
+} as const
+
+export type OAuthAccessTokenScalarFieldEnum = (typeof OAuthAccessTokenScalarFieldEnum)[keyof typeof OAuthAccessTokenScalarFieldEnum]
+
+
+export const OAuthRefreshTokenScalarFieldEnum = {
+  id: 'id',
+  secretHash: 'secretHash',
+  scopes: 'scopes',
+  appId: 'appId',
+  userId: 'userId',
+  sessionId: 'sessionId',
+  authTime: 'authTime',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  revokedAt: 'revokedAt'
+} as const
+
+export type OAuthRefreshTokenScalarFieldEnum = (typeof OAuthRefreshTokenScalarFieldEnum)[keyof typeof OAuthRefreshTokenScalarFieldEnum]
 
 
 export const SortOrder = {

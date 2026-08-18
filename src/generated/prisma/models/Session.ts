@@ -183,6 +183,8 @@ export type SessionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  oauthAccessTokens?: Prisma.OAuthAccessTokenListRelationFilter
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenListRelationFilter
 }
 
 export type SessionOrderByWithRelationInput = {
@@ -192,6 +194,8 @@ export type SessionOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  oauthAccessTokens?: Prisma.OAuthAccessTokenOrderByRelationAggregateInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenOrderByRelationAggregateInput
 }
 
 export type SessionWhereUniqueInput = Prisma.AtLeast<{
@@ -204,6 +208,8 @@ export type SessionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Session"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  oauthAccessTokens?: Prisma.OAuthAccessTokenListRelationFilter
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenListRelationFilter
 }, "id">
 
 export type SessionOrderByWithAggregationInput = {
@@ -234,6 +240,8 @@ export type SessionCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  oauthAccessTokens?: Prisma.OAuthAccessTokenCreateNestedManyWithoutSessionInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateInput = {
@@ -242,6 +250,8 @@ export type SessionUncheckedCreateInput = {
   expiresAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedCreateNestedManyWithoutSessionInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUpdateInput = {
@@ -250,6 +260,8 @@ export type SessionUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUpdateManyWithoutSessionNestedInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateInput = {
@@ -258,6 +270,8 @@ export type SessionUncheckedUpdateInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedUpdateManyWithoutSessionNestedInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionCreateManyInput = {
@@ -317,6 +331,11 @@ export type SessionMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type SessionNullableScalarRelationFilter = {
+  is?: Prisma.SessionWhereInput | null
+  isNot?: Prisma.SessionWhereInput | null
+}
+
 export type SessionCreateNestedManyWithoutUserInput = {
   create?: Prisma.XOR<Prisma.SessionCreateWithoutUserInput, Prisma.SessionUncheckedCreateWithoutUserInput> | Prisma.SessionCreateWithoutUserInput[] | Prisma.SessionUncheckedCreateWithoutUserInput[]
   connectOrCreate?: Prisma.SessionCreateOrConnectWithoutUserInput | Prisma.SessionCreateOrConnectWithoutUserInput[]
@@ -359,11 +378,45 @@ export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.SessionScalarWhereInput | Prisma.SessionScalarWhereInput[]
 }
 
+export type SessionCreateNestedOneWithoutOauthAccessTokensInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedCreateWithoutOauthAccessTokensInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutOauthAccessTokensInput
+  connect?: Prisma.SessionWhereUniqueInput
+}
+
+export type SessionUpdateOneWithoutOauthAccessTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedCreateWithoutOauthAccessTokensInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutOauthAccessTokensInput
+  upsert?: Prisma.SessionUpsertWithoutOauthAccessTokensInput
+  disconnect?: Prisma.SessionWhereInput | boolean
+  delete?: Prisma.SessionWhereInput | boolean
+  connect?: Prisma.SessionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionUpdateToOneWithWhereWithoutOauthAccessTokensInput, Prisma.SessionUpdateWithoutOauthAccessTokensInput>, Prisma.SessionUncheckedUpdateWithoutOauthAccessTokensInput>
+}
+
+export type SessionCreateNestedOneWithoutOauthRefreshTokensInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedCreateWithoutOauthRefreshTokensInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutOauthRefreshTokensInput
+  connect?: Prisma.SessionWhereUniqueInput
+}
+
+export type SessionUpdateOneWithoutOauthRefreshTokensNestedInput = {
+  create?: Prisma.XOR<Prisma.SessionCreateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedCreateWithoutOauthRefreshTokensInput>
+  connectOrCreate?: Prisma.SessionCreateOrConnectWithoutOauthRefreshTokensInput
+  upsert?: Prisma.SessionUpsertWithoutOauthRefreshTokensInput
+  disconnect?: Prisma.SessionWhereInput | boolean
+  delete?: Prisma.SessionWhereInput | boolean
+  connect?: Prisma.SessionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SessionUpdateToOneWithWhereWithoutOauthRefreshTokensInput, Prisma.SessionUpdateWithoutOauthRefreshTokensInput>, Prisma.SessionUncheckedUpdateWithoutOauthRefreshTokensInput>
+}
+
 export type SessionCreateWithoutUserInput = {
   id: string
   expiresAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenCreateNestedManyWithoutSessionInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenCreateNestedManyWithoutSessionInput
 }
 
 export type SessionUncheckedCreateWithoutUserInput = {
@@ -371,6 +424,8 @@ export type SessionUncheckedCreateWithoutUserInput = {
   expiresAt: Date | string
   createdAt?: Date | string
   updatedAt?: Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedCreateNestedManyWithoutSessionInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedCreateNestedManyWithoutSessionInput
 }
 
 export type SessionCreateOrConnectWithoutUserInput = {
@@ -409,6 +464,110 @@ export type SessionScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Session"> | Date | string
 }
 
+export type SessionCreateWithoutOauthAccessTokensInput = {
+  id: string
+  expiresAt: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenCreateNestedManyWithoutSessionInput
+}
+
+export type SessionUncheckedCreateWithoutOauthAccessTokensInput = {
+  id: string
+  userId: string
+  expiresAt: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type SessionCreateOrConnectWithoutOauthAccessTokensInput = {
+  where: Prisma.SessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SessionCreateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedCreateWithoutOauthAccessTokensInput>
+}
+
+export type SessionUpsertWithoutOauthAccessTokensInput = {
+  update: Prisma.XOR<Prisma.SessionUpdateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedUpdateWithoutOauthAccessTokensInput>
+  create: Prisma.XOR<Prisma.SessionCreateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedCreateWithoutOauthAccessTokensInput>
+  where?: Prisma.SessionWhereInput
+}
+
+export type SessionUpdateToOneWithWhereWithoutOauthAccessTokensInput = {
+  where?: Prisma.SessionWhereInput
+  data: Prisma.XOR<Prisma.SessionUpdateWithoutOauthAccessTokensInput, Prisma.SessionUncheckedUpdateWithoutOauthAccessTokensInput>
+}
+
+export type SessionUpdateWithoutOauthAccessTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUpdateManyWithoutSessionNestedInput
+}
+
+export type SessionUncheckedUpdateWithoutOauthAccessTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedUpdateManyWithoutSessionNestedInput
+}
+
+export type SessionCreateWithoutOauthRefreshTokensInput = {
+  id: string
+  expiresAt: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSessionsInput
+  oauthAccessTokens?: Prisma.OAuthAccessTokenCreateNestedManyWithoutSessionInput
+}
+
+export type SessionUncheckedCreateWithoutOauthRefreshTokensInput = {
+  id: string
+  userId: string
+  expiresAt: Date | string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedCreateNestedManyWithoutSessionInput
+}
+
+export type SessionCreateOrConnectWithoutOauthRefreshTokensInput = {
+  where: Prisma.SessionWhereUniqueInput
+  create: Prisma.XOR<Prisma.SessionCreateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedCreateWithoutOauthRefreshTokensInput>
+}
+
+export type SessionUpsertWithoutOauthRefreshTokensInput = {
+  update: Prisma.XOR<Prisma.SessionUpdateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedUpdateWithoutOauthRefreshTokensInput>
+  create: Prisma.XOR<Prisma.SessionCreateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedCreateWithoutOauthRefreshTokensInput>
+  where?: Prisma.SessionWhereInput
+}
+
+export type SessionUpdateToOneWithWhereWithoutOauthRefreshTokensInput = {
+  where?: Prisma.SessionWhereInput
+  data: Prisma.XOR<Prisma.SessionUpdateWithoutOauthRefreshTokensInput, Prisma.SessionUncheckedUpdateWithoutOauthRefreshTokensInput>
+}
+
+export type SessionUpdateWithoutOauthRefreshTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSessionsNestedInput
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUpdateManyWithoutSessionNestedInput
+}
+
+export type SessionUncheckedUpdateWithoutOauthRefreshTokensInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedUpdateManyWithoutSessionNestedInput
+}
+
 export type SessionCreateManyUserInput = {
   id: string
   expiresAt: Date | string
@@ -421,6 +580,8 @@ export type SessionUpdateWithoutUserInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUpdateManyWithoutSessionNestedInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateWithoutUserInput = {
@@ -428,6 +589,8 @@ export type SessionUncheckedUpdateWithoutUserInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  oauthAccessTokens?: Prisma.OAuthAccessTokenUncheckedUpdateManyWithoutSessionNestedInput
+  oauthRefreshTokens?: Prisma.OAuthRefreshTokenUncheckedUpdateManyWithoutSessionNestedInput
 }
 
 export type SessionUncheckedUpdateManyWithoutUserInput = {
@@ -438,6 +601,44 @@ export type SessionUncheckedUpdateManyWithoutUserInput = {
 }
 
 
+/**
+ * Count Type SessionCountOutputType
+ */
+
+export type SessionCountOutputType = {
+  oauthAccessTokens: number
+  oauthRefreshTokens: number
+}
+
+export type SessionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  oauthAccessTokens?: boolean | SessionCountOutputTypeCountOauthAccessTokensArgs
+  oauthRefreshTokens?: boolean | SessionCountOutputTypeCountOauthRefreshTokensArgs
+}
+
+/**
+ * SessionCountOutputType without action
+ */
+export type SessionCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SessionCountOutputType
+   */
+  select?: Prisma.SessionCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SessionCountOutputType without action
+ */
+export type SessionCountOutputTypeCountOauthAccessTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OAuthAccessTokenWhereInput
+}
+
+/**
+ * SessionCountOutputType without action
+ */
+export type SessionCountOutputTypeCountOauthRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OAuthRefreshTokenWhereInput
+}
+
 
 export type SessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -446,6 +647,9 @@ export type SessionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  oauthAccessTokens?: boolean | Prisma.Session$oauthAccessTokensArgs<ExtArgs>
+  oauthRefreshTokens?: boolean | Prisma.Session$oauthRefreshTokensArgs<ExtArgs>
+  _count?: boolean | Prisma.SessionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["session"]>
 
 export type SessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -477,6 +681,9 @@ export type SessionSelectScalar = {
 export type SessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "expiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["session"]>
 export type SessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  oauthAccessTokens?: boolean | Prisma.Session$oauthAccessTokensArgs<ExtArgs>
+  oauthRefreshTokens?: boolean | Prisma.Session$oauthRefreshTokensArgs<ExtArgs>
+  _count?: boolean | Prisma.SessionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -489,6 +696,8 @@ export type $SessionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Session"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    oauthAccessTokens: Prisma.$OAuthAccessTokenPayload<ExtArgs>[]
+    oauthRefreshTokens: Prisma.$OAuthRefreshTokenPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -891,6 +1100,8 @@ readonly fields: SessionFieldRefs;
 export interface Prisma__SessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  oauthAccessTokens<T extends Prisma.Session$oauthAccessTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Session$oauthAccessTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OAuthAccessTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  oauthRefreshTokens<T extends Prisma.Session$oauthRefreshTokensArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Session$oauthRefreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OAuthRefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1321,6 +1532,54 @@ export type SessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Sessions to delete.
    */
   limit?: number
+}
+
+/**
+ * Session.oauthAccessTokens
+ */
+export type Session$oauthAccessTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OAuthAccessToken
+   */
+  select?: Prisma.OAuthAccessTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OAuthAccessToken
+   */
+  omit?: Prisma.OAuthAccessTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OAuthAccessTokenInclude<ExtArgs> | null
+  where?: Prisma.OAuthAccessTokenWhereInput
+  orderBy?: Prisma.OAuthAccessTokenOrderByWithRelationInput | Prisma.OAuthAccessTokenOrderByWithRelationInput[]
+  cursor?: Prisma.OAuthAccessTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OAuthAccessTokenScalarFieldEnum | Prisma.OAuthAccessTokenScalarFieldEnum[]
+}
+
+/**
+ * Session.oauthRefreshTokens
+ */
+export type Session$oauthRefreshTokensArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OAuthRefreshToken
+   */
+  select?: Prisma.OAuthRefreshTokenSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the OAuthRefreshToken
+   */
+  omit?: Prisma.OAuthRefreshTokenOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OAuthRefreshTokenInclude<ExtArgs> | null
+  where?: Prisma.OAuthRefreshTokenWhereInput
+  orderBy?: Prisma.OAuthRefreshTokenOrderByWithRelationInput | Prisma.OAuthRefreshTokenOrderByWithRelationInput[]
+  cursor?: Prisma.OAuthRefreshTokenWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.OAuthRefreshTokenScalarFieldEnum | Prisma.OAuthRefreshTokenScalarFieldEnum[]
 }
 
 /**

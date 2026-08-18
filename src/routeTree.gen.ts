@@ -19,8 +19,8 @@ import { Route as ConsoleHomeRouteImport } from './routes/console/home'
 import { Route as ConsoleLogbookRouteImport } from './routes/console/logbook'
 import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
 import { Route as AuthAuthFinishRouteImport } from './routes/_auth/auth/finish'
+import { Route as AuthOauthSplatRouteImport } from './routes/_auth/oauth/$'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth/oauth/authorize'
-import { Route as AuthOauthTokenRouteImport } from './routes/_auth/oauth/token'
 import { Route as ConsoleAccountIndexRouteImport } from './routes/console/account/index'
 import { Route as ConsoleAccountAppsRouteImport } from './routes/console/account/apps'
 import { Route as ConsoleAccountProfileRouteImport } from './routes/console/account/profile'
@@ -88,14 +88,14 @@ const AuthAuthFinishRoute = AuthAuthFinishRouteImport.update({
   path: '/finish',
   getParentRoute: () => AuthAuthRouteRoute,
 } as any)
+const AuthOauthSplatRoute = AuthOauthSplatRouteImport.update({
+  id: '/oauth/$',
+  path: '/oauth/$',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
 const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
   path: '/oauth/authorize',
-  getParentRoute: () => AuthRouteRoute,
-} as any)
-const AuthOauthTokenRoute = AuthOauthTokenRouteImport.update({
-  id: '/oauth/token',
-  path: '/oauth/token',
   getParentRoute: () => AuthRouteRoute,
 } as any)
 const ConsoleAccountIndexRoute = ConsoleAccountIndexRouteImport.update({
@@ -200,8 +200,8 @@ export interface FileRoutesByFullPath {
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
   '/auth/finish': typeof AuthAuthFinishRoute
+  '/oauth/$': typeof AuthOauthSplatRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/oauth/token': typeof AuthOauthTokenRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -227,8 +227,8 @@ export interface FileRoutesByTo {
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console': typeof ConsoleIndexRoute
   '/auth/finish': typeof AuthAuthFinishRoute
+  '/oauth/$': typeof AuthOauthSplatRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/oauth/token': typeof AuthOauthTokenRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -257,8 +257,8 @@ export interface FileRoutesById {
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
   '/_auth/auth/finish': typeof AuthAuthFinishRoute
+  '/_auth/oauth/$': typeof AuthOauthSplatRoute
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
-  '/_auth/oauth/token': typeof AuthOauthTokenRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -289,8 +289,8 @@ export interface FileRouteTypes {
     | '/console/logbook'
     | '/console/'
     | '/auth/finish'
+    | '/oauth/$'
     | '/oauth/authorize'
-    | '/oauth/token'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -316,8 +316,8 @@ export interface FileRouteTypes {
     | '/console/logbook'
     | '/console'
     | '/auth/finish'
+    | '/oauth/$'
     | '/oauth/authorize'
-    | '/oauth/token'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -345,8 +345,8 @@ export interface FileRouteTypes {
     | '/console/logbook'
     | '/console/'
     | '/_auth/auth/finish'
+    | '/_auth/oauth/$'
     | '/_auth/oauth/authorize'
-    | '/_auth/oauth/token'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -445,18 +445,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthFinishRouteImport
       parentRoute: typeof AuthAuthRouteRoute
     }
+    '/_auth/oauth/$': {
+      id: '/_auth/oauth/$'
+      path: '/oauth/$'
+      fullPath: '/oauth/$'
+      preLoaderRoute: typeof AuthOauthSplatRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
     '/_auth/oauth/authorize': {
       id: '/_auth/oauth/authorize'
       path: '/oauth/authorize'
       fullPath: '/oauth/authorize'
       preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
-      parentRoute: typeof AuthRouteRoute
-    }
-    '/_auth/oauth/token': {
-      id: '/_auth/oauth/token'
-      path: '/oauth/token'
-      fullPath: '/oauth/token'
-      preLoaderRoute: typeof AuthOauthTokenRouteImport
       parentRoute: typeof AuthRouteRoute
     }
     '/console/account/': {
@@ -605,14 +605,14 @@ const AuthAuthRouteRouteWithChildren = AuthAuthRouteRoute._addFileChildren(
 
 interface AuthRouteRouteChildren {
   AuthAuthRouteRoute: typeof AuthAuthRouteRouteWithChildren
+  AuthOauthSplatRoute: typeof AuthOauthSplatRoute
   AuthOauthAuthorizeRoute: typeof AuthOauthAuthorizeRoute
-  AuthOauthTokenRoute: typeof AuthOauthTokenRoute
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthAuthRouteRoute: AuthAuthRouteRouteWithChildren,
+  AuthOauthSplatRoute: AuthOauthSplatRoute,
   AuthOauthAuthorizeRoute: AuthOauthAuthorizeRoute,
-  AuthOauthTokenRoute: AuthOauthTokenRoute,
 }
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
