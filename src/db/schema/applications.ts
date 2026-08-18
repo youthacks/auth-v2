@@ -25,7 +25,7 @@ export const applicationOAuthConfig = sqliteTable(
       .references(() => applications.id, {
         onDelete: "cascade",
       }),
-    clientSecretEnc: blob("client_secret_enc").notNull(),
+    clientSecretEnc: blob("client_secret_enc", { mode: "buffer" }).notNull(),
     allowedCallbackUrls: text("allowed_callback_urls").notNull(),
 
     createdAt,

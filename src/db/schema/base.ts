@@ -40,7 +40,7 @@ export const verifications = sqliteTable("verifications", {
 
 export const logins = sqliteTable("logins", {
   id: text().primaryKey().$defaultFn(loginId),
-  verifierHash: blob("verifier_hash").notNull(),
+  verifierHash: blob("verifier_hash", { mode: "buffer" }).notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -54,7 +54,7 @@ export const logins = sqliteTable("logins", {
 
 export const signups = sqliteTable("signups", {
   id: text().primaryKey().$defaultFn(signupId),
-  verifierHash: blob("verifier_hash").notNull(),
+  verifierHash: blob("verifier_hash", { mode: "buffer" }).notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text().notNull(),

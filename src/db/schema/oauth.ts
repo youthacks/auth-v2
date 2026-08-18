@@ -27,7 +27,7 @@ export const oauthExchangeCodes = sqliteTable("oauth_exchange_codes", {
 
 export const oauthAccessTokens = sqliteTable("oauth_access_tokens", {
   id: text().primaryKey(),
-  secretHash: blob("secret_hash").notNull(),
+  secretHash: blob("secret_hash", { mode: "buffer" }).notNull(),
   scopes: text().notNull(),
 
   appId: text("app_id")
@@ -50,7 +50,7 @@ export const oauthAccessTokens = sqliteTable("oauth_access_tokens", {
 
 export const oauthRefreshTokens = sqliteTable("oauth_refresh_tokens", {
   id: text().primaryKey(),
-  secretHash: blob("secret_hash").notNull(),
+  secretHash: blob("secret_hash", { mode: "buffer" }).notNull(),
   scopes: text().notNull(),
 
   appId: text("app_id")
