@@ -1,4 +1,10 @@
-import { blob, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  blob,
+  integer,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 import {
   loginId,
   sessionId,
@@ -8,16 +14,20 @@ import {
 } from "./utils/ids";
 import { createdAt, expiresAt, updatedAt } from "./utils/timestamps";
 
-export const users = sqliteTable("users", {
-  id: text().primaryKey().$defaultFn(userId),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
-  email: text().notNull(),
-  dateOfBirth: text("date_of_birth").notNull(),
+export const users = sqliteTable(
+  "users",
+  {
+    id: text().primaryKey().$defaultFn(userId),
+    firstName: text("first_name").notNull(),
+    lastName: text("last_name").notNull(),
+    email: text().notNull().unique(),
+    dateOfBirth: text("date_of_birth").notNull(),
 
-  createdAt,
-  updatedAt,
-});
+    createdAt,
+    updatedAt,
+  },
+  (t) => [uniqueIndex("email_idx").on(t.email)],
+);
 
 export const sessions = sqliteTable("sessions", {
   id: text().primaryKey().$defaultFn(sessionId),

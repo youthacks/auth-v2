@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie, setCookie } from "@tanstack/react-start/server";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import { prisma } from "#/db";
-import { genSignupId, genUserId } from "#/lib/id";
+import { db } from "#/db";
+import { signups, users } from "#/db/schema/base";
 import { sendOtp, verifyOtp } from "#/lib/otp";
 import { createSession } from "#/lib/session";
 import sha256 from "#/lib/sha256";
@@ -16,30 +17,27 @@ import {
 export const createSignup = createServerFn({ method: "POST" })
   .validator(createSignupSchema)
   .handler(async ({ data }) => {
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await db.query.users.findFirst({
       where: { email: data.email },
-      select: { id: true },
+      columns: { id: true },
     });
     if (existingUser) {
       throw new Error("User already exists");
     }
 
-    const id = genSignupId();
     const verifier = nanoid(32);
     const verifierHash = await sha256(verifier);
-    const { dateOfBirth, ...rest } = data;
 
     const { id: verificationId, expiresAt } = await sendOtp(data.email);
 
-    await prisma.signup.create({
-      data: {
-        ...rest,
-        dateOfBirth: new Date(dateOfBirth),
-        id,
-        verifierHash,
+    const [{ id }] = await db
+      .insert(signups)
+      .values({
+        ...data,
+        verifierHash: Buffer.from(verifierHash),
         verificationId,
-      },
-    });
+      })
+      .returning();
 
     setCookie(`signup_verifier_${id}`, verifier, {
       sameSite: "lax",
@@ -72,10 +70,10 @@ export const verifySignupOtp = createServerFn({ method: "POST" })
     }
 
     await verifyOtp(context.signup.verificationId, data.otp);
-    await prisma.signup.update({
-      where: { id: context.signup.id },
-      data: { emailVerified: true },
-    });
+    await db
+      .update(signups)
+      .set({ emailVerified: true })
+      .where(eq(signups.id, context.signup.id));
   });
 
 export const acceptSignupTerms = createServerFn({ method: "POST" })
@@ -86,21 +84,18 @@ export const acceptSignupTerms = createServerFn({ method: "POST" })
       throw new Error("Email not verified");
     }
 
-    const userId = genUserId();
-
-    await prisma.$transaction(async (tx) => {
-      await tx.user.create({
-        data: {
-          id: userId,
+    const userId = await db.transaction(async (tx) => {
+      await tx.delete(signups).where(eq(signups.id, context.signup.id));
+      const [{ id }] = await tx
+        .insert(users)
+        .values({
           email: context.signup.email,
           firstName: context.signup.firstName,
           lastName: context.signup.lastName,
           dateOfBirth: context.signup.dateOfBirth,
-        },
-      });
-      await tx.signup.delete({
-        where: { id: context.signup.id },
-      });
+        })
+        .returning();
+      return id;
     });
 
     deleteCookie(`signup_verifier_${context.signup.id}`);

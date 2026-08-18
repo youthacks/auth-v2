@@ -1,8 +1,7 @@
 import { timingSafeEqual } from "node:crypto";
 import { openapi } from "@orpc/openapi";
 import { ORPCError } from "@orpc/server";
-import dayjs from "dayjs";
-import { prisma } from "#/db";
+import { db } from "#/db";
 import { base } from "#/lib/orpc";
 import sha256 from "#/lib/sha256";
 
@@ -25,7 +24,7 @@ export const userinfo = base
       });
     }
 
-    const accessToken = await prisma.oAuthAccessToken.findUnique({
+    const accessToken = await db.query.oauthAccessTokens.findFirst({
       where: { id },
     });
 
@@ -40,7 +39,7 @@ export const userinfo = base
     }
 
     // TODO: verify scopes
-    const user = await prisma.user.findUnique({
+    const user = await db.query.users.findFirst({
       where: { id: accessToken.userId },
     });
     if (!user) {
@@ -56,6 +55,6 @@ export const userinfo = base
 
       email: user.email,
       email_verified: true,
-      birthdate: dayjs(user.dateOfBirth).format("YYYY-MM-DD"),
+      birthdate: user.dateOfBirth,
     };
   });

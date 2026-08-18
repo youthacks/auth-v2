@@ -29,7 +29,7 @@ export const relations = defineRelations(
         optional: false,
       }),
       verification: r.one.verifications({
-        from: r.signups.verificationId,
+        from: r.logins.verificationId,
         to: r.verifications.id,
       }),
     },
@@ -44,6 +44,11 @@ export const relations = defineRelations(
       oauthConfig: r.one.applicationOAuthConfig({
         from: r.applications.id,
         to: r.applicationOAuthConfig.appId,
+      }),
+      owner: r.one.users({
+        from: r.applications.ownerId,
+        to: r.users.id,
+        optional: false,
       }),
     },
     applicationConsents: {

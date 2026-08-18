@@ -1,10 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
+import dayjs from "dayjs";
+import { nanoid } from "nanoid";
+import z from "zod";
+import { db } from "#/db";
+import { oauthExchangeCodes } from "#/db/schema/oauth";
 import { requireSession } from "#/middleware/requireSession";
 import { oauthAuthorizeSchema } from "./schemas";
-import { prisma } from "#/db";
-import z from "zod";
-import { nanoid } from "nanoid";
-import dayjs from "dayjs";
 
 export const oauthAuthorizeSilently = createServerFn()
   .middleware([requireSession])
@@ -21,15 +22,15 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
     }),
   )
   .handler(async ({ data, context }) => {
-    const oauth2Config = await prisma.appOAuth2Config.findUnique({
-      where: { clientId: data.client_id },
+    const oauthConfig = await db.query.applicationOAuthConfig.findFirst({
+      where: { appId: data.client_id },
     });
-    if (!oauth2Config) {
+    if (!oauthConfig) {
       throw new Error("Invalid client_id");
     }
 
     const allowedRedirectUris = new Set(
-      oauth2Config.allowedCallbackUrls.split("\n"),
+      oauthConfig.allowedCallbackUrls.split("\n"),
     );
     if (!allowedRedirectUris.has(data.redirect_uri)) {
       throw new Error("Invalid redirect_uri");
@@ -37,15 +38,12 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
 
     const code = nanoid(32);
 
-    // TODO: add expiration time for exchange codes
-    await prisma.oAuthExchangeCode.create({
-      data: {
-        code,
-        scopes: data.scope,
-        appId: oauth2Config.appId,
-        userId: context.user.id,
-        expiresAt: dayjs().add(15, "minutes").toDate(),
-      },
+    await db.insert(oauthExchangeCodes).values({
+      code,
+      scopes: data.scope,
+      appId: oauthConfig.appId,
+      userId: context.user.id,
+      expiresAt: dayjs().add(15, "minutes").toDate(),
     });
 
     return { code };
@@ -54,25 +52,23 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
 export const oauthGetAppInfo = createServerFn()
   .middleware([requireSession])
   .validator(oauthAuthorizeSchema)
-  .handler(async ({ data, context }) => {
-    const oauth2Config = await prisma.appOAuth2Config.findUnique({
-      where: { clientId: data.client_id },
-      select: {
-        app: {
-          include: {
-            owner: true,
-          },
+  .handler(async ({ data }) => {
+    const app = await db.query.applications.findFirst({
+      where: { id: data.client_id },
+      with: {
+        owner: {
+          columns: { firstName: true },
         },
       },
     });
-    if (!oauth2Config) {
+    if (!app) {
       throw new Error("Invalid client_id");
     }
 
     return {
-      name: oauth2Config.app.name,
+      name: app.name,
       owner: {
-        firstName: oauth2Config.app.owner.firstName,
+        firstName: app.owner.firstName,
       },
     };
   });

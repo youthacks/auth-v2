@@ -2,7 +2,7 @@ import { timingSafeEqual } from "node:crypto";
 import { createMiddleware } from "@tanstack/react-start";
 import { getCookie } from "@tanstack/react-start/server";
 import z from "zod";
-import { prisma } from "#/db";
+import { db } from "#/db";
 import sha256 from "#/lib/sha256";
 
 export const requireLogin = createMiddleware({ type: "function" })
@@ -12,9 +12,9 @@ export const requireLogin = createMiddleware({ type: "function" })
     }),
   )
   .server(async ({ data, next }) => {
-    const login = await prisma.login.findUnique({
+    const login = await db.query.logins.findFirst({
       where: { id: data.id },
-      include: { user: true },
+      with: { user: true },
     });
     if (!login) {
       throw new Error("Login not found");

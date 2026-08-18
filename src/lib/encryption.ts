@@ -22,13 +22,16 @@ export function encrypt(
   return xchacha.encrypt(data);
 }
 
-export function decrypt(data: Uint8Array<ArrayBuffer>, as: "string"): string;
 export function decrypt(
-  data: Uint8Array<ArrayBuffer>,
+  data: Uint8Array<ArrayBufferLike>,
+  as: "string",
+): string;
+export function decrypt(
+  data: Uint8Array<ArrayBufferLike>,
   as?: "bytes",
 ): Uint8Array<ArrayBuffer>;
 export function decrypt(
-  data: Uint8Array<ArrayBuffer>,
+  data: Uint8Array<ArrayBufferLike>,
   as: "string" | "bytes" = "bytes",
 ): string | Uint8Array<ArrayBuffer> {
   for (const key of encryptionKeys) {

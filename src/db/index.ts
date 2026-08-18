@@ -17,6 +17,6 @@ if (process.env.NODE_ENV !== "production") {
   globalThis.__prisma = prisma;
 }
 
-export const db = drizzle(process.env.DATABASE_URL || "file:./dev.db", {
+export const db = drizzle(process.env.DRIZZLE_DATABASE_URL || "file:./dev.db", {
   relations,
 });
