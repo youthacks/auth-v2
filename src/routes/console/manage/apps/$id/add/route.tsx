@@ -14,7 +14,7 @@ function RouteComponent() {
         <div className="grid grid-cols-2 gap-4">
           <Link
             from={Route.fullPath}
-            to="./oauth2"
+            to="./oauth"
             className="flex h-fit gap-3 rounded-md border p-3 shadow-xs transition active:scale-95"
             activeProps={{
               className: "border-amber-300 bg-amber-100",

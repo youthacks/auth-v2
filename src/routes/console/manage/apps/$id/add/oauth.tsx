@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createAppOAuth2 } from "#/actions/console/manage/apps/oauth2";
 import FormMessage from "#/components/form/FormMessage";
 
-export const Route = createFileRoute("/console/manage/apps/$id/add/oauth2")({
+export const Route = createFileRoute("/console/manage/apps/$id/add/oauth")({
   component: RouteComponent,
 });
 
@@ -21,7 +21,7 @@ function RouteComponent() {
       await queryClient.invalidateQueries({
         queryKey: ["console", "manage", "apps"],
       });
-      navigate({ to: "/console/manage/apps/$id/oauth2" });
+      navigate({ to: "/console/manage/apps/$id/oauth" });
     },
   });
 
