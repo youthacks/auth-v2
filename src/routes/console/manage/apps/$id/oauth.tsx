@@ -15,8 +15,9 @@ import { updateAppOAuth2Schema } from "#/actions/console/manage/apps/oauth2/sche
 import Button from "#/components/ui/Button";
 import { Field } from "#/components/ui/Field";
 import { useAppForm } from "#/integrations/form";
+import FormMessage from "#/components/form/FormMessage";
 
-export const Route = createFileRoute("/console/manage/apps/$id/oauth2")({
+export const Route = createFileRoute("/console/manage/apps/$id/oauth")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(
       getAppOAuth2ConfigQuery({ id: params.id }),
@@ -152,7 +153,7 @@ function RouteComponent() {
           }}
           className="mt-4 space-y-4"
         >
-          {/*{error && <FormMessage state="error">{error.message}</FormMessage>}*/}
+          {error && <FormMessage state="error">{error.message}</FormMessage>}
           <form.AppField name="allowedCallbackUrls">
             {(field) => (
               <field.TextareaField
@@ -163,7 +164,7 @@ function RouteComponent() {
           </form.AppField>
           <form.AppForm>
             <form.SubmitButton
-              // disabled={isPending}
+              disabled={isPending}
               size="md"
               className="w-fit!"
             >

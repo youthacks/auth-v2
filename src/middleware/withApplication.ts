@@ -1,6 +1,6 @@
 import { createMiddleware } from "@tanstack/react-start";
 import z from "zod";
-import { prisma } from "#/db";
+import { db } from "#/db";
 import { requireSession } from "./requireSession";
 
 export const withApplication = createMiddleware({ type: "function" })
@@ -11,7 +11,7 @@ export const withApplication = createMiddleware({ type: "function" })
     }),
   )
   .server(async ({ data, next }) => {
-    const app = await prisma.app.findUnique({
+    const app = await db.query.applications.findFirst({
       where: { id: data.id },
     });
     if (!app) {

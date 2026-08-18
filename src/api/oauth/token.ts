@@ -1,9 +1,15 @@
 import { openapi } from "@orpc/openapi";
 import { ORPCError } from "@orpc/server";
 import dayjs from "dayjs";
+import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import z from "zod";
-import { prisma } from "#/db";
+import { db } from "#/db";
+import {
+  oauthAccessTokens,
+  oauthExchangeCodes,
+  oauthRefreshTokens,
+} from "#/db/schema/oauth";
 import { base } from "#/lib/orpc";
 import sha256 from "#/lib/sha256";
 
@@ -29,11 +35,13 @@ export const token = base
   .handler(async ({ input }) => {
     switch (input.grant_type) {
       case "authorization_code": {
-        // TODO: transaction
-        const exchangeCode = await prisma.oAuthExchangeCode.findUnique({
+        const exchangeCode = await db.query.oauthExchangeCodes.findFirst({
           where: { code: input.code },
         });
-        await prisma.oAuthExchangeCode.delete({ where: { code: input.code } });
+        await db
+          .delete(oauthExchangeCodes)
+          .where(eq(oauthExchangeCodes.code, input.code));
+
         if (!exchangeCode) {
           throw new ORPCError("UNAUTHORIZED", {
             message: "Invalid code",
@@ -48,31 +56,27 @@ export const token = base
         const refreshTokenSecret = nanoid(16);
         const refreshTokenSecretHash = await sha256(refreshTokenSecret);
 
-        await prisma.$transaction(async (trx) => {
-          await trx.oAuthAccessToken.create({
-            data: {
-              id: accessTokenId,
-              secretHash: accessTokenSecretHash,
-              scopes: exchangeCode.scopes,
+        await db.transaction(async (tx) => {
+          await tx.insert(oauthAccessTokens).values({
+            id: accessTokenId,
+            secretHash: Buffer.from(accessTokenSecretHash),
+            scopes: exchangeCode.scopes,
 
-              appId: exchangeCode.appId,
-              userId: exchangeCode.userId,
+            appId: exchangeCode.appId,
+            userId: exchangeCode.userId,
 
-              expiresAt: dayjs().add(1, "hour").toDate(),
-            },
+            expiresAt: dayjs().add(1, "hour").toDate(),
           });
-          await trx.oAuthRefreshToken.create({
-            data: {
-              id: refreshTokenId,
-              secretHash: refreshTokenSecretHash,
-              scopes: exchangeCode.scopes,
+          await tx.insert(oauthRefreshTokens).values({
+            id: refreshTokenId,
+            secretHash: Buffer.from(refreshTokenSecretHash),
+            scopes: exchangeCode.scopes,
 
-              appId: exchangeCode.appId,
-              userId: exchangeCode.userId,
+            appId: exchangeCode.appId,
+            userId: exchangeCode.userId,
 
-              authTime: exchangeCode.createdAt,
-              expiresAt: dayjs().add(30, "days").toDate(),
-            },
+            authTime: exchangeCode.createdAt,
+            expiresAt: dayjs().add(30, "days").toDate(),
           });
         });
 

@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { deleteCookie } from "@tanstack/react-start/server";
-import { prisma } from "#/db";
+import { eq } from "drizzle-orm";
+import { db } from "#/db";
+import { logins } from "#/db/schema/base";
 import { verifyOtp } from "#/lib/otp";
 import { createSession } from "#/lib/session";
 import { requireLogin } from "#/middleware/requireLogin";
@@ -26,9 +28,7 @@ export const verifyLoginOtp = createServerFn({ method: "POST" })
     }
 
     await verifyOtp(context.login.verificationId, data.otp);
-    await prisma.login.delete({
-      where: { id: context.login.id },
-    });
+    await db.delete(logins).where(eq(logins.id, context.login.id));
 
     deleteCookie(`login_verifier_${context.login.id}`);
     await createSession(context.login.userId);

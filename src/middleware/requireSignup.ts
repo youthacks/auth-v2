@@ -2,7 +2,7 @@ import { timingSafeEqual } from "node:crypto";
 import { createMiddleware } from "@tanstack/react-start";
 import { getCookie } from "@tanstack/react-start/server";
 import z from "zod";
-import { prisma } from "#/db";
+import { db } from "#/db";
 import sha256 from "#/lib/sha256";
 
 export const requireSignup = createMiddleware({ type: "function" })
@@ -12,7 +12,7 @@ export const requireSignup = createMiddleware({ type: "function" })
     }),
   )
   .server(async ({ data, next }) => {
-    const signup = await prisma.signup.findUnique({
+    const signup = await db.query.signups.findFirst({
       where: { id: data.id },
     });
     if (!signup) {

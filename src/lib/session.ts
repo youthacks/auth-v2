@@ -1,8 +1,9 @@
 import { useSession } from "@tanstack/react-start/server";
 import dayjs from "dayjs";
-import { prisma } from "#/db";
+import { eq } from "drizzle-orm";
+import { db } from "#/db";
+import { sessions } from "#/db/schema/base";
 import defined from "./defined";
-import { genSessionId } from "./id";
 
 const SESSION_SECRET = defined("SESSION_SECRET", process.env.SESSION_SECRET);
 
@@ -24,14 +25,13 @@ export function useAppSession() {
 }
 
 export async function createSession(userId: string) {
-  const id = genSessionId();
-  await prisma.session.create({
-    data: {
-      id,
+  const [{ id }] = await db
+    .insert(sessions)
+    .values({
       userId,
-      expiresAt: dayjs().add(7, "day").toDate(),
-    },
-  });
+      expiresAt: dayjs().add(7, "days").toDate(),
+    })
+    .returning();
 
   // biome-ignore lint/correctness/useHookAtTopLevel: not a hook
   const appSession = await useAppSession();
@@ -50,9 +50,9 @@ export async function getSession() {
     return NULL_SESSION;
   }
 
-  const session = await prisma.session.findUnique({
+  const session = await db.query.sessions.findFirst({
     where: { id, expiresAt: { gt: new Date() } },
-    include: { user: true },
+    with: { user: true },
   });
   if (!session) {
     return NULL_SESSION;
@@ -70,9 +70,7 @@ export async function logoutSession() {
     return;
   }
 
-  await prisma.session.delete({
-    where: { id },
-  });
+  await db.delete(sessions).where(eq(sessions.id, id));
 
   await appSession.update({ sessionId: undefined });
 }

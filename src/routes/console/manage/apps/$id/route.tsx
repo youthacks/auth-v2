@@ -52,10 +52,10 @@ function RouteComponent() {
         >
           Settings
         </Link>
-        {data.oauth2Config ? (
+        {data.oauthConfig ? (
           <Link
             from={Route.fullPath}
-            to="./oauth2"
+            to="./oauth"
             className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
             activeProps={{
               className: "border-rose-700 text-rose-700",

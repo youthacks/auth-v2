@@ -1,23 +1,23 @@
 import { timingSafeEqual } from "node:crypto";
 import dayjs from "dayjs";
+import { eq } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
-import { prisma } from "#/db";
-import { genVerificationId } from "./id";
+import { db } from "#/db";
+import { verifications } from "#/db/schema/base";
 
 const genOtp = customAlphabet("0123456789", 6);
 
 export async function sendOtp(email: string) {
-  const id = genVerificationId();
   const code = genOtp();
   const expiresAt = dayjs().add(15, "minutes").toDate();
-  await prisma.verification.create({
-    data: {
-      id,
+  const [{ id }] = await db
+    .insert(verifications)
+    .values({
       email,
       code,
       expiresAt,
-    },
-  });
+    })
+    .returning();
 
   console.log(`Verification code for ${email}: ${code}`);
 
@@ -25,7 +25,7 @@ export async function sendOtp(email: string) {
 }
 
 export async function verifyOtp(id: string, code: string) {
-  const verification = await prisma.verification.findUnique({
+  const verification = await db.query.verifications.findFirst({
     where: { id, expiresAt: { gt: new Date() } },
   });
 
@@ -41,6 +41,6 @@ export async function verifyOtp(id: string, code: string) {
     throw new Error("Invalid verification code");
   }
 
-  await prisma.verification.delete({ where: { id } });
+  await db.delete(verifications).where(eq(verifications.id, id));
   return { email: verification.email };
 }
