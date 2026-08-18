@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@libsql/client": "^0.17.4",
     "@mantine/hooks": "^9.5.1",
     "@noble/ciphers": "^2.2.0",
     "@orpc/client": "2.0.0-beta.28",
@@ -42,6 +43,7 @@
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.8",
     "dayjs": "^1.11.21",
+    "drizzle-orm": "1.0.0-rc.4",
     "lucide-react": "^1.28.0",
     "nanoid": "^6.0.0",
     "nitro": "npm:nitro-nightly@latest",
@@ -63,6 +65,7 @@
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
     "dotenv-cli": "^11.0.0",
+    "drizzle-kit": "1.0.0-rc.4",
     "jsdom": "^29.1.1",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
