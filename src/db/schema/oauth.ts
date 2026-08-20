@@ -43,6 +43,9 @@ export const oauthAccessTokens = sqliteTable("oauth_access_tokens", {
   sessionId: text("session_id").references(() => sessions.id, {
     onDelete: "cascade",
   }),
+  refreshTokenId: text("refresh_token")
+    .notNull()
+    .references(() => oauthRefreshTokens.id, { onDelete: "cascade" }),
 
   createdAt,
   expiresAt,

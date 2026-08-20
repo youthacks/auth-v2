@@ -4,9 +4,9 @@ import {
   RequestHeadersHandlerPlugin,
 } from "@orpc/server/plugins";
 import { createFileRoute } from "@tanstack/react-router";
-import { oauthRouter } from "#/api/oauth";
+import routes from "#/api/routes";
 
-const handler = new OpenAPIHandler(oauthRouter, {
+const handler = new OpenAPIHandler(routes.oauth, {
   plugins: [new CORSHandlerPlugin(), new RequestHeadersHandlerPlugin()],
 });
 
@@ -16,6 +16,7 @@ export const Route = createFileRoute("/_auth/oauth/$")({
       async ANY({ request }) {
         const { matched, response } = await handler.handle(request, {
           prefix: "/oauth",
+          context: { handler: "openapi" },
         });
         if (matched) {
           return response;

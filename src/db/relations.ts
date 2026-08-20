@@ -63,5 +63,31 @@ export const relations = defineRelations(
         optional: false,
       }),
     },
+
+    oauthExchangeCodes: {
+      app: r.one.applications({
+        from: r.oauthExchangeCodes.appId,
+        to: r.applications.id,
+        optional: false,
+      }),
+    },
+    oauthAccessTokens: {
+      session: r.one.sessions({
+        from: r.oauthAccessTokens.sessionId,
+        to: r.sessions.id,
+      }),
+      user: r.one.users({
+        from: r.oauthAccessTokens.userId,
+        to: r.users.id,
+        optional: false,
+      }),
+    },
+    oauthRefreshTokens: {
+      app: r.one.applications({
+        from: r.oauthRefreshTokens.appId,
+        to: r.applications.id,
+        optional: false,
+      }),
+    },
   }),
 );
