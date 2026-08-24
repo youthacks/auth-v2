@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import z from "zod";
 import { db } from "#/db";
+import { applicationConsents } from "#/db/schema/applications";
 import { oauthExchangeCodes } from "#/db/schema/oauth";
 import { requireSession } from "#/middleware/requireSession";
 import { oauthAuthorizeSchema } from "./schemas";
@@ -36,14 +37,37 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
       throw new Error("Invalid redirect_uri");
     }
 
-    const code = nanoid(32);
+    const existingConsent = await db.query.applicationConsents.findFirst({
+      where: { appId: oauthConfig.appId, userId: context.user.id },
+    });
 
-    await db.insert(oauthExchangeCodes).values({
-      code,
-      scopes: data.scope,
-      appId: oauthConfig.appId,
-      userId: context.user.id,
-      expiresAt: dayjs().add(15, "minutes").toDate(),
+    const code = nanoid(32);
+    const newScopes = new Set([
+      ...(existingConsent?.scopes ?? []),
+      ...data.scope,
+    ]);
+
+    await db.transaction(async (tx) => {
+      await tx
+        .insert(applicationConsents)
+        .values({
+          appId: oauthConfig.appId,
+          userId: context.user.id,
+          scopes: Array.from(newScopes).join(" "),
+        })
+        .onConflictDoUpdate({
+          target: [applicationConsents.appId, applicationConsents.userId],
+          set: {
+            scopes: Array.from(newScopes).join(" "),
+          },
+        });
+      await tx.insert(oauthExchangeCodes).values({
+        code,
+        scopes: data.scope,
+        appId: oauthConfig.appId,
+        userId: context.user.id,
+        expiresAt: dayjs().add(15, "minutes").toDate(),
+      });
     });
 
     return { code };

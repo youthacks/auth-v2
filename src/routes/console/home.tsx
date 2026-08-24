@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/console/home")({
 
 function RouteComponent() {
   const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
+  const { data: apps } = useQuery(orpc.users.me.consents.get.queryOptions());
 
   const [date, setDate] = useState(() => dayjs());
   useEffect(() => {
@@ -35,42 +36,42 @@ function RouteComponent() {
 
       <section className="mt-8">
         <h2 className="font-heading text-xl font-bold">Apps</h2>
-        <div className="mt-4 rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
-          <p className="font-medium">No apps</p>
-          <p className="text-sm text-neutral-600">
-            Go sign in to something, then check back here!
-          </p>
-        </div>
-        <div className="mt-4 grid grid-cols-4 gap-4">
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
-            <p className="mt-2 text-sm">Red app</p>
+
+        {apps ? (
+          apps.length === 0 ? (
+            <div className="mt-4 flex min-h-24 flex-col justify-center rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
+              <p className="font-medium">No apps yet</p>
+              <p className="text-sm text-neutral-600">
+                Go sign in to something, then check back here!
+              </p>
+            </div>
+          ) : (
+            <div className="mt-4 grid grid-cols-4 gap-4">
+              {apps.map((appConsent) => (
+                <a
+                  key={appConsent.appId}
+                  href={appConsent.app.homepageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95"
+                >
+                  <div className="mt-1 size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
+                  <p className="mt-2 text-sm">{appConsent.app.name}</p>
+                </a>
+              ))}
+            </div>
+          )
+        ) : (
+          <div className="mt-4 grid auto-rows-0 grid-cols-3 grid-rows-1 gap-x-4 overflow-y-clip mask-b-from-0 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div
+                // biome-ignore lint/suspicious/noArrayIndexKey: intentional
+                key={i}
+                className="h-24 animate-pulse rounded-md border border-neutral-200 bg-neutral-100"
+              ></div>
+            ))}
           </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-orange-600 to-amber-700"></div>
-            <p className="mt-2 text-sm">Orange app</p>
-          </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-yellow-600 to-yellow-700"></div>
-            <p className="mt-2 text-sm">Yellow app</p>
-          </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-lime-600 to-green-700"></div>
-            <p className="mt-2 text-sm">Green app</p>
-          </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-teal-600 to-cyan-700"></div>
-            <p className="mt-2 text-sm">Teal app</p>
-          </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-sky-600 to-blue-700"></div>
-            <p className="mt-2 text-sm">Blue app</p>
-          </div>
-          <div className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95">
-            <div className="size-8 rounded-sm bg-linear-to-br from-indigo-600 to-violet-700"></div>
-            <p className="mt-2 text-sm">Purple app</p>
-          </div>
-        </div>
+        )}
       </section>
     </div>
   );

@@ -1,12 +1,12 @@
 import { ORPCError } from "@orpc/client";
 import { openapi } from "@orpc/openapi";
+import { eq } from "drizzle-orm";
 import z from "zod";
 import { requireSession } from "#/api/middleware/requireSession";
 import { db } from "#/db";
+import { users } from "#/db/schema/base";
 import { base } from "#/lib/orpc";
 import { updateUserSchema } from "./schemas";
-import { users } from "#/db/schema/base";
-import { eq } from "drizzle-orm";
 
 export const allUsers = base
   .meta(openapi({ method: "GET", path: "/users" }))

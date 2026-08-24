@@ -43,13 +43,17 @@ const zAllowedCallbackUrls = () =>
 export const createAppSchema = z.object({
   name: z.string().min(1, "Required"),
   description: z.string(),
-  homepageUrl: z.httpUrl(),
+  homepageUrl: z
+    .httpUrl()
+    .or(z.url({ protocol: /^http$/, hostname: /^localhost$/ })),
 });
 
 export const updateAppSchema = z.object({
   name: z.string().min(1, "Required"),
   description: z.string(),
-  homepageUrl: z.httpUrl(),
+  homepageUrl: z
+    .httpUrl()
+    .or(z.url({ protocol: /^http$/, hostname: /^localhost$/ })),
 });
 
 export const createOAuthSchema = z.object({
