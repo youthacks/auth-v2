@@ -1,11 +1,11 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
-import { getAppByIdQuery } from "#/actions/console/manage/apps/queries";
+import { orpc } from "#/api/client";
 
 export const Route = createFileRoute("/console/manage/apps/$id")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(
-      getAppByIdQuery({ id: params.id }),
+      orpc.apps.get.queryOptions({ input: { id: params.id } }),
     );
   },
   component: RouteComponent,
@@ -13,7 +13,9 @@ export const Route = createFileRoute("/console/manage/apps/$id")({
 
 function RouteComponent() {
   const params = Route.useParams();
-  const { data } = useSuspenseQuery(getAppByIdQuery({ id: params.id }));
+  const { data } = useSuspenseQuery(
+    orpc.apps.get.queryOptions({ input: { id: params.id } }),
+  );
 
   return (
     <>

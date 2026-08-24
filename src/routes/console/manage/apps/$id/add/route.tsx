@@ -1,6 +1,4 @@
-import { Link } from "@tanstack/react-router";
-import { Outlet } from "@tanstack/react-router";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { CircleIcon, TriangleIcon } from "lucide-react";
 
 export const Route = createFileRoute("/console/manage/apps/$id/add")({

@@ -1,8 +1,8 @@
 import { revalidateLogic } from "@tanstack/react-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRouteApi } from "@tanstack/react-router";
-import { createApp } from "#/actions/console/manage/apps";
-import { createAppSchema } from "#/actions/console/manage/apps/schemas";
+import { orpc } from "#/api/client";
+import { createAppSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { Dialog, type DialogHandle } from "#/components/ui/Dialog";
 import { useAppForm } from "#/integrations/form";
@@ -15,17 +15,20 @@ export default function NewAppDialog({
   handle: DialogHandle<unknown>;
 }) {
   const navigate = Route.useNavigate();
+  const queryClient = useQueryClient();
 
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: createApp,
-    onSuccess: async (data) => {
-      await navigate({
-        to: "/console/manage/apps/$id",
-        params: { id: data.id },
-      });
-      handle.close();
-    },
-  });
+  const { mutate, isPending, error } = useMutation(
+    orpc.apps.create.mutationOptions({
+      onSuccess: async (data) => {
+        queryClient.removeQueries({ queryKey: orpc.apps.key() });
+        await navigate({
+          to: "/console/manage/apps/$id",
+          params: { id: data.id },
+        });
+        handle.close();
+      },
+    }),
+  );
 
   const form = useAppForm({
     defaultValues: {
@@ -38,7 +41,7 @@ export default function NewAppDialog({
     },
     validationLogic: revalidateLogic(),
 
-    onSubmit: ({ value }) => mutate({ data: value }),
+    onSubmit: ({ value }) => mutate(value),
   });
 
   return (

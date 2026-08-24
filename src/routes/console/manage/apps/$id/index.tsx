@@ -5,9 +5,8 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { updateApp } from "#/actions/console/manage/apps";
-import { getAppByIdQuery } from "#/actions/console/manage/apps/queries";
-import { updateAppSchema } from "#/actions/console/manage/apps/schemas";
+import { orpc } from "#/api/client";
+import { updateAppSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
 
@@ -19,16 +18,19 @@ function InfoSection() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { data } = useSuspenseQuery(getAppByIdQuery({ id: params.id }));
+  const { data } = useSuspenseQuery(
+    orpc.apps.get.queryOptions({ input: { id: params.id } }),
+  );
 
-  const { mutateAsync, isPending, error } = useMutation({
-    mutationFn: updateApp,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["console", "manage", "apps"],
-      });
-    },
-  });
+  const { mutateAsync, isPending, error } = useMutation(
+    orpc.apps.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: orpc.apps.key(),
+        });
+      },
+    }),
+  );
 
   const form = useAppForm({
     defaultValues: {
@@ -43,7 +45,7 @@ function InfoSection() {
 
     onSubmit: async ({ value, formApi }) => {
       try {
-        await mutateAsync({ data: { ...value, id: params.id } });
+        await mutateAsync({ ...value, id: params.id });
         formApi.reset(value);
       } catch (_e) {}
     },

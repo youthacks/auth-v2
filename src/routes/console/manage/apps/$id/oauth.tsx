@@ -9,18 +9,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import clsx from "clsx";
 import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
-import { updateAppOAuth2Config } from "#/actions/console/manage/apps/oauth2";
-import { getAppOAuth2ConfigQuery } from "#/actions/console/manage/apps/oauth2/queries";
-import { updateAppOAuth2Schema } from "#/actions/console/manage/apps/oauth2/schemas";
+import { orpc } from "#/api/client";
+import { updateOAuthSchema } from "#/api/routers/apps/schemas";
+import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { Field } from "#/components/ui/Field";
 import { useAppForm } from "#/integrations/form";
-import FormMessage from "#/components/form/FormMessage";
 
 export const Route = createFileRoute("/console/manage/apps/$id/oauth")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(
-      getAppOAuth2ConfigQuery({ id: params.id }),
+      orpc.apps.oauth.get.queryOptions({ input: { id: params.id } }),
     );
   },
   component: RouteComponent,
@@ -98,29 +97,34 @@ function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { data } = useSuspenseQuery(getAppOAuth2ConfigQuery({ id: params.id }));
+  const { data } = useSuspenseQuery(
+    orpc.apps.oauth.get.queryOptions({ input: { id: params.id } }),
+  );
 
-  const { mutateAsync, isPending, error } = useMutation({
-    mutationFn: updateAppOAuth2Config,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: ["console", "manage", "apps", "oauth2"],
-      });
-    },
-  });
+  const { mutateAsync, isPending, error } = useMutation(
+    orpc.apps.oauth.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({
+          queryKey: orpc.apps.oauth.get.key({
+            input: { id: params.id },
+          }),
+        });
+      },
+    }),
+  );
 
   const form = useAppForm({
     defaultValues: {
       allowedCallbackUrls: data.allowedCallbackUrls.join("\n"),
     },
     validators: {
-      onDynamic: updateAppOAuth2Schema,
+      onDynamic: updateOAuthSchema,
     },
     validationLogic: revalidateLogic(),
 
     onSubmit: async ({ value, formApi }) => {
       try {
-        await mutateAsync({ data: { ...value, id: params.id } });
+        await mutateAsync({ ...value, id: params.id });
         formApi.reset(value);
       } catch (_e) {}
     },
