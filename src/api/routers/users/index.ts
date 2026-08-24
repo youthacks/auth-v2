@@ -1,9 +1,10 @@
 import { getMe, updateMe } from "./me";
-import { allUsers, getUser } from "./users";
+import { allUsers, getUser, updateUser } from "./users";
 
 export const usersRouter = {
   all: allUsers,
   get: getUser,
+  update: updateUser,
 
   me: {
     get: getMe,
