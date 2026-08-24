@@ -4,9 +4,9 @@ import {
   RequestHeadersHandlerPlugin,
 } from "@orpc/server/plugins";
 import { createFileRoute } from "@tanstack/react-router";
-import routes from "#/api/routes";
+import { oauthRouter } from "#/api/routers";
 
-const handler = new OpenAPIHandler(routes.oauth, {
+const handler = new OpenAPIHandler(oauthRouter, {
   plugins: [new CORSHandlerPlugin(), new RequestHeadersHandlerPlugin()],
 });
 

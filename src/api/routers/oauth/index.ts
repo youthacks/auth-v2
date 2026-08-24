@@ -1,7 +1,7 @@
 import { token } from "./token";
 import { userInfo } from "./userinfo";
 
-export default {
+export const oauthRouter = {
   token,
   userInfo,
 };
