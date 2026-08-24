@@ -7,7 +7,7 @@ import {
   MailIcon,
   RectangleEllipsisIcon,
 } from "lucide-react";
-import { getCurrentUserQuery } from "#/actions/auth/session/queries";
+import { orpc } from "#/api/client";
 import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/console/account/security")({
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/console/account/security")({
 });
 
 function RouteComponent() {
-  const { data: user } = useSuspenseQuery(getCurrentUserQuery());
+  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
 
   return (
     <div className="p-8">

@@ -7,17 +7,17 @@ import {
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronUpIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import { logout } from "#/actions/auth/session";
-import { getCurrentUserQuery } from "#/actions/auth/session/queries";
+import { orpc } from "#/api/client";
 
 export default function ConsoleUserDropdown() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: user } = useSuspenseQuery(getCurrentUserQuery());
+  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
   const { mutate, isPending } = useMutation({
     mutationFn: () => logout(),
     onSuccess: async () => {
-      queryClient.removeQueries({ queryKey: ["auth", "session"] });
+      queryClient.removeQueries();
       await navigate({ to: "/auth" });
     },
   });

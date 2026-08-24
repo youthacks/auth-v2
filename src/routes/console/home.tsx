@@ -2,14 +2,14 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
-import { getCurrentUserQuery } from "#/actions/auth/session/queries";
+import { orpc } from "#/api/client";
 
 export const Route = createFileRoute("/console/home")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data: user } = useSuspenseQuery(getCurrentUserQuery());
+  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
 
   const [date, setDate] = useState(() => dayjs());
   useEffect(() => {

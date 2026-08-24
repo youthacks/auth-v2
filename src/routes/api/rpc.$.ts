@@ -1,14 +1,9 @@
-import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { onError } from "@orpc/server";
-import {
-  CORSHandlerPlugin,
-  RequestHeadersHandlerPlugin,
-} from "@orpc/server/plugins";
+import { RPCHandler } from "@orpc/server/fetch";
 import { createFileRoute } from "@tanstack/react-router";
-import { oauthRouter } from "#/api/routers";
+import { apiRouter } from "#/api/routers";
 
-const handler = new OpenAPIHandler(oauthRouter, {
-  plugins: [new CORSHandlerPlugin(), new RequestHeadersHandlerPlugin()],
+const handler = new RPCHandler(apiRouter, {
   interceptors: [
     onError((error) => {
       console.error(error);
@@ -16,13 +11,13 @@ const handler = new OpenAPIHandler(oauthRouter, {
   ],
 });
 
-export const Route = createFileRoute("/_auth/oauth/$")({
+export const Route = createFileRoute("/api/rpc/$")({
   server: {
     handlers: {
       async ANY({ request }) {
         const { matched, response } = await handler.handle(request, {
-          prefix: "/oauth",
-          context: { handler: "openapi" },
+          prefix: "/api/rpc",
+          context: { handler: "rpc" },
         });
         if (matched) {
           return response;

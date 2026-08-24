@@ -21,6 +21,7 @@ import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
 import { Route as AuthAuthFinishRouteImport } from './routes/_auth/auth/finish'
 import { Route as AuthOauthSplatRouteImport } from './routes/_auth/oauth/$'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth/oauth/authorize'
+import { Route as ApiRpcSplatRouteImport } from './routes/api/rpc.$'
 import { Route as ConsoleAccountIndexRouteImport } from './routes/console/account/index'
 import { Route as ConsoleAccountAppsRouteImport } from './routes/console/account/apps'
 import { Route as ConsoleAccountProfileRouteImport } from './routes/console/account/profile'
@@ -97,6 +98,11 @@ const AuthOauthAuthorizeRoute = AuthOauthAuthorizeRouteImport.update({
   id: '/oauth/authorize',
   path: '/oauth/authorize',
   getParentRoute: () => AuthRouteRoute,
+} as any)
+const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
+  id: '/api/rpc/$',
+  path: '/api/rpc/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ConsoleAccountIndexRoute = ConsoleAccountIndexRouteImport.update({
   id: '/',
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/auth/finish': typeof AuthAuthFinishRoute
   '/oauth/$': typeof AuthOauthSplatRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -229,6 +236,7 @@ export interface FileRoutesByTo {
   '/auth/finish': typeof AuthAuthFinishRoute
   '/oauth/$': typeof AuthOauthSplatRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -259,6 +267,7 @@ export interface FileRoutesById {
   '/_auth/auth/finish': typeof AuthAuthFinishRoute
   '/_auth/oauth/$': typeof AuthOauthSplatRoute
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
+  '/api/rpc/$': typeof ApiRpcSplatRoute
   '/console/account/apps': typeof ConsoleAccountAppsRoute
   '/console/account/profile': typeof ConsoleAccountProfileRoute
   '/console/account/security': typeof ConsoleAccountSecurityRoute
@@ -291,6 +300,7 @@ export interface FileRouteTypes {
     | '/auth/finish'
     | '/oauth/$'
     | '/oauth/authorize'
+    | '/api/rpc/$'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -318,6 +328,7 @@ export interface FileRouteTypes {
     | '/auth/finish'
     | '/oauth/$'
     | '/oauth/authorize'
+    | '/api/rpc/$'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -347,6 +358,7 @@ export interface FileRouteTypes {
     | '/_auth/auth/finish'
     | '/_auth/oauth/$'
     | '/_auth/oauth/authorize'
+    | '/api/rpc/$'
     | '/console/account/apps'
     | '/console/account/profile'
     | '/console/account/security'
@@ -371,6 +383,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ConsoleRouteRoute: typeof ConsoleRouteRouteWithChildren
+  ApiRpcSplatRoute: typeof ApiRpcSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -458,6 +471,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/oauth/authorize'
       preLoaderRoute: typeof AuthOauthAuthorizeRouteImport
       parentRoute: typeof AuthRouteRoute
+    }
+    '/api/rpc/$': {
+      id: '/api/rpc/$'
+      path: '/api/rpc/$'
+      fullPath: '/api/rpc/$'
+      preLoaderRoute: typeof ApiRpcSplatRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/console/account/': {
       id: '/console/account/'
@@ -701,6 +721,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ConsoleRouteRoute: ConsoleRouteRouteWithChildren,
+  ApiRpcSplatRoute: ApiRpcSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

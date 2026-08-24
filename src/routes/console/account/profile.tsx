@@ -6,9 +6,8 @@ import {
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import { getCurrentUserQuery } from "#/actions/auth/session/queries";
-import { updateProfile } from "#/actions/console/account";
-import { updateProfileSchema } from "#/actions/console/account/schemas";
+import { orpc } from "#/api/client";
+import { updateMeSchema } from "#/api/routers/users/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
@@ -19,14 +18,15 @@ export const Route = createFileRoute("/console/account/profile")({
 
 function ProfileSection() {
   const queryClient = useQueryClient();
-  const { data: user } = useSuspenseQuery(getCurrentUserQuery());
+  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
 
-  const { mutateAsync, isPending, isSuccess, error } = useMutation({
-    mutationFn: updateProfile,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["auth", "session"] });
-    },
-  });
+  const { mutateAsync, isPending, isSuccess, error } = useMutation(
+    orpc.users.me.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: orpc.users.key() });
+      },
+    }),
+  );
   const form = useAppForm({
     defaultValues: {
       firstName: user?.firstName || "",
@@ -36,13 +36,13 @@ function ProfileSection() {
         : "",
     },
     validators: {
-      onDynamic: updateProfileSchema,
+      onDynamic: updateMeSchema,
     },
     validationLogic: revalidateLogic(),
 
     onSubmit: async ({ value, formApi }) => {
       try {
-        await mutateAsync({ data: value });
+        await mutateAsync(value);
         formApi.reset(value);
       } catch (_e) {}
     },

@@ -28,7 +28,7 @@ function RouteComponent() {
   const { mutate, isPending, error } = useMutation({
     mutationFn: verifyLoginOtp,
     onSuccess: async () => {
-      queryClient.removeQueries({ queryKey: ["auth", "session"] });
+      queryClient.removeQueries();
       await navigate({ to: "/auth/finish" });
     },
   });
