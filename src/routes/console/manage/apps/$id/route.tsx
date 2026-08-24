@@ -22,7 +22,8 @@ function RouteComponent() {
       <div className="p-8 pb-0">
         <div className="mb-2 flex gap-1.5 text-sm text-neutral-600">
           <Link
-            to="/console/manage/apps"
+            from={Route.fullPath}
+            to=".."
             className="-m-0.5 -mx-1.5 rounded-sm p-0.5 px-1.5 transition hover:bg-neutral-200"
           >
             Applications
