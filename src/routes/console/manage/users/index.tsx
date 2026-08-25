@@ -18,7 +18,7 @@ function RouteComponent() {
       <h1 className="font-heading min-h-10 text-3xl font-bold">Users</h1>
 
       <div className="mt-4 divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
-        <div className="flex gap-4 bg-neutral-100 px-3 py-1.5 text-sm">
+        <div className="flex gap-4 bg-neutral-100 px-4 py-1.5 text-sm">
           <p className="min-w-0 flex-1 truncate font-medium">Name</p>
           <p className="w-48 flex-none truncate font-medium">Created at</p>
         </div>
@@ -28,7 +28,7 @@ function RouteComponent() {
             from={Route.fullPath}
             params={{ id: user.id }}
             to="$id"
-            className="group flex h-14 items-center gap-4 px-3 transition hover:bg-neutral-100"
+            className="group flex h-16 items-center gap-4 px-4 transition hover:bg-neutral-100"
           >
             <div className="flex min-w-0 flex-1 items-center gap-2.5">
               <div className="size-8 rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
