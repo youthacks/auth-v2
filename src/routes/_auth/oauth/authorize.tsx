@@ -1,15 +1,15 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { NotebookTextIcon, User2Icon } from "lucide-react";
-import { oauthAuthorizeSchema } from "#/actions/oauth/schemas";
-import { FormHeader } from "#/components/form/FormHeader";
-import Button from "#/components/ui/Button";
 import {
   oauthAuthorize,
   oauthAuthorizeSilently,
   oauthGetAppInfo,
 } from "#/actions/oauth";
-import { useMutation } from "@tanstack/react-query";
+import { oauthAuthorizeSchema } from "#/actions/oauth/schemas";
+import { FormHeader } from "#/components/form/FormHeader";
 import FormMessage from "#/components/form/FormMessage";
+import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/_auth/oauth/authorize")({
   validateSearch: oauthAuthorizeSchema,
@@ -86,7 +86,7 @@ function RouteComponent() {
       )}
 
       <p className="mt-6">If you allow, this app will be able to:</p>
-      <div className="mt-3 space-y-3 rounded-md border border-neutral-300 bg-neutral-50 p-3 px-4 text-neutral-600 inset-shadow-xs">
+      <div className="mt-3 space-y-3 rounded-lg border border-neutral-300 p-3 px-4 text-neutral-600 shadow-xs">
         <div className="flex items-center gap-2">
           <User2Icon className="size-4" />
           <span>View your name, email and date of birth</span>

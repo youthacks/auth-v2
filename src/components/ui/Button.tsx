@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "cva";
 import type { Merge } from "#/types";
 
 export const button = cva({
-  base: "flex items-center justify-center gap-1.5 rounded-md transition disabled:opacity-50",
+  base: "flex items-center justify-center gap-1.5 rounded-lg shadow-xs transition disabled:opacity-50",
   variants: {
     color: {
       outline: "border border-neutral-300 bg-white hover:bg-neutral-200",

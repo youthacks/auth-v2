@@ -45,7 +45,7 @@ function Popup({ className, ...props }: BaseDialog.Popup.Props) {
 const Close = BaseDialog.Close;
 function CloseButton() {
   return (
-    <BaseDialog.Close className="absolute top-2 right-2 grid size-8 place-items-center rounded-md text-neutral-600 transition hover:bg-neutral-200">
+    <BaseDialog.Close className="absolute top-2 right-2 grid size-8 place-items-center rounded-lg text-neutral-600 transition hover:bg-neutral-200">
       <span className="sr-only">Close</span>
       <XIcon strokeWidth={2.5} className="size-4" />
     </BaseDialog.Close>

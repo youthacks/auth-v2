@@ -13,7 +13,7 @@ function RouteComponent() {
           <Link
             from={Route.fullPath}
             to="./oauth"
-            className="flex h-fit gap-3 rounded-md border p-3 shadow-xs transition active:scale-95"
+            className="flex h-fit gap-3 rounded-lg border p-3 shadow-xs transition active:scale-95"
             activeProps={{
               className: "border-amber-300 bg-amber-100",
             }}
@@ -34,7 +34,7 @@ function RouteComponent() {
           <Link
             from={Route.fullPath}
             to="./saml"
-            className="flex h-fit gap-3 rounded-md border p-3 shadow-xs transition active:scale-95"
+            className="flex h-fit gap-3 rounded-lg border p-3 shadow-xs transition active:scale-95"
             activeProps={{
               className: "border-cyan-300 bg-cyan-100",
             }}

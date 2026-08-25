@@ -73,7 +73,7 @@ function RouteComponent() {
             An extra layer of security for your account.
           </p>
 
-          <div className="mt-4 rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
+          <div className="mt-4 rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
             <p className="font-medium">2FA is not set up</p>
             <p className="mt-0.5 text-sm text-neutral-600">
               Verify it's you with an authenticator app or Yubikey, before

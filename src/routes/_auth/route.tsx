@@ -14,7 +14,7 @@ function RouteComponent() {
         alt="Background"
       />
       <div className="flex size-full flex-col items-center gap-4 overflow-auto p-8">
-        <div className="mx-auto w-full max-w-lg overflow-clip rounded-xl border border-neutral-300 bg-white shadow-md">
+        <div className="mx-auto w-full max-w-lg overflow-clip rounded-xl border border-neutral-200 bg-white shadow-md">
           <Outlet />
         </div>
 

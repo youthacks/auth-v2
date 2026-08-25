@@ -24,7 +24,7 @@ export default function ConsoleUserDropdown() {
 
   return (
     <Menu.Root>
-      <Menu.Trigger className="group flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left transition-colors hover:bg-neutral-200 data-popup-open:bg-neutral-200">
+      <Menu.Trigger className="group flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-neutral-200 data-popup-open:bg-neutral-200">
         <span className="size-8 flex-none rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></span>
         <div className="w-full min-w-0">
           <p className="text-sm font-medium">{user?.firstName}</p>
@@ -34,7 +34,7 @@ export default function ConsoleUserDropdown() {
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Positioner side="bottom" sideOffset={4}>
-          <Menu.Popup className="w-(--anchor-width) origin-bottom overflow-clip rounded-md border border-neutral-300 bg-white shadow-xs transition data-ending-style:scale-y-95 data-ending-style:opacity-0 data-starting-style:scale-y-95 data-starting-style:opacity-0">
+          <Menu.Popup className="w-(--anchor-width) origin-bottom overflow-clip rounded-lg border border-neutral-200 bg-white shadow-xs transition data-ending-style:scale-y-95 data-ending-style:opacity-0 data-starting-style:scale-y-95 data-starting-style:opacity-0">
             <div className="p-1">
               <Menu.LinkItem
                 render={<Link to="/console/account" />}

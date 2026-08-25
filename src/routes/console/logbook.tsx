@@ -9,7 +9,7 @@ function RouteComponent() {
     <div className="p-8">
       <h1 className="font-heading text-3xl font-bold">Your logbook</h1>
       <div className="mt-6 space-y-6">
-        <div className="rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
+        <div className="rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
           <p className="font-medium">No entries yet</p>
           <p className="text-sm text-neutral-600">
             Go take part in something, then check back here to see all the cool
@@ -21,7 +21,7 @@ function RouteComponent() {
             <p className="text-lg leading-none">2</p>
             <p className="mt-px text-sm">Aug</p>
           </div>
-          <div className="min-w-0 flex-1 rounded-md border border-cyan-200 bg-cyan-100 p-6">
+          <div className="min-w-0 flex-1 rounded-lg border border-cyan-200 bg-cyan-100 p-6">
             <div className="flex items-center gap-2">
               <div className="size-4 rounded-xs bg-linear-to-br from-cyan-600 to-blue-700"></div>
               <p className="text-sm">Cyan app</p>
@@ -33,7 +33,7 @@ function RouteComponent() {
               ipsa cupiditate reprehenderit nulla vero? Minus optio hic error
               illum reiciendis molestiae dolorum atque distinctio!
             </p>
-            <div className="mt-4 rounded-md border border-neutral-300 bg-white p-4">
+            <div className="mt-4 rounded-lg border border-neutral-200 bg-white p-4">
               <p className="text-sm text-neutral-600">Your project</p>
               <p className="font-semibold">Lorem Ipsum</p>
               <div className="mt-1 flex gap-2">
@@ -48,7 +48,7 @@ function RouteComponent() {
             <p className="text-lg leading-none">2</p>
             <p className="mt-px text-sm">Aug</p>
           </div>
-          <div className="min-w-0 flex-1 rounded-md border border-orange-200 bg-orange-100 p-6">
+          <div className="min-w-0 flex-1 rounded-lg border border-orange-200 bg-orange-100 p-6">
             <div className="flex items-center gap-2">
               <div className="size-4 rounded-xs bg-linear-to-br from-orange-600 to-yellow-700"></div>
               <p className="text-sm">Orange app</p>
@@ -60,7 +60,7 @@ function RouteComponent() {
               ipsa cupiditate reprehenderit nulla vero? Minus optio hic error
               illum reiciendis molestiae dolorum atque distinctio!
             </p>
-            <div className="mt-4 rounded-md border border-neutral-300 bg-white p-4">
+            <div className="mt-4 rounded-lg border border-neutral-200 bg-white p-4">
               <p className="text-sm text-neutral-600">Your project</p>
               <p className="font-semibold">Lorem Ipsum</p>
               <div className="mt-1 flex gap-2">

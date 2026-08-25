@@ -44,7 +44,7 @@ function RouteComponent() {
             All the apps you've logged into before.
           </p>
           {apps.length === 0 ? (
-            <div className="mt-3 rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
+            <div className="mt-3 rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
               <p className="font-medium">No apps yet</p>
               <p className="text-sm text-neutral-600">
                 Go sign in to something, then check back here!
@@ -55,7 +55,7 @@ function RouteComponent() {
               {apps.map((appConsent) => (
                 <Accordion.Item
                   key={appConsent.appId}
-                  className="overflow-clip rounded-md border border-neutral-300 shadow-xs"
+                  className="overflow-clip rounded-lg border border-neutral-300 shadow-xs"
                 >
                   <Accordion.Header>
                     <Accordion.Trigger className="flex h-16 w-full items-center gap-3 px-4 text-left transition hover:bg-neutral-100">

@@ -39,7 +39,7 @@ function RouteComponent() {
 
         {apps ? (
           apps.length === 0 ? (
-            <div className="mt-4 flex min-h-24 flex-col justify-center rounded-md border-2 border-dashed border-neutral-300 p-4 text-center">
+            <div className="mt-4 flex min-h-24 flex-col justify-center rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
               <p className="font-medium">No apps yet</p>
               <p className="text-sm text-neutral-600">
                 Go sign in to something, then check back here!
@@ -53,7 +53,7 @@ function RouteComponent() {
                   href={appConsent.app.homepageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-24 flex-col items-center justify-center rounded-md border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95"
+                  className="flex h-24 flex-col items-center justify-center rounded-lg border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95"
                 >
                   <div className="mt-1 size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
                   <p className="mt-2 text-sm">{appConsent.app.name}</p>
@@ -67,7 +67,7 @@ function RouteComponent() {
               <div
                 // biome-ignore lint/suspicious/noArrayIndexKey: intentional
                 key={i}
-                className="h-24 animate-pulse rounded-md border border-neutral-200 bg-neutral-100"
+                className="h-24 animate-pulse rounded-lg border border-neutral-200 bg-neutral-100"
               ></div>
             ))}
           </div>

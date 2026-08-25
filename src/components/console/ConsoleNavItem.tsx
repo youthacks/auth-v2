@@ -12,9 +12,9 @@ export default function ConsoleNavItem({
     <a
       {...props}
       className={clsx(
-        "relative isolate -mx-3 flex h-10 items-center gap-1.5 rounded-md border px-3",
+        "relative isolate -mx-3 flex h-10 items-center gap-1.5 rounded-lg border px-3",
         active
-          ? "border-neutral-300 bg-white text-rose-700 shadow-xs"
+          ? "border-neutral-200 bg-white text-rose-700 shadow-xs"
           : "border-transparent text-neutral-600 transition-colors hover:bg-neutral-200",
       )}
     >
