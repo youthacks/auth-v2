@@ -32,7 +32,7 @@ function RouteComponent() {
     <div className="flex h-full bg-neutral-100">
       <div className="min-w-0 flex-1"></div>
       <div className="flex w-full max-w-7xl flex-none">
-        <div className="flex h-full w-80 flex-col justify-between gap-8 overflow-y-auto border-r border-neutral-300 p-8">
+        <div className="flex h-full w-80 flex-col justify-between gap-8 overflow-y-auto border-r border-neutral-200 p-8">
           <div>
             <img src={logo} alt="" className="mb-4 h-6" />
             <div className="space-y-0.5">

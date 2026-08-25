@@ -34,7 +34,7 @@ function Popup({ className, ...props }: BaseDialog.Popup.Props) {
     <BaseDialog.Popup
       {...props}
       className={clsx(
-        "relative w-full max-w-lg rounded-xl border border-neutral-300 bg-white p-6 shadow-lg",
+        "relative w-full max-w-lg rounded-xl border border-neutral-200 bg-white p-6 shadow-lg",
         "transition data-ending-style:scale-98 data-ending-style:opacity-0 data-starting-style:scale-98 data-starting-style:opacity-0",
         className,
       )}

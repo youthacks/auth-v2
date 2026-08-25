@@ -3,11 +3,11 @@ import { cva, type VariantProps } from "cva";
 import type { Merge } from "#/types";
 
 export const input = cva({
-  base: "w-full rounded-lg border border-neutral-300 px-4 shadow-xs ring-rose-600 transition outline-none placeholder:text-neutral-400 focus:border-rose-600 focus:ring-1 disabled:bg-neutral-200 disabled:text-neutral-500",
+  base: "w-full rounded-lg border border-neutral-300 shadow-xs ring-rose-600 transition outline-none placeholder:text-neutral-400 focus:border-rose-600 focus:ring-1 disabled:bg-neutral-100 disabled:text-neutral-500",
   variants: {
     size: {
-      md: "h-10",
-      lg: "h-12",
+      md: "h-10 px-3",
+      lg: "h-12 px-4",
     },
   },
   defaultVariants: {

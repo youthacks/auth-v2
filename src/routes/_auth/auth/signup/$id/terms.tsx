@@ -95,7 +95,7 @@ function RouteComponent() {
         </ul>
       </div>
 
-      <hr className="mt-6 border-neutral-300" />
+      <hr className="mt-6 border-neutral-200" />
 
       {error && (
         <FormMessage state="error" className="mt-6">
