@@ -44,7 +44,7 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
     const code = nanoid(32);
     const newScopes = new Set([
       ...(existingConsent?.scopes ?? []),
-      ...data.scope,
+      ...data.scope.split(" ").filter(Boolean),
     ]);
 
     await db.transaction(async (tx) => {

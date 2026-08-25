@@ -36,12 +36,16 @@ export const applicationOAuthConfig = sqliteTable(
 export const applicationConsents = sqliteTable(
   "application_consents",
   {
-    appId: text("app_id").references(() => applications.id, {
-      onDelete: "cascade",
-    }),
-    userId: text("user_id").references(() => users.id, {
-      onDelete: "cascade",
-    }),
+    appId: text("app_id")
+      .notNull()
+      .references(() => applications.id, {
+        onDelete: "cascade",
+      }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+      }),
     scopes: text().notNull(),
 
     createdAt,

@@ -1,4 +1,4 @@
-import { getConsents, getMeConsents } from "./consents";
+import { deleteMeConsent, getConsents, getMeConsents } from "./consents";
 import { getMe, updateMe } from "./me";
 import { allUsers, getUser, updateUser } from "./users";
 
@@ -16,6 +16,7 @@ export const usersRouter = {
     update: updateMe,
     consents: {
       get: getMeConsents,
+      delete: deleteMeConsent,
     },
   },
 };
