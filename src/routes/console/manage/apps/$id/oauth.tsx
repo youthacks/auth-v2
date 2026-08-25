@@ -7,13 +7,20 @@ import {
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import clsx from "clsx";
-import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
+import {
+  CheckIcon,
+  CopyIcon,
+  EyeIcon,
+  EyeOffIcon,
+  InfoIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { orpc } from "#/api/client";
 import { updateOAuthSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { Field } from "#/components/ui/Field";
+import { Fieldset } from "#/components/ui/Fieldset";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/console/manage/apps/$id/oauth")({
@@ -44,11 +51,8 @@ function CopyField({
         <Field.Control
           value={showValue ? value : ""}
           placeholder={hidden ? "•".repeat(64) : undefined}
-          className={clsx(
-            "font-mono",
-            hidden && !value && "pointer-events-none select-none",
-          )}
-          readOnly
+          className={clsx("truncate font-mono", hidden ? "pr-18" : "pr-10")}
+          disabled
         />
         <div className="absolute inset-y-0 right-0 flex gap-0.5 p-1.5">
           {hidden && (
@@ -132,32 +136,40 @@ function RouteComponent() {
 
   return (
     <div className="space-y-8 p-8">
-      <section>
-        <h2 className="font-heading text-xl font-bold">Add to your app</h2>
-        <p className="mt-0.5 text-sm text-neutral-600">
-          Everything you need to implement login.
-        </p>
-        <div className="mt-4 space-y-4">
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="flex flex-col gap-8 rounded-xl border border-neutral-200 p-6"
+      >
+        {error && <FormMessage state="error">{error.message}</FormMessage>}
+        <Fieldset.Root>
+          <Fieldset.Legend>Configuration</Fieldset.Legend>
           <CopyField label="Client ID" value={data.clientId} />
           <CopyField label="Client secret" value={data.clientSecret} hidden />
           <CopyField
             label="Discovery URL"
             value={"https://example.com/.well-known/openid-configuration"}
           />
+          <CopyField
+            label="Authorization URL"
+            value={"https://example.com/oauth/authorize"}
+          />
+          <CopyField
+            label="Token exchange URL"
+            value={"https://example.com/oauth/token"}
+          />
+          <CopyField
+            label="User info URL"
+            value={"https://example.com/oauth/userinfo"}
+          />
           <p className="text-sm font-semibold text-rose-700">Get started →</p>
-        </div>
-      </section>
-      <section>
-        <h2 className="font-heading text-xl font-bold">Login settings</h2>
-        <form
-          onSubmit={(ev) => {
-            ev.preventDefault();
-            ev.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="mt-4 space-y-4"
-        >
-          {error && <FormMessage state="error">{error.message}</FormMessage>}
+        </Fieldset.Root>
+        <hr className="border-neutral-200" />
+        <Fieldset.Root>
+          <Fieldset.Legend>Login settings</Fieldset.Legend>
           <form.AppField name="allowedCallbackUrls">
             {(field) => (
               <field.TextareaField
@@ -166,17 +178,13 @@ function RouteComponent() {
               />
             )}
           </form.AppField>
-          <form.AppForm>
-            <form.SubmitButton
-              disabled={isPending}
-              size="md"
-              className="w-fit!"
-            >
-              <span>Update</span>
-            </form.SubmitButton>
-          </form.AppForm>
-        </form>
-      </section>
+        </Fieldset.Root>
+
+        <form.AppForm>
+          <form.StatusBar disabled={isPending} />
+        </form.AppForm>
+      </form>
+
       <section>
         <h2 className="font-heading text-xl font-bold">Danger zone</h2>
         <p className="mt-0.5 text-sm text-neutral-600">

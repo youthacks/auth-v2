@@ -3,6 +3,7 @@ import { createFormHook } from "@tanstack/react-form";
 import {
   CheckboxField,
   OTPField,
+  StatusBar,
   SubmitButton,
   TextareaField,
   TextField,
@@ -18,6 +19,7 @@ export const { useAppForm } = createFormHook({
   },
   formComponents: {
     SubmitButton,
+    StatusBar,
   },
   fieldContext,
   formContext,

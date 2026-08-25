@@ -9,8 +9,9 @@ import dayjs from "dayjs";
 import { orpc } from "#/api/client";
 import { updateUserSchema } from "#/api/routers/users/schemas";
 import FormMessage from "#/components/form/FormMessage";
-import { useAppForm } from "#/integrations/form";
 import { Field } from "#/components/ui/Field";
+import { Fieldset } from "#/components/ui/Fieldset";
+import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/console/manage/users/$id/")({
   component: RouteComponent,
@@ -112,11 +113,91 @@ function ProfileSection() {
 }
 
 function RouteComponent() {
+  const params = Route.useParams();
+  const queryClient = useQueryClient();
+
+  const { data: user } = useSuspenseQuery(
+    orpc.users.get.queryOptions({ input: { id: params.id } }),
+  );
+
+  const { mutateAsync, isPending, error } = useMutation(
+    orpc.users.update.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: orpc.users.key() });
+      },
+    }),
+  );
+  const form = useAppForm({
+    defaultValues: {
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      dateOfBirth: user?.dateOfBirth
+        ? dayjs(user.dateOfBirth).format("YYYY-MM-DD")
+        : "",
+    },
+    validators: {
+      onDynamic: updateUserSchema,
+    },
+    validationLogic: revalidateLogic(),
+
+    onSubmit: async ({ value, formApi }) => {
+      try {
+        await mutateAsync({ ...value, id: params.id });
+        formApi.reset(value);
+      } catch (_e) {}
+    },
+  });
+
   return (
-    <div className="p-8">
-      <div className="space-y-8">
-        <ProfileSection />
-      </div>
+    <div className="space-y-8 p-8">
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="flex flex-col gap-8 rounded-xl border border-neutral-200 p-6"
+      >
+        {error && <FormMessage state="error">{error.message}</FormMessage>}
+
+        <Fieldset.Root>
+          <Fieldset.Legend>User profile</Fieldset.Legend>
+          <div className="grid grid-cols-2 gap-4">
+            <form.AppField name="firstName">
+              {(field) => (
+                <field.TextField
+                  type="text"
+                  label="First name"
+                  placeholder={user?.firstName}
+                />
+              )}
+            </form.AppField>
+            <form.AppField name="lastName">
+              {(field) => (
+                <field.TextField
+                  type="text"
+                  label="Last name"
+                  placeholder={user?.lastName}
+                />
+              )}
+            </form.AppField>
+          </div>
+          <Field.Root>
+            <Field.Label>Email</Field.Label>
+            <Field.Control disabled value={user.email} />
+            <Field.Description>
+              Ask the user to log in to change their email.
+            </Field.Description>
+          </Field.Root>
+          <form.AppField name="dateOfBirth">
+            {(field) => <field.TextField type="date" label="Date of birth" />}
+          </form.AppField>
+        </Fieldset.Root>
+
+        <form.AppForm>
+          <form.StatusBar disabled={isPending} />
+        </form.AppForm>
+      </form>
     </div>
   );
 }

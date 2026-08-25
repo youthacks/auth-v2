@@ -1,15 +1,14 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { useSelector } from "@tanstack/react-form";
-import { ArrowRightIcon } from "lucide-react";
+import clsx from "clsx";
+import { ArrowRightIcon, InfoIcon } from "lucide-react";
 import { type ComponentProps, useMemo } from "react";
-
 import Button from "#/components/ui/Button";
 import Checkbox from "#/components/ui/Checkbox";
 import { Field } from "#/components/ui/Field";
 import type Input from "#/components/ui/Input";
 import { OTPField as BaseOTPField } from "#/components/ui/OTPField";
 import Textarea from "#/components/ui/Textarea";
-
 import { useFieldContext, useFormContext } from "./context";
 
 function ErrorMessage({ errors }: { errors: string | { message: string }[] }) {
@@ -143,6 +142,57 @@ export function SubmitButton({
           {children}
           {/*<ArrowRightIcon strokeWidth={2.5} className="size-4" />*/}
         </Button>
+      )}
+    </form.Subscribe>
+  );
+}
+
+export function StatusBar({ disabled }: { disabled?: boolean }) {
+  const form = useFormContext();
+
+  return (
+    <form.Subscribe
+      selector={(state) => [
+        state.isDefaultValue,
+        state.canSubmit,
+        state.isSubmitting,
+      ]}
+    >
+      {([isDefaultValue, canSubmit, isSubmitting]) => (
+        <div className="pointer-events-none fixed inset-x-4 bottom-4 z-10 m-0! flex justify-center pl-80">
+          <div
+            className={clsx(
+              "pointer-events-auto flex w-full max-w-md origin-bottom items-center gap-2 rounded-xl border border-neutral-200 bg-white shadow-md transition",
+              isDefaultValue ? "translate-y-2 scale-95 opacity-0" : "delay-200",
+            )}
+          >
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 px-4">
+              <InfoIcon className="size-4 flex-none text-neutral-500" />
+              <p className="truncate text-sm text-neutral-600">
+                You have unsaved changes
+              </p>
+            </div>
+            <div className="flex gap-1.5 p-2 pl-0">
+              <Button
+                onClick={() => form.reset()}
+                disabled={isDefaultValue || isSubmitting || disabled}
+                size="md"
+              >
+                <span>Discard</span>
+              </Button>
+              <Button
+                type="submit"
+                disabled={
+                  isDefaultValue || !canSubmit || isSubmitting || disabled
+                }
+                color="primary"
+                size="md"
+              >
+                <span>Save</span>
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </form.Subscribe>
   );

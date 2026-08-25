@@ -8,13 +8,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { orpc } from "#/api/client";
 import { updateAppSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
+import { Fieldset } from "#/components/ui/Fieldset";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/console/manage/apps/$id/")({
   component: RouteComponent,
 });
 
-function InfoSection() {
+function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
@@ -52,59 +53,55 @@ function InfoSection() {
   });
 
   return (
-    <section>
-      {error && (
-        <FormMessage state="error" className="mb-4">
-          {error.message}
-        </FormMessage>
-      )}
+    <div className="space-y-8 p-8">
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
           ev.stopPropagation();
           form.handleSubmit();
         }}
-        className="space-y-4"
+        className="flex flex-col gap-8 rounded-xl border border-neutral-200 p-6"
       >
-        <form.AppField name="name">
-          {(field) => (
-            <field.TextField type="text" label="Name" placeholder={data.name} />
-          )}
-        </form.AppField>
-        <form.AppField name="description">
-          {(field) => (
-            <field.TextareaField
-              label="Description"
-              placeholder={data.description || ""}
-              description="Optional"
-            />
-          )}
-        </form.AppField>
-        <form.AppField name="homepageUrl">
-          {(field) => (
-            <field.TextField
-              type="url"
-              label="Homepage URL"
-              placeholder={data.homepageUrl}
-            />
-          )}
-        </form.AppField>
+        {error && (
+          <FormMessage state="error" className="mb-4">
+            {error.message}
+          </FormMessage>
+        )}
+        <Fieldset.Root>
+          <Fieldset.Legend>App info</Fieldset.Legend>
+          <form.AppField name="name">
+            {(field) => (
+              <field.TextField
+                type="text"
+                label="Name"
+                placeholder={data.name}
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="description">
+            {(field) => (
+              <field.TextareaField
+                label="Description"
+                placeholder={data.description || ""}
+                description="Optional"
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="homepageUrl">
+            {(field) => (
+              <field.TextField
+                type="url"
+                label="Homepage URL"
+                placeholder={data.homepageUrl}
+              />
+            )}
+          </form.AppField>
+        </Fieldset.Root>
+
         <form.AppForm>
-          <form.SubmitButton disabled={isPending} className="w-fit!">
-            <span>Save</span>
-          </form.SubmitButton>
+          <form.StatusBar disabled={isPending} />
         </form.AppForm>
       </form>
-    </section>
-  );
-}
-
-function RouteComponent() {
-  return (
-    <div className="p-8">
-      <div className="space-y-8">
-        <InfoSection />
-      </div>
     </div>
   );
 }

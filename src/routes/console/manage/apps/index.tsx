@@ -39,7 +39,7 @@ function RouteComponent() {
         </div>
 
         <div className="mt-4 divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
-          <div className="flex gap-4 bg-neutral-50 px-3 py-1.5 text-sm">
+          <div className="flex gap-4 bg-neutral-100 px-3 py-1.5 text-sm">
             <p className="min-w-0 flex-1 truncate font-medium">Name</p>
             <p className="w-48 flex-none truncate font-medium">Created at</p>
           </div>

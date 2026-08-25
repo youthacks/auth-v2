@@ -10,13 +10,14 @@ import { orpc } from "#/api/client";
 import { updateMeSchema } from "#/api/routers/users/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
+import { Fieldset } from "#/components/ui/Fieldset";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/console/account/profile")({
   component: RouteComponent,
 });
 
-function ProfileSection() {
+function RouteComponent() {
   const queryClient = useQueryClient();
   const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
 
@@ -49,29 +50,24 @@ function ProfileSection() {
   });
 
   return (
-    <section>
-      <h2 className="font-heading text-xl font-bold">Profile</h2>
-      <p className="mt-0.5 text-sm text-neutral-600">A little about you.</p>
-      {isSuccess && (
-        <FormMessage state="success" className="mt-4">
-          Your profile has been updated.
-        </FormMessage>
-      )}
-      {error && (
-        <FormMessage state="error" className="mt-4">
-          {error.message}
-        </FormMessage>
-      )}
+    <div className="space-y-8 p-8">
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
           ev.stopPropagation();
           form.handleSubmit();
         }}
-        className="mt-4 space-y-4"
+        className="flex flex-col gap-8 rounded-xl border border-neutral-200 p-6"
       >
-        <div className="flex gap-4">
-          <div className="min-w-0 flex-1">
+        {isSuccess && (
+          <FormMessage state="success">
+            Your profile has been updated.
+          </FormMessage>
+        )}
+        {error && <FormMessage state="error">{error.message}</FormMessage>}
+        <Fieldset.Root>
+          <Fieldset.Legend>Your profile</Fieldset.Legend>
+          <div className="grid grid-cols-2 gap-4">
             <form.AppField name="firstName">
               {(field) => (
                 <field.TextField
@@ -81,8 +77,6 @@ function ProfileSection() {
                 />
               )}
             </form.AppField>
-          </div>
-          <div className="min-w-0 flex-1">
             <form.AppField name="lastName">
               {(field) => (
                 <field.TextField
@@ -93,36 +87,25 @@ function ProfileSection() {
               )}
             </form.AppField>
           </div>
-        </div>
-        <form.AppField name="dateOfBirth">
-          {(field) => <field.TextField type="date" label="Date of birth" />}
-        </form.AppField>
+          <form.AppField name="dateOfBirth">
+            {(field) => <field.TextField type="date" label="Date of birth" />}
+          </form.AppField>
+        </Fieldset.Root>
+
         <form.AppForm>
-          <form.SubmitButton disabled={isPending} className="w-fit!">
-            <span>Save</span>
-          </form.SubmitButton>
+          <form.StatusBar disabled={isPending} />
         </form.AppForm>
       </form>
-    </section>
-  );
-}
-
-function RouteComponent() {
-  return (
-    <div className="p-8">
-      <div className="space-y-8">
-        <ProfileSection />
-        <section>
-          <h2 className="font-heading text-xl font-bold">Danger zone</h2>
-          <p className="mt-0.5 text-sm text-neutral-600">Scary things ahead.</p>
-          <div className="mt-3 flex gap-3 opacity-50">
-            <Button size="sm">Deactivate account</Button>
-            <Button size="sm" color="danger">
-              Delete account
-            </Button>
-          </div>
-        </section>
-      </div>
+      <section>
+        <h2 className="font-heading text-xl font-bold">Danger zone</h2>
+        <p className="mt-0.5 text-sm text-neutral-600">Scary things ahead.</p>
+        <div className="mt-3 flex gap-3 opacity-50">
+          <Button size="sm">Deactivate account</Button>
+          <Button size="sm" color="danger">
+            Delete account
+          </Button>
+        </div>
+      </section>
     </div>
   );
 }
