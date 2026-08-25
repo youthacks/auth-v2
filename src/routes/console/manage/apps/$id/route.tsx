@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { orpc } from "#/api/client";
+import { ConsoleTabLink } from "#/components/console/ConsoleTabItem";
 
 export const Route = createFileRoute("/console/manage/apps/$id")({
   loader: async ({ params, context }) => {
@@ -35,57 +36,34 @@ function RouteComponent() {
             {data.name}
           </h1>
         </div>
-      </div>
 
-      <div className="sticky top-0 z-10 flex gap-5 border-b border-neutral-300 bg-white px-8 pt-4">
-        <Link
-          from={Route.fullPath}
-          to="."
-          className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
-          activeProps={{
-            className: "border-rose-700 text-rose-700",
-          }}
-          activeOptions={{
-            exact: true,
-          }}
-          inactiveProps={{
-            className:
-              "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
-          }}
-        >
-          Settings
-        </Link>
-        {data.oauthConfig ? (
-          <Link
+        <div className="mt-4 flex gap-4 border-b border-neutral-200">
+          <ConsoleTabLink
             from={Route.fullPath}
-            to="./oauth"
-            className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
-            activeProps={{
-              className: "border-rose-700 text-rose-700",
-            }}
-            inactiveProps={{
-              className:
-                "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
-            }}
+            to="."
+            activeProps={{ active: true }}
+            activeOptions={{ exact: true }}
           >
-            OAuth2
-          </Link>
-        ) : (
-          <Link
-            from={Route.fullPath}
-            to="./add"
-            className="group -mb-0.5 border-b-[3px] py-1.5 text-sm font-medium"
-            activeProps={{
-              className: "border-rose-700 text-rose-700",
-            }}
-            inactiveProps={{
-              className:
-                "border-transparent text-neutral-600 transition-colors hover:border-neutral-300",
-            }}
-          >
-            Authentication
-          </Link>
-        )}
+            Settings
+          </ConsoleTabLink>
+          {data.oauthConfig ? (
+            <ConsoleTabLink
+              from={Route.fullPath}
+              to="./oauth"
+              activeProps={{ active: true }}
+            >
+              OAuth2
+            </ConsoleTabLink>
+          ) : (
+            <ConsoleTabLink
+              from={Route.fullPath}
+              to="./add"
+              activeProps={{ active: true }}
+            >
+              Authentication
+            </ConsoleTabLink>
+          )}
+        </div>
       </div>
 
       <Outlet />
