@@ -17,6 +17,7 @@ export const getConsents = base
   .use(requireSession)
   .input(z.object({ id: z.string() }))
   .handler(async ({ input }) => {
+    // TODO: verify scopes
     const user = await db.query.users.findFirst({
       where: { id: input.id },
       columns: {},
@@ -54,6 +55,7 @@ export const deleteMeConsent = base
   .use(requireSession)
   .input(z.object({ appId: z.string() }))
   .handler(async ({ input, context }) => {
+    // TODO: verify scopes
     const consent = await db.query.applicationConsents.findFirst({
       where: { userId: context.user.id, appId: input.appId },
     });

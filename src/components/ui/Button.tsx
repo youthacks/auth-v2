@@ -6,13 +6,14 @@ export const button = cva({
   base: "flex items-center justify-center gap-1.5 rounded-lg shadow-xs transition disabled:opacity-50",
   variants: {
     color: {
-      outline: "border border-neutral-300 bg-white hover:bg-neutral-200",
+      outline:
+        "border border-neutral-300 bg-white hover:not-disabled:bg-neutral-200",
       default:
-        "border border-neutral-300 bg-neutral-100 font-semibold hover:bg-neutral-200",
+        "border border-neutral-300 bg-neutral-100 font-semibold hover:not-disabled:bg-neutral-200",
       danger:
-        "border border-neutral-300 bg-neutral-100 font-semibold text-rose-700 hover:border-rose-800 hover:bg-rose-700 hover:text-white",
+        "border border-neutral-300 bg-neutral-100 font-semibold text-rose-700 hover:not-disabled:border-rose-800 hover:not-disabled:bg-rose-700 hover:not-disabled:text-white",
       primary:
-        "border border-rose-800 bg-rose-700 font-semibold text-white shadow-xs hover:bg-rose-800",
+        "border border-rose-800 bg-rose-700 font-semibold text-white shadow-xs hover:not-disabled:bg-rose-800",
     },
     size: {
       sm: "h-8 px-3 text-sm",

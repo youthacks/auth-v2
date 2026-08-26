@@ -1,4 +1,4 @@
-import { useSession } from "@tanstack/react-start/server";
+import { getRequestHeader, useSession } from "@tanstack/react-start/server";
 import dayjs from "dayjs";
 import { eq } from "drizzle-orm";
 import { db } from "#/db";
@@ -25,11 +25,14 @@ export function useAppSession() {
 }
 
 export async function createSession(userId: string) {
+  const userAgent = getRequestHeader("User-Agent");
+
   const [{ id }] = await db
     .insert(sessions)
     .values({
       userId,
       expiresAt: dayjs().add(7, "days").toDate(),
+      userAgent,
     })
     .returning();
 
