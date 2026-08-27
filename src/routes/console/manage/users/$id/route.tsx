@@ -46,6 +46,13 @@ function RouteComponent() {
           >
             Profile
           </ConsoleTabLink>
+          <ConsoleTabLink
+            from={Route.fullPath}
+            to="./apps"
+            activeProps={{ active: true }}
+          >
+            Apps
+          </ConsoleTabLink>
         </div>
       </div>
 

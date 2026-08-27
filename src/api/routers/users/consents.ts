@@ -55,14 +55,14 @@ export const getMeConsents = base
     return consents;
   });
 
-export const deleteMeConsent = base
-  .meta(openapi({ method: "DELETE", path: "/users/me/consents/{appId}" }))
+export const deleteConsent = base
+  .meta(openapi({ method: "DELETE", path: "/users/{id}/consents/{appId}" }))
   .use(requireSession)
-  .input(z.object({ appId: z.string() }))
+  .input(z.object({ id: z.string(), appId: z.string() }))
   .handler(async ({ input, context }) => {
     // TODO: verify scopes
     const consent = await db.query.applicationConsents.findFirst({
-      where: { userId: context.user.id, appId: input.appId },
+      where: { userId: input.id, appId: input.appId },
     });
     if (!consent) {
       throw new ORPCError("NOT_FOUND");

@@ -1,4 +1,4 @@
-import { deleteMeConsent, getConsents, getMeConsents } from "./consents";
+import { deleteConsent, getConsents, getMeConsents } from "./consents";
 import { getMe, updateMe } from "./me";
 import { deleteSession, getMeSessions, getSessions } from "./sessions";
 import { allUsers, getUser, updateUser } from "./users";
@@ -10,6 +10,7 @@ export const usersRouter = {
 
   consents: {
     get: getConsents,
+    delete: deleteConsent,
   },
   sessions: {
     get: getSessions,
@@ -21,7 +22,6 @@ export const usersRouter = {
     update: updateMe,
     consents: {
       get: getMeConsents,
-      delete: deleteMeConsent,
     },
     sessions: {
       get: getMeSessions,
