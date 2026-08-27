@@ -5,6 +5,7 @@ import z from "zod";
 import { requireSession } from "#/api/middleware/requireSession";
 import { db } from "#/db";
 import { applications } from "#/db/schema/applications";
+import { bouncer } from "#/lib/bouncer";
 import { base } from "#/lib/orpc";
 import { createAppSchema, updateAppSchema } from "./schemas";
 
@@ -13,6 +14,8 @@ export const createApp = base
   .use(requireSession)
   .input(createAppSchema)
   .handler(async ({ input, context }) => {
+    bouncer.allow("apps.create", context);
+
     // TODO: verify scopes
     const [{ id }] = await db
       .insert(applications)
@@ -30,7 +33,9 @@ export const createApp = base
 export const allApps = base
   .meta(openapi({ method: "GET", path: "/apps" }))
   .use(requireSession)
-  .handler(async () => {
+  .handler(async ({ context }) => {
+    bouncer.allow("apps.list", context);
+
     const apps = await db.query.applications.findMany({
       orderBy: { createdAt: "desc" },
     });
@@ -41,7 +46,9 @@ export const getApp = base
   .meta(openapi({ method: "GET", path: "/apps/{id}" }))
   .use(requireSession)
   .input(z.object({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("apps.read", context);
+
     // TODO: verify scopes
     const app = await db.query.applications.findFirst({
       where: { id: input.id },
@@ -63,7 +70,9 @@ export const updateApp = base
   .meta(openapi({ method: "PATCH", path: "/apps/{id}" }))
   .use(requireSession)
   .input(updateAppSchema.extend({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("apps.update", context);
+
     // TODO: verify scopes
     const app = await db.query.applications.findFirst({
       where: { id: input.id },

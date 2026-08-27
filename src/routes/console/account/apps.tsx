@@ -58,7 +58,7 @@ function RouteComponent() {
                   <div className="flex min-w-0 flex-1 items-center gap-2.5">
                     <div className="size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-rose-700 group-hover:text-rose-900">
+                      <p className="text-sm font-medium">
                         {appConsent.app.name}
                       </p>
                       <p className="text-xs text-neutral-600">

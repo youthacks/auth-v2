@@ -29,33 +29,32 @@ export const maybeSession = base.middleware(async ({ context, next }) => {
     });
   }
 
-  if (context.handler === "rpc") {
-    const { user, session } = await getSession();
-    return next({
-      context: {
-        user,
-        session,
-        accessToken: null,
-      } satisfies SessionContext,
-    });
+  switch (context.handler) {
+    case "rpc": {
+      const { user, session } = await getSession();
+      return next({
+        context: {
+          user,
+          session,
+          accessToken: null,
+        } satisfies SessionContext,
+      });
+    }
+    case "openapi": {
+      const Authorization = context.reqHeaders?.get("Authorization");
+      const { user, session, accessToken } = await getAccessToken(
+        "header",
+        Authorization,
+      );
+      return next({
+        context: {
+          user,
+          session,
+          accessToken,
+        } satisfies SessionContext,
+      });
+    }
   }
-
-  if (context.handler === "openapi") {
-    const Authorization = context.reqHeaders?.get("Authorization");
-    const { user, session, accessToken } = await getAccessToken(
-      "header",
-      Authorization,
-    );
-    return next({
-      context: {
-        user,
-        session,
-        accessToken,
-      } satisfies SessionContext,
-    });
-  }
-
-  return next();
 });
 
 export const requireSession = base

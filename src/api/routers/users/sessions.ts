@@ -6,13 +6,16 @@ import z from "zod";
 import { requireSession } from "#/api/middleware/requireSession";
 import { db } from "#/db";
 import { sessions } from "#/db/schema/base";
+import { bouncer } from "#/lib/bouncer";
 import { base } from "#/lib/orpc";
 
 export const getSessions = base
   .meta(openapi({ method: "GET", path: "/users/{id}/consents" }))
   .use(requireSession)
   .input(z.object({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("session.list", context, { userId: input.id });
+
     // TODO: verify scopes
     const user = await db.query.users.findFirst({
       where: { id: input.id },
@@ -32,6 +35,8 @@ export const getMeSessions = base
   .meta(openapi({ method: "GET", path: "/users/me/sessions" }))
   .use(requireSession)
   .handler(async ({ context }) => {
+    bouncer.allow("session.list", context, { userId: context.user.id });
+
     const sessions = await db.query.sessions.findMany({
       where: { userId: context.user.id },
       orderBy: { createdAt: "desc" },
@@ -48,14 +53,16 @@ export const deleteSession = base
   .use(requireSession)
   .input(z.object({ sessionId: z.string() }))
   .handler(async ({ input, context }) => {
-    // TODO: verify scopes
     const session = await db.query.sessions.findFirst({
       where: { id: input.sessionId, userId: context.user.id },
-      columns: { id: true },
+      columns: { id: true, userId: true },
     });
     if (!session) {
       throw new ORPCError("NOT_FOUND");
     }
+
+    bouncer.allow("session.delete", context, session);
+
     if (session.id === context.session?.id) {
       throw new ORPCError("BAD_REQUEST", {
         message: "Cannot delete current session",

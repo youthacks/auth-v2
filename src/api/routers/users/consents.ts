@@ -10,13 +10,16 @@ import {
   oauthExchangeCodes,
   oauthRefreshTokens,
 } from "#/db/schema/oauth";
+import { bouncer } from "#/lib/bouncer";
 import { base } from "#/lib/orpc";
 
 export const getConsents = base
   .meta(openapi({ method: "GET", path: "/users/{id}/consents" }))
   .use(requireSession)
   .input(z.object({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("appConsents.list", context, { userId: input.id });
+
     // TODO: verify scopes
     const user = await db.query.users.findFirst({
       where: { id: input.id },
@@ -40,6 +43,8 @@ export const getMeConsents = base
   .meta(openapi({ method: "GET", path: "/users/me/consents" }))
   .use(requireSession)
   .handler(async ({ context }) => {
+    bouncer.allow("appConsents.list", context, { userId: context.user.id });
+
     const consents = await db.query.applicationConsents.findMany({
       where: { userId: context.user.id },
       with: {
@@ -62,6 +67,8 @@ export const deleteMeConsent = base
     if (!consent) {
       throw new ORPCError("NOT_FOUND");
     }
+
+    bouncer.allow("appConsents.delete", context, consent);
 
     await db.transaction(async (tx) => {
       await tx

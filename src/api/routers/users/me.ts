@@ -1,18 +1,20 @@
 import { openapi } from "@orpc/openapi";
+import { eq } from "drizzle-orm";
 import { maybeSession, requireSession } from "#/api/middleware/requireSession";
-import { base } from "#/lib/orpc";
-import { updateMeSchema } from "./schemas";
 import { db } from "#/db";
 import { users } from "#/db/schema/base";
-import { eq } from "drizzle-orm";
+import { bouncer } from "#/lib/bouncer";
+import { base } from "#/lib/orpc";
+import { updateMeSchema } from "./schemas";
 
 export const getMe = base
   .meta(openapi({ method: "GET", path: "/users/me" }))
   .use(maybeSession)
   .handler(async ({ context }) => {
-    // TODO: verify scopes
     const { user } = context;
     if (!user) return null;
+
+    bouncer.allow("user.read", context, user);
 
     return {
       id: user.id,
@@ -20,6 +22,7 @@ export const getMe = base
       lastName: user.lastName,
       email: user.email,
       dateOfBirth: user.dateOfBirth,
+      role: user.role,
       updatedAt: user.updatedAt,
     };
   });
@@ -29,7 +32,7 @@ export const updateMe = base
   .use(requireSession)
   .input(updateMeSchema)
   .handler(async ({ context, input }) => {
-    // TODO: verify scopes
+    bouncer.allow("user.update", context, context.user);
 
     await db
       .update(users)

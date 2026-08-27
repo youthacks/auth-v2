@@ -5,6 +5,7 @@ import z from "zod";
 import { requireSession } from "#/api/middleware/requireSession";
 import { db } from "#/db";
 import { applicationOAuthConfig } from "#/db/schema/applications";
+import { bouncer } from "#/lib/bouncer";
 import { bytesToHex, decrypt, encrypt } from "#/lib/encryption";
 import { base } from "#/lib/orpc";
 import { createOAuthSchema, updateOAuthSchema } from "./schemas";
@@ -13,7 +14,9 @@ export const createOAuth = base
   .meta(openapi({ method: "POST", path: "/apps/{id}/oauth" }))
   .use(requireSession)
   .input(createOAuthSchema.extend({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("apps.update", context);
+
     // TODO: verify scopes
     const app = await db.query.applications.findFirst({
       where: { id: input.id },
@@ -36,7 +39,9 @@ export const getOAuth = base
   .meta(openapi({ method: "GET", path: "/apps/{id}/oauth" }))
   .use(requireSession)
   .input(z.object({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("apps.read", context);
+
     // TODO: verify scopes
     const app = await db.query.applications.findFirst({
       where: { id: input.id },
@@ -60,7 +65,9 @@ export const updateOAuth = base
   .meta(openapi({ method: "PATCH", path: "/apps/{id}/oauth" }))
   .use(requireSession)
   .input(updateOAuthSchema.extend({ id: z.string() }))
-  .handler(async ({ input }) => {
+  .handler(async ({ context, input }) => {
+    bouncer.allow("apps.update", context);
+
     // TODO: verify scopes
     const app = await db.query.applications.findFirst({
       where: { id: input.id },

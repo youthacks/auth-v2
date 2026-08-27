@@ -23,6 +23,10 @@ export const users = sqliteTable(
     email: text().notNull().unique(),
     dateOfBirth: text("date_of_birth").notNull(),
 
+    role: text({ enum: ["user", "admin"] })
+      .notNull()
+      .default("user"),
+
     createdAt,
     updatedAt,
   },
