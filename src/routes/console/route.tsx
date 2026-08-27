@@ -28,6 +28,8 @@ export const Route = createFileRoute("/console")({
 });
 
 function RouteComponent() {
+  const { user } = Route.useRouteContext();
+
   return (
     <div className="flex h-full bg-neutral-100">
       <div className="min-w-0 flex-1"></div>
@@ -58,25 +60,30 @@ function RouteComponent() {
                 Account
               </ConsoleNavLink>
             </div>
-            <p className="mt-4 mb-1.5 text-sm font-semibold text-neutral-600">
-              Manage
-            </p>
-            <div className="space-y-0.5">
-              <ConsoleNavLink
-                to="/console/manage/users"
-                activeProps={{ active: true }}
-                icon={Users2Icon}
-              >
-                Users
-              </ConsoleNavLink>
-              <ConsoleNavLink
-                to="/console/manage/apps"
-                activeProps={{ active: true }}
-                icon={LayoutGridIcon}
-              >
-                Applications
-              </ConsoleNavLink>
-            </div>
+            {user.role === "admin" && (
+              <>
+                {" "}
+                <p className="mt-4 mb-1.5 text-sm font-semibold text-neutral-600">
+                  Manage
+                </p>
+                <div className="space-y-0.5">
+                  <ConsoleNavLink
+                    to="/console/manage/users"
+                    activeProps={{ active: true }}
+                    icon={Users2Icon}
+                  >
+                    Users
+                  </ConsoleNavLink>
+                  <ConsoleNavLink
+                    to="/console/manage/apps"
+                    activeProps={{ active: true }}
+                    icon={LayoutGridIcon}
+                  >
+                    Applications
+                  </ConsoleNavLink>
+                </div>
+              </>
+            )}
           </div>
 
           <ConsoleUserDropdown />

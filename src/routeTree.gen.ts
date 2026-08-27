@@ -17,6 +17,7 @@ import { Route as ConsoleIndexRouteImport } from './routes/console/index'
 import { Route as ConsoleAccountRouteRouteImport } from './routes/console/account/route'
 import { Route as ConsoleHomeRouteImport } from './routes/console/home'
 import { Route as ConsoleLogbookRouteImport } from './routes/console/logbook'
+import { Route as ConsoleManageRouteRouteImport } from './routes/console/manage/route'
 import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
 import { Route as AuthAuthFinishRouteImport } from './routes/_auth/auth/finish'
 import { Route as AuthOauthSplatRouteImport } from './routes/_auth/oauth/$'
@@ -81,6 +82,11 @@ const ConsoleLogbookRoute = ConsoleLogbookRouteImport.update({
   path: '/logbook',
   getParentRoute: () => ConsoleRouteRoute,
 } as any)
+const ConsoleManageRouteRoute = ConsoleManageRouteRouteImport.update({
+  id: '/manage',
+  path: '/manage',
+  getParentRoute: () => ConsoleRouteRoute,
+} as any)
 const AuthAuthIndexRoute = AuthAuthIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -132,26 +138,26 @@ const AuthAuthSignupIndexRoute = AuthAuthSignupIndexRouteImport.update({
   getParentRoute: () => AuthAuthRouteRoute,
 } as any)
 const ConsoleManageAppsIndexRoute = ConsoleManageAppsIndexRouteImport.update({
-  id: '/manage/apps/',
-  path: '/manage/apps/',
-  getParentRoute: () => ConsoleRouteRoute,
+  id: '/apps/',
+  path: '/apps/',
+  getParentRoute: () => ConsoleManageRouteRoute,
 } as any)
 const ConsoleManageAppsIdRouteRoute =
   ConsoleManageAppsIdRouteRouteImport.update({
-    id: '/manage/apps/$id',
-    path: '/manage/apps/$id',
-    getParentRoute: () => ConsoleRouteRoute,
+    id: '/apps/$id',
+    path: '/apps/$id',
+    getParentRoute: () => ConsoleManageRouteRoute,
   } as any)
 const ConsoleManageUsersIndexRoute = ConsoleManageUsersIndexRouteImport.update({
-  id: '/manage/users/',
-  path: '/manage/users/',
-  getParentRoute: () => ConsoleRouteRoute,
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => ConsoleManageRouteRoute,
 } as any)
 const ConsoleManageUsersIdRouteRoute =
   ConsoleManageUsersIdRouteRouteImport.update({
-    id: '/manage/users/$id',
-    path: '/manage/users/$id',
-    getParentRoute: () => ConsoleRouteRoute,
+    id: '/users/$id',
+    path: '/users/$id',
+    getParentRoute: () => ConsoleManageRouteRoute,
   } as any)
 const AuthAuthLoginIdOtpRoute = AuthAuthLoginIdOtpRouteImport.update({
   id: '/login/$id/otp',
@@ -216,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/console': typeof ConsoleRouteRouteWithChildren
   '/auth': typeof AuthAuthRouteRouteWithChildren
   '/console/account': typeof ConsoleAccountRouteRouteWithChildren
+  '/console/manage': typeof ConsoleManageRouteRouteWithChildren
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/console/manage': typeof ConsoleManageRouteRouteWithChildren
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console': typeof ConsoleIndexRoute
@@ -278,6 +286,7 @@ export interface FileRoutesById {
   '/console': typeof ConsoleRouteRouteWithChildren
   '/_auth/auth': typeof AuthAuthRouteRouteWithChildren
   '/console/account': typeof ConsoleAccountRouteRouteWithChildren
+  '/console/manage': typeof ConsoleManageRouteRouteWithChildren
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/console'
     | '/auth'
     | '/console/account'
+    | '/console/manage'
     | '/console/home'
     | '/console/logbook'
     | '/console/'
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/console/manage'
     | '/console/home'
     | '/console/logbook'
     | '/console'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/console'
     | '/_auth/auth'
     | '/console/account'
+    | '/console/manage'
     | '/console/home'
     | '/console/logbook'
     | '/console/'
@@ -468,6 +480,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsoleLogbookRouteImport
       parentRoute: typeof ConsoleRouteRoute
     }
+    '/console/manage': {
+      id: '/console/manage'
+      path: '/manage'
+      fullPath: '/console/manage'
+      preLoaderRoute: typeof ConsoleManageRouteRouteImport
+      parentRoute: typeof ConsoleRouteRoute
+    }
     '/_auth/auth/': {
       id: '/_auth/auth/'
       path: '/'
@@ -540,31 +559,31 @@ declare module '@tanstack/react-router' {
     }
     '/console/manage/apps/': {
       id: '/console/manage/apps/'
-      path: '/manage/apps'
+      path: '/apps'
       fullPath: '/console/manage/apps/'
       preLoaderRoute: typeof ConsoleManageAppsIndexRouteImport
-      parentRoute: typeof ConsoleRouteRoute
+      parentRoute: typeof ConsoleManageRouteRoute
     }
     '/console/manage/apps/$id': {
       id: '/console/manage/apps/$id'
-      path: '/manage/apps/$id'
+      path: '/apps/$id'
       fullPath: '/console/manage/apps/$id'
       preLoaderRoute: typeof ConsoleManageAppsIdRouteRouteImport
-      parentRoute: typeof ConsoleRouteRoute
+      parentRoute: typeof ConsoleManageRouteRoute
     }
     '/console/manage/users/': {
       id: '/console/manage/users/'
-      path: '/manage/users'
+      path: '/users'
       fullPath: '/console/manage/users/'
       preLoaderRoute: typeof ConsoleManageUsersIndexRouteImport
-      parentRoute: typeof ConsoleRouteRoute
+      parentRoute: typeof ConsoleManageRouteRoute
     }
     '/console/manage/users/$id': {
       id: '/console/manage/users/$id'
-      path: '/manage/users/$id'
+      path: '/users/$id'
       fullPath: '/console/manage/users/$id'
       preLoaderRoute: typeof ConsoleManageUsersIdRouteRouteImport
-      parentRoute: typeof ConsoleRouteRoute
+      parentRoute: typeof ConsoleManageRouteRoute
     }
     '/_auth/auth/login/$id/otp': {
       id: '/_auth/auth/login/$id/otp'
@@ -745,26 +764,37 @@ const ConsoleManageUsersIdRouteRouteWithChildren =
     ConsoleManageUsersIdRouteRouteChildren,
   )
 
-interface ConsoleRouteRouteChildren {
-  ConsoleAccountRouteRoute: typeof ConsoleAccountRouteRouteWithChildren
-  ConsoleHomeRoute: typeof ConsoleHomeRoute
-  ConsoleLogbookRoute: typeof ConsoleLogbookRoute
-  ConsoleIndexRoute: typeof ConsoleIndexRoute
+interface ConsoleManageRouteRouteChildren {
   ConsoleManageAppsIdRouteRoute: typeof ConsoleManageAppsIdRouteRouteWithChildren
   ConsoleManageUsersIdRouteRoute: typeof ConsoleManageUsersIdRouteRouteWithChildren
   ConsoleManageAppsIndexRoute: typeof ConsoleManageAppsIndexRoute
   ConsoleManageUsersIndexRoute: typeof ConsoleManageUsersIndexRoute
 }
 
-const ConsoleRouteRouteChildren: ConsoleRouteRouteChildren = {
-  ConsoleAccountRouteRoute: ConsoleAccountRouteRouteWithChildren,
-  ConsoleHomeRoute: ConsoleHomeRoute,
-  ConsoleLogbookRoute: ConsoleLogbookRoute,
-  ConsoleIndexRoute: ConsoleIndexRoute,
+const ConsoleManageRouteRouteChildren: ConsoleManageRouteRouteChildren = {
   ConsoleManageAppsIdRouteRoute: ConsoleManageAppsIdRouteRouteWithChildren,
   ConsoleManageUsersIdRouteRoute: ConsoleManageUsersIdRouteRouteWithChildren,
   ConsoleManageAppsIndexRoute: ConsoleManageAppsIndexRoute,
   ConsoleManageUsersIndexRoute: ConsoleManageUsersIndexRoute,
+}
+
+const ConsoleManageRouteRouteWithChildren =
+  ConsoleManageRouteRoute._addFileChildren(ConsoleManageRouteRouteChildren)
+
+interface ConsoleRouteRouteChildren {
+  ConsoleAccountRouteRoute: typeof ConsoleAccountRouteRouteWithChildren
+  ConsoleManageRouteRoute: typeof ConsoleManageRouteRouteWithChildren
+  ConsoleHomeRoute: typeof ConsoleHomeRoute
+  ConsoleLogbookRoute: typeof ConsoleLogbookRoute
+  ConsoleIndexRoute: typeof ConsoleIndexRoute
+}
+
+const ConsoleRouteRouteChildren: ConsoleRouteRouteChildren = {
+  ConsoleAccountRouteRoute: ConsoleAccountRouteRouteWithChildren,
+  ConsoleManageRouteRoute: ConsoleManageRouteRouteWithChildren,
+  ConsoleHomeRoute: ConsoleHomeRoute,
+  ConsoleLogbookRoute: ConsoleLogbookRoute,
+  ConsoleIndexRoute: ConsoleIndexRoute,
 }
 
 const ConsoleRouteRouteWithChildren = ConsoleRouteRoute._addFileChildren(
