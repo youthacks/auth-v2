@@ -11,53 +11,17 @@ import {
   ChevronDownIcon,
   KeyIcon,
   MailIcon,
-  MonitorIcon,
   RectangleEllipsisIcon,
-  SmartphoneIcon,
-  TabletIcon,
 } from "lucide-react";
-import { useMemo } from "react";
 import { orpc } from "#/api/client";
 import Button from "#/components/ui/Button";
 import { Fieldset } from "#/components/ui/Fieldset";
-import { browsers } from "#/lib/browsers";
-import { getSessionName, parseUserAgent } from "#/lib/userAgent";
+import { getSessionName, SessionIcon } from "#/lib/userAgent";
 
 export const Route = createFileRoute("/console/account/security")({
   component: RouteComponent,
 });
 
-function SessionIcon({ userAgent }: { userAgent: string | null }) {
-  const parsed = parseUserAgent(userAgent);
-  const DeviceIcon = useMemo(() => {
-    switch (parsed?.type) {
-      case "mobile":
-        return SmartphoneIcon;
-      case "tablet":
-        return TabletIcon;
-      default:
-        return MonitorIcon;
-    }
-  }, [parsed?.type]);
-  const browser = useMemo(() => {
-    if (!parsed?.browserName) return null;
-
-    // biome-ignore lint/style/noNonNullAssertion: tested above
-    const browser = browsers.find((b) => b.regex.test(parsed.browserName!));
-    return browser || null;
-  }, [parsed?.browserName]);
-
-  return (
-    <div className="relative grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
-      <DeviceIcon className="size-4 text-neutral-600" />
-      {browser && (
-        <div className="absolute right-0.5 bottom-0.5">
-          <img src={browser.src} alt={browser.name} className="size-3" />
-        </div>
-      )}
-    </div>
-  );
-}
 function Sessions() {
   const queryClient = useQueryClient();
 
