@@ -5,4 +5,10 @@ export const userSchema = z.object({
   lastName: z.string().min(1, "Last name is required"),
   isLastNameFirst: z.boolean(),
   dateOfBirth: z.iso.date("Date of birth is required"),
+  avatar: z
+    .file()
+    .mime(["image/png", "image/jpeg"], "Avatar must be a PNG or JPEG image")
+    .max(5_000_000, "Avatar must be less than 5MB")
+    .nullable()
+    .or(z.undefined()),
 });

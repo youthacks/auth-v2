@@ -1,11 +1,12 @@
 import { Field as BaseField } from "@base-ui/react/field";
 import { useSelector } from "@tanstack/react-form";
 import clsx from "clsx";
-import { ArrowRightIcon, InfoIcon } from "lucide-react";
+import { InfoIcon } from "lucide-react";
 import { type ComponentProps, useMemo } from "react";
 import Button from "#/components/ui/Button";
 import Checkbox from "#/components/ui/Checkbox";
 import { Field } from "#/components/ui/Field";
+import { AvatarInput } from "#/components/ui/FileInput";
 import type Input from "#/components/ui/Input";
 import { OTPField as BaseOTPField } from "#/components/ui/OTPField";
 import Textarea from "#/components/ui/Textarea";
@@ -115,6 +116,32 @@ export function CheckboxField({
         />
         {label}
       </BaseField.Label>
+      {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
+    </Field.Root>
+  );
+}
+
+export function AvatarInputField({
+  label,
+  description,
+  ...props
+}: { label: string; description?: string } & Omit<
+  ComponentProps<typeof AvatarInput>,
+  "value" | "onChange"
+>) {
+  const field = useFieldContext<File | null | undefined>();
+  const errors = useSelector(field.store, (state) => state.meta.errors);
+
+  return (
+    <Field.Root>
+      <Field.Label>{label}</Field.Label>
+      <AvatarInput
+        {...props}
+        value={field.state.value}
+        onBlur={field.handleBlur}
+        onChange={(v) => field.handleChange(v)}
+      />
+      {description && <Field.Description>{description}</Field.Description>}
       {field.state.meta.isTouched && <ErrorMessage errors={errors} />}
     </Field.Root>
   );

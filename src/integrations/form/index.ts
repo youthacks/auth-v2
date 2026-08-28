@@ -1,6 +1,7 @@
 import { createFormHook } from "@tanstack/react-form";
 
 import {
+  AvatarInputField,
   CheckboxField,
   OTPField,
   StatusBar,
@@ -16,6 +17,7 @@ export const { useAppForm } = createFormHook({
     OTPField,
     TextField,
     TextareaField,
+    AvatarInputField,
   },
   formComponents: {
     SubmitButton,

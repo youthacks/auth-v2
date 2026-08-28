@@ -36,6 +36,7 @@ export const updateUser = createServerFn({ method: "POST" })
   .middleware([withUser])
   .validator(userSchema)
   .handler(async ({ context, data }) => {
+    console.log(data.avatar);
     await db
       .update(users)
       .set({
