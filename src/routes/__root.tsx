@@ -1,17 +1,15 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 import {
+  createRootRouteWithContext,
   HeadContent,
   Scripts,
-  createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { getCurrentSession } from "#/actions/auth/session";
 
 import TanStackQueryDevtools from "../integrations/query/devtools";
-
 import appCss from "../styles.css?url";
-
-import { orpc } from "#/api/client";
-import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -38,11 +36,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
     ],
   }),
-  beforeLoad: async ({ context }) => {
-    const user = await context.queryClient.ensureQueryData(
-      orpc.users.me.get.queryOptions(),
-    );
-    return { user };
+  beforeLoad: async () => {
+    const session = await getCurrentSession();
+    return { session };
   },
   shellComponent: RootDocument,
 });

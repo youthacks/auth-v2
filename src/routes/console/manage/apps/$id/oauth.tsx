@@ -7,14 +7,13 @@ import {
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import clsx from "clsx";
-import {
-  CheckIcon,
-  CopyIcon,
-  EyeIcon,
-  EyeOffIcon,
-  InfoIcon,
-} from "lucide-react";
+import { CheckIcon, CopyIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
+import {
+  getOAuthConfigQuery,
+  updateOAuthConfigMutation,
+} from "#/actions/apps/oauth/queries";
+import { appOAuthSchema } from "#/actions/apps/oauth/schemas";
 import { orpc } from "#/api/client";
 import { updateOAuthSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
@@ -26,7 +25,7 @@ import { useAppForm } from "#/integrations/form";
 export const Route = createFileRoute("/console/manage/apps/$id/oauth")({
   loader: async ({ params, context }) => {
     await context.queryClient.ensureQueryData(
-      orpc.apps.oauth.get.queryOptions({ input: { id: params.id } }),
+      getOAuthConfigQuery({ id: params.id }),
     );
   },
   component: RouteComponent,
@@ -101,28 +100,23 @@ function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { data } = useSuspenseQuery(
-    orpc.apps.oauth.get.queryOptions({ input: { id: params.id } }),
-  );
+  const { data } = useSuspenseQuery(getOAuthConfigQuery({ id: params.id }));
 
-  const { mutateAsync, isPending, error } = useMutation(
-    orpc.apps.oauth.update.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.apps.oauth.get.key({
-            input: { id: params.id },
-          }),
-        });
-      },
-    }),
-  );
+  const { mutateAsync, isPending, error } = useMutation({
+    ...updateOAuthConfigMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["apps", params.id, "oauth"],
+      });
+    },
+  });
 
   const form = useAppForm({
     defaultValues: {
       allowedCallbackUrls: data.allowedCallbackUrls.join("\n"),
     },
     validators: {
-      onDynamic: updateOAuthSchema,
+      onDynamic: appOAuthSchema,
     },
     validationLogic: revalidateLogic(),
 

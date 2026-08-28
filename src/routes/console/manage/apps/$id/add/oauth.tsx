@@ -1,7 +1,8 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { orpc } from "#/api/client";
+import { createOAuthConfigMutation } from "#/actions/apps/oauth/queries";
+import { appOAuthSchema } from "#/actions/apps/oauth/schemas";
 import { createOAuthSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
@@ -15,23 +16,22 @@ function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { mutate, isPending, error } = useMutation(
-    orpc.apps.oauth.create.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.apps.get.key({ input: { id: params.id } }),
-        });
-        navigate({ to: "/console/manage/apps/$id/oauth" });
-      },
-    }),
-  );
+  const { mutate, isPending, error } = useMutation({
+    ...createOAuthConfigMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["apps", params.id],
+      });
+      navigate({ to: "/console/manage/apps/$id/oauth" });
+    },
+  });
 
   const form = useAppForm({
     defaultValues: {
       allowedCallbackUrls: "",
     },
     validators: {
-      onDynamic: createOAuthSchema,
+      onDynamic: appOAuthSchema,
     },
     validationLogic: revalidateLogic(),
 

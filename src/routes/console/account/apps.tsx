@@ -7,14 +7,15 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { ArrowUpRightIcon, ChevronDownIcon } from "lucide-react";
-import { orpc } from "#/api/client";
+import {
+  deleteConsentMutation,
+  getConsentsQuery,
+} from "#/actions/users/consents/queries";
 import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/console/account/apps")({
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(
-      orpc.users.me.consents.get.queryOptions(),
-    );
+    await context.queryClient.ensureQueryData(getConsentsQuery({ id: "me" }));
   },
   component: RouteComponent,
 });
@@ -22,23 +23,20 @@ export const Route = createFileRoute("/console/account/apps")({
 function RouteComponent() {
   const queryClient = useQueryClient();
 
-  const { data: apps } = useSuspenseQuery(
-    orpc.users.me.consents.get.queryOptions(),
-  );
-  const { mutate, isPending } = useMutation(
-    orpc.users.consents.delete.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.users.me.consents.key(),
-        });
-      },
-    }),
-  );
+  const { data: apps } = useSuspenseQuery(getConsentsQuery({ id: "me" }));
+  const { mutate, isPending } = useMutation({
+    ...deleteConsentMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["users", "me", "consents"],
+      });
+    },
+  });
 
   return (
     <div className="p-8">
       {apps.length === 0 ? (
-        <div className="rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
+        <div className="bder-2 rounded-lg border-dashed border-neutral-300 p-4 text-center">
           <p className="font-medium">No apps yet</p>
           <p className="text-sm text-neutral-600">
             Go sign in to something, then check back here!

@@ -1,17 +1,17 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import { orpc } from "#/api/client";
+import { listUsersQuery } from "#/actions/users/queries";
 
 export const Route = createFileRoute("/console/manage/users/")({
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(orpc.users.all.queryOptions());
+    await context.queryClient.ensureQueryData(listUsersQuery());
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { data } = useSuspenseQuery(orpc.users.all.queryOptions());
+  const { data } = useSuspenseQuery(listUsersQuery());
 
   return (
     <div className="p-8">
