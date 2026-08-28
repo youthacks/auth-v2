@@ -1,11 +1,13 @@
 import { defineRelations } from "drizzle-orm";
 import * as applications from "./schema/applications";
+import * as assets from "./schema/assets";
 import * as base from "./schema/base";
 import * as oauth from "./schema/oauth";
 
 export const relations = defineRelations(
   {
     ...applications,
+    ...assets,
     ...base,
     ...oauth,
   },
@@ -13,6 +15,17 @@ export const relations = defineRelations(
     users: {
       sessions: r.many.sessions(),
       appConsents: r.many.applicationConsents(),
+      avatar: r.one.userAvatars({
+        from: r.users.id,
+        to: r.userAvatars.userId,
+      }),
+    },
+    userAvatars: {
+      asset: r.one.assets({
+        from: r.userAvatars.assetId,
+        to: r.assets.id,
+        optional: false,
+      }),
     },
     sessions: {
       user: r.one.users({

@@ -1,13 +1,12 @@
 import { Field } from "@base-ui/react/field";
 import { usePrevious } from "@mantine/hooks";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { type ComponentProps, useRef } from "react";
 import {
-  type ComponentProps,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+  getAssetInfoQuery,
+  uploadAvatarMutation,
+} from "#/actions/assets/queries";
 import Button from "./Button";
 
 function bytesToReadable(bytes: number): string {
@@ -23,9 +22,11 @@ function bytesToReadable(bytes: number): string {
   return `${gb.toFixed(1)} GB`;
 }
 
+const fileNames = new Map<string, string>();
+
 type AvatarInputProps = Omit<ComponentProps<"div">, "value" | "onChange"> & {
-  value: File | null | undefined;
-  onChange: (file: File | null) => void;
+  value: string | null;
+  onChange: (assetId: string | null) => void;
   placeholder?: string;
 };
 
@@ -36,26 +37,24 @@ export function AvatarInput({
   ...props
 }: AvatarInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const previousFileUrl = usePrevious(fileUrl);
 
-  const previewFileUrl = useMemo(
-    () => fileUrl || previousFileUrl,
-    [fileUrl, previousFileUrl],
-  );
+  const { data: asset } = useQuery({
+    ...getAssetInfoQuery({ assetId: value || "" }),
+    enabled: !!value,
+  });
+  const previousAsset = usePrevious(asset);
 
-  useEffect(() => {
-    if (value) {
-      const url = URL.createObjectURL(value);
-      setFileUrl(url);
+  const { mutate, isPending } = useMutation({
+    ...uploadAvatarMutation(),
+    onSuccess: (data, variables) => {
+      const file = variables.get("file");
+      if (file && file instanceof File) {
+        fileNames.set(data.assetId, file.name);
+      }
 
-      return () => {
-        URL.revokeObjectURL(url);
-      };
-    } else {
-      setFileUrl(null);
-    }
-  }, [value]);
+      onChange(data.assetId);
+    },
+  });
 
   return (
     <div {...props}>
@@ -66,10 +65,15 @@ export function AvatarInput({
         )}
       >
         <div className="flex h-full min-h-24 items-center justify-center pb-2">
-          <div className="size-16 flex-none overflow-clip rounded-full border border-neutral-200 bg-neutral-100">
-            {previewFileUrl && (
+          <div
+            className={clsx(
+              "size-16 flex-none overflow-clip rounded-full border border-neutral-200 bg-neutral-100 transition duration-500 ease-in-out-expo",
+              value ? "" : "scale-50 opacity-0",
+            )}
+          >
+            {(asset || previousAsset) && (
               <img
-                src={previewFileUrl}
+                src={asset?.url ?? previousAsset?.url}
                 alt=""
                 className="size-full object-cover"
               />
@@ -78,31 +82,55 @@ export function AvatarInput({
         </div>
       </div>
       <div className="relative flex h-14 items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-4 shadow-xs">
-        <div className="min-w-0 flex-1">
-          {value ? (
-            <>
-              <p className="text-sm leading-snug">{value.name || "unnamed"}</p>
-              <p className="text-xs leading-snug text-neutral-600">
-                {bytesToReadable(value.size)}
+        {isPending ? (
+          <>
+            <span className="mr-0.5 block size-3 animate-spin rounded-full border border-transparent border-r-neutral-500"></span>
+            <p className="text-sm text-neutral-600">Uploading...</p>
+          </>
+        ) : value && !asset ? (
+          <>
+            <span className="mr-0.5 block size-3 animate-spin rounded-full border border-transparent border-r-neutral-500"></span>
+            <p className="text-sm text-neutral-600">Finalising...</p>
+          </>
+        ) : asset ? (
+          <>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm leading-snug">
+                {fileNames.get(asset.id) || (
+                  <span className="italic">Existing file</span>
+                )}
               </p>
-            </>
-          ) : (
-            <p className="text-sm">No file selected</p>
-          )}
-        </div>
-        <Button onClick={() => inputRef.current?.click()} size="sm">
-          Upload
-        </Button>
-        {value !== null && (
-          <Button onClick={() => onChange(null)} color="danger" size="sm">
-            Remove
-          </Button>
+              <p className="text-xs leading-snug text-neutral-600">
+                {bytesToReadable(asset.size)}
+              </p>
+            </div>
+            <Button onClick={() => inputRef.current?.click()} size="sm">
+              Replace
+            </Button>
+            <Button onClick={() => onChange(null)} color="danger" size="sm">
+              Remove
+            </Button>
+          </>
+        ) : (
+          <>
+            <p className="min-w-0 flex-1 text-sm">No file selected</p>
+            <Button onClick={() => inputRef.current?.click()} size="sm">
+              Upload
+            </Button>
+          </>
         )}
       </div>
       <Field.Control
         ref={inputRef}
         type="file"
-        onChange={(ev) => onChange(ev.target.files?.[0] ?? null)}
+        onChange={(ev) => {
+          const [file] = ev.target.files || [];
+          if (file) {
+            const formData = new FormData();
+            formData.append("file", file);
+            mutate(formData);
+          }
+        }}
         className="pointer-events-none absolute size-0! flex-none"
       />
     </div>

@@ -5,6 +5,7 @@ import {
   text,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import { assets } from "./assets";
 import {
   loginId,
   sessionId,
@@ -35,6 +36,14 @@ export const users = sqliteTable(
   },
   (t) => [uniqueIndex("email_idx").on(t.email)],
 );
+export const userAvatars = sqliteTable("user_avatars", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  assetId: text("asset_id")
+    .notNull()
+    .references(() => assets.id, { onDelete: "cascade" }),
+});
 
 export const sessions = sqliteTable("sessions", {
   id: text().primaryKey().$defaultFn(sessionId),
