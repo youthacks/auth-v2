@@ -5,6 +5,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import clsx from "clsx";
 import dayjs from "dayjs";
 import { getUserQuery, updateUserMutation } from "#/actions/users/queries";
 import { userSchema } from "#/actions/users/schema";
@@ -29,11 +30,10 @@ function RouteComponent() {
   });
   const form = useAppForm({
     defaultValues: {
-      firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
-      dateOfBirth: user?.dateOfBirth
-        ? dayjs(user.dateOfBirth).format("YYYY-MM-DD")
-        : "",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      dateOfBirth: dayjs(user.dateOfBirth).format("YYYY-MM-DD"),
+      isLastNameFirst: user.isLastNameFirst,
     },
     validators: {
       onDynamic: userSchema,
@@ -66,26 +66,38 @@ function RouteComponent() {
         {error && <FormMessage state="error">{error.message}</FormMessage>}
         <Fieldset.Root>
           <Fieldset.Legend>Your profile</Fieldset.Legend>
-          <div className="grid grid-cols-2 gap-4">
-            <form.AppField name="firstName">
-              {(field) => (
-                <field.TextField
-                  type="text"
-                  label="First name"
-                  placeholder={user?.firstName}
-                />
-              )}
-            </form.AppField>
-            <form.AppField name="lastName">
-              {(field) => (
-                <field.TextField
-                  type="text"
-                  label="Last name"
-                  placeholder={user?.lastName}
-                />
-              )}
-            </form.AppField>
-          </div>
+          <form.Subscribe selector={(state) => state.values.isLastNameFirst}>
+            {(isLastNameFirst) => (
+              <div
+                className={clsx(
+                  "grid grid-cols-2 gap-4",
+                  isLastNameFirst && "*:first:order-last",
+                )}
+              >
+                <form.AppField name="firstName">
+                  {(field) => (
+                    <field.TextField
+                      type="text"
+                      label="First name"
+                      placeholder={user.firstName}
+                    />
+                  )}
+                </form.AppField>
+                <form.AppField name="lastName">
+                  {(field) => (
+                    <field.TextField
+                      type="text"
+                      label="Last name"
+                      placeholder={user.lastName}
+                    />
+                  )}
+                </form.AppField>
+              </div>
+            )}
+          </form.Subscribe>
+          <form.AppField name="isLastNameFirst">
+            {(field) => <field.CheckboxField label="Display last name first" />}
+          </form.AppField>
           <form.AppField name="dateOfBirth">
             {(field) => <field.TextField type="date" label="Date of birth" />}
           </form.AppField>

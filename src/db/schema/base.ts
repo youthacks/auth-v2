@@ -20,6 +20,9 @@ export const users = sqliteTable(
     id: text().primaryKey().$defaultFn(userId),
     firstName: text("first_name").notNull(),
     lastName: text("last_name").notNull(),
+    isLastNameFirst: integer("is_last_name_first", { mode: "boolean" })
+      .notNull()
+      .default(false),
     email: text().notNull().unique(),
     dateOfBirth: text("date_of_birth").notNull(),
 

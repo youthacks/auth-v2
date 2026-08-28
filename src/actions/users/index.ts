@@ -18,6 +18,7 @@ export const listUsers = createServerFn()
         id: true,
         firstName: true,
         lastName: true,
+        isLastNameFirst: true,
         email: true,
         createdAt: true,
       },
@@ -40,6 +41,7 @@ export const updateUser = createServerFn({ method: "POST" })
       .set({
         firstName: data.firstName,
         lastName: data.lastName,
+        isLastNameFirst: data.isLastNameFirst,
         dateOfBirth: data.dateOfBirth,
       })
       .where(eq(users.id, context.withUser.id));
