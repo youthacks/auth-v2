@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { getAppQuery, updateAppMutation } from "#/actions/apps/queries";
-import { updateAppSchema } from "#/api/routers/apps/schemas";
+import { appSchema } from "#/actions/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { Fieldset } from "#/components/ui/Fieldset";
 import { useAppForm } from "#/integrations/form";
@@ -35,7 +35,7 @@ function RouteComponent() {
       homepageUrl: data.homepageUrl || "",
     },
     validators: {
-      onDynamic: updateAppSchema,
+      onDynamic: appSchema,
     },
     validationLogic: revalidateLogic(),
 

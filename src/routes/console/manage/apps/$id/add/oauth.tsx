@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { createOAuthConfigMutation } from "#/actions/apps/oauth/queries";
 import { appOAuthSchema } from "#/actions/apps/oauth/schemas";
-import { createOAuthSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { useAppForm } from "#/integrations/form";
 
