@@ -36,7 +36,7 @@ function RouteComponent() {
   return (
     <div className="p-8">
       {apps.length === 0 ? (
-        <div className="bder-2 rounded-lg border-dashed border-neutral-300 p-4 text-center">
+        <div className="rounded-lg border-2 border-dashed border-neutral-300 p-4 text-center">
           <p className="font-medium">No apps yet</p>
           <p className="text-sm text-neutral-600">
             Go sign in to something, then check back here!
