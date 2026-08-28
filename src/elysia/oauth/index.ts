@@ -115,7 +115,9 @@ export const oauthApi = new Elysia({ prefix: "/oauth" })
       const tokenScopes = accessToken.scopes.split(" ");
 
       const profilePart = {
-        name: `${user.firstName} ${user.lastName}`,
+        name: user.isLastNameFirst
+          ? `${user.lastName} ${user.firstName}`
+          : `${user.firstName} ${user.lastName}`,
         given_name: user.firstName,
         family_name: user.lastName,
         nickname: user.firstName,

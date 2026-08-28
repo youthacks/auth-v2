@@ -34,7 +34,9 @@ function RouteComponent() {
               <div className="size-8 rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-rose-700 group-hover:text-rose-900">
-                  {user.firstName} {user.lastName}
+                  {user.isLastNameFirst
+                    ? `${user.lastName} ${user.firstName}`
+                    : `${user.firstName} ${user.lastName}`}
                 </p>
                 <p className="text-xs text-neutral-600">{user.email}</p>
               </div>

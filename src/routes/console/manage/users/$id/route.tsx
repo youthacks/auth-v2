@@ -29,7 +29,9 @@ function RouteComponent() {
         <div className="flex items-center gap-3">
           <div className="size-8 rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
           <h1 className="font-heading mt-0.5 text-3xl font-bold">
-            {data.firstName} {data.lastName}
+            {data.isLastNameFirst
+              ? `${data.lastName} ${data.firstName}`
+              : `${data.firstName} ${data.lastName}`}
           </h1>
         </div>
 
