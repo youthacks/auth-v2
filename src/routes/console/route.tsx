@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import {
   createFileRoute,
   createLink,
@@ -11,6 +12,7 @@ import {
   UserCircle2Icon,
   Users2Icon,
 } from "lucide-react";
+import { getUserQuery } from "#/actions/users/queries";
 import logo from "#/assets/logos/youthacks-logo.svg";
 import ConsoleNavItem from "#/components/console/ConsoleNavItem";
 import ConsoleUserDropdown from "#/components/console/ConsoleUserDropdown";
@@ -19,16 +21,21 @@ const ConsoleNavLink = createLink(ConsoleNavItem);
 
 export const Route = createFileRoute("/console")({
   beforeLoad: async ({ context, location }) => {
-    if (!context.user) {
+    const { session } = context;
+    if (!session) {
       throw redirect({ to: "/auth", search: { return_to: location.pathname } });
     }
-    return { user: context.user };
+
+    const user = await context.queryClient.ensureQueryData(
+      getUserQuery({ id: "me" }),
+    );
+    return { session, user };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { user } = Route.useRouteContext();
+  const { data: user } = useSuspenseQuery(getUserQuery({ id: "me" }));
 
   return (
     <div className="flex h-full bg-neutral-100">
@@ -62,7 +69,6 @@ function RouteComponent() {
             </div>
             {user.role === "admin" && (
               <>
-                {" "}
                 <p className="mt-4 mb-1.5 text-sm font-semibold text-neutral-600">
                   Manage
                 </p>

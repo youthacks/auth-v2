@@ -7,6 +7,7 @@ import {
   oauthGetAppInfo,
 } from "#/actions/oauth";
 import { oauthAuthorizeSchema } from "#/actions/oauth/schemas";
+import { getUser } from "#/actions/users";
 import { FormHeader } from "#/components/form/FormHeader";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
@@ -14,7 +15,7 @@ import Button from "#/components/ui/Button";
 export const Route = createFileRoute("/_auth/oauth/authorize")({
   validateSearch: oauthAuthorizeSchema,
   beforeLoad: async ({ context, location }) => {
-    if (!context.user) {
+    if (!context.session) {
       const search = new URLSearchParams(location.search);
       throw redirect({
         to: "/auth",
@@ -23,7 +24,7 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
         },
       });
     }
-    return { user: context.user };
+    return { session: context.session };
   },
   loaderDeps: ({ search }) => ({ search }),
   loader: async ({ deps: { search } }) => {
@@ -37,14 +38,15 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
     const app = await oauthGetAppInfo({
       data: search,
     });
-    return { app };
+    const user = await getUser({ data: { id: "me" } });
+
+    return { app, user };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { user } = Route.useRouteContext();
-  const { app } = Route.useLoaderData();
+  const { app, user } = Route.useLoaderData();
 
   const search = Route.useSearch();
   const navigate = useNavigate();
@@ -56,9 +58,10 @@ function RouteComponent() {
       newSearch.set("code", data.code);
       if (search.state) newSearch.set("state", search.state);
 
-      await navigate({
+      navigate({
         href: `${search.redirect_uri}?${newSearch.toString()}`,
       });
+      await new Promise(() => {}); // wait for navigation to finish
     },
   });
 

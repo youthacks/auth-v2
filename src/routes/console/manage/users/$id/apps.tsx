@@ -7,13 +7,16 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { ArrowUpRightIcon, ChevronDownIcon } from "lucide-react";
-import { orpc } from "#/api/client";
+import {
+  deleteConsentMutation,
+  getConsentsQuery,
+} from "#/actions/users/consents/queries";
 import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/console/manage/users/$id/apps")({
   loader: async ({ context, params }) => {
     await context.queryClient.ensureQueryData(
-      orpc.users.consents.get.queryOptions({ input: { id: params.id } }),
+      getConsentsQuery({ id: params.id }),
     );
   },
   component: RouteComponent,
@@ -23,18 +26,15 @@ function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { data: apps } = useSuspenseQuery(
-    orpc.users.consents.get.queryOptions({ input: { id: params.id } }),
-  );
-  const { mutate, isPending } = useMutation(
-    orpc.users.consents.delete.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.users.consents.key(),
-        });
-      },
-    }),
-  );
+  const { data: apps } = useSuspenseQuery(getConsentsQuery({ id: params.id }));
+  const { mutate, isPending } = useMutation({
+    ...deleteConsentMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["users", params.id, "consents"],
+      });
+    },
+  });
 
   return (
     <div className="p-8">

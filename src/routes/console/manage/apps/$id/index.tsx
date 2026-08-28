@@ -5,7 +5,7 @@ import {
   useSuspenseQuery,
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { orpc } from "#/api/client";
+import { getAppQuery, updateAppMutation } from "#/actions/apps/queries";
 import { updateAppSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import { Fieldset } from "#/components/ui/Fieldset";
@@ -19,19 +19,14 @@ function RouteComponent() {
   const params = Route.useParams();
   const queryClient = useQueryClient();
 
-  const { data } = useSuspenseQuery(
-    orpc.apps.get.queryOptions({ input: { id: params.id } }),
-  );
+  const { data } = useSuspenseQuery(getAppQuery({ id: params.id }));
 
-  const { mutateAsync, isPending, error } = useMutation(
-    orpc.apps.update.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.apps.key(),
-        });
-      },
-    }),
-  );
+  const { mutateAsync, isPending, error } = useMutation({
+    ...updateAppMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["apps"] });
+    },
+  });
 
   const form = useAppForm({
     defaultValues: {

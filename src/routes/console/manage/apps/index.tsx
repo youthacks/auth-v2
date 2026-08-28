@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PlusIcon } from "lucide-react";
-import { orpc } from "#/api/client";
+import { listAppsQuery } from "#/actions/apps/queries";
 import Button from "#/components/ui/Button";
 import { Dialog } from "#/components/ui/Dialog";
 import NewAppDialog from "./-new";
@@ -12,7 +12,7 @@ dayjs.extend(relativeTime);
 
 export const Route = createFileRoute("/console/manage/apps/")({
   loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(orpc.apps.all.queryOptions());
+    await context.queryClient.ensureQueryData(listAppsQuery());
   },
   component: RouteComponent,
 });
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/console/manage/apps/")({
 const newAppDialog = Dialog.createHandle();
 
 function RouteComponent() {
-  const { data } = useSuspenseQuery(orpc.apps.all.queryOptions());
+  const { data } = useSuspenseQuery(listAppsQuery());
 
   return (
     <>

@@ -13,7 +13,11 @@ import {
   MailIcon,
   RectangleEllipsisIcon,
 } from "lucide-react";
-import { orpc } from "#/api/client";
+import { getUserQuery } from "#/actions/users/queries";
+import {
+  deleteSessionMutation,
+  getSessionsQuery,
+} from "#/actions/users/sessions/queries";
 import Button from "#/components/ui/Button";
 import { Fieldset } from "#/components/ui/Fieldset";
 import { getSessionName, SessionIcon } from "#/lib/userAgent";
@@ -25,18 +29,15 @@ export const Route = createFileRoute("/console/account/security")({
 function Sessions() {
   const queryClient = useQueryClient();
 
-  const { data: sessions } = useQuery(
-    orpc.users.me.sessions.get.queryOptions(),
-  );
-  const { mutate, isPending } = useMutation(
-    orpc.users.sessions.delete.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({
-          queryKey: orpc.users.me.sessions.key(),
-        });
-      },
-    }),
-  );
+  const { data: sessions } = useQuery(getSessionsQuery({ id: "me" }));
+  const { mutate, isPending } = useMutation({
+    ...deleteSessionMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["users", "me", "sessions"],
+      });
+    },
+  });
 
   return (
     <section>
@@ -89,7 +90,7 @@ function Sessions() {
                     color="danger"
                     disabled={session.isCurrent || isPending}
                     onClick={() => {
-                      mutate({ sessionId: session.id });
+                      mutate({ id: session.id });
                     }}
                     className="mt-4"
                   >
@@ -120,7 +121,7 @@ function Sessions() {
 }
 
 function RouteComponent() {
-  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
+  const { data: user } = useSuspenseQuery(getUserQuery({ id: "me" }));
 
   return (
     <div className="space-y-8 p-8">

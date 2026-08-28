@@ -7,13 +7,13 @@ import {
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronUpIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import { logout } from "#/actions/auth/session";
-import { orpc } from "#/api/client";
+import { getUserQuery } from "#/actions/users/queries";
 
 export default function ConsoleUserDropdown() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
+  const { data: user } = useSuspenseQuery(getUserQuery({ id: "me" }));
   const { mutate, isPending } = useMutation({
     mutationFn: () => logout(),
     onSuccess: async () => {
@@ -27,8 +27,8 @@ export default function ConsoleUserDropdown() {
       <Menu.Trigger className="group flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-neutral-200 data-popup-open:bg-neutral-200">
         <span className="size-8 flex-none rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></span>
         <div className="w-full min-w-0">
-          <p className="text-sm font-medium">{user?.firstName}</p>
-          <p className="text-xs text-neutral-600">{user?.email}</p>
+          <p className="text-sm font-medium">{user.firstName}</p>
+          <p className="text-xs text-neutral-600">{user.email}</p>
         </div>
         <ChevronUpIcon className="size-4 flex-none text-neutral-600 transition-transform group-data-popup-open:rotate-180" />
       </Menu.Trigger>

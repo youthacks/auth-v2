@@ -6,8 +6,8 @@ import {
 } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
-import { orpc } from "#/api/client";
-import { updateMeSchema } from "#/api/routers/users/schemas";
+import { getUserQuery, updateUserMutation } from "#/actions/users/queries";
+import { userSchema } from "#/actions/users/schema";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { Fieldset } from "#/components/ui/Fieldset";
@@ -19,15 +19,14 @@ export const Route = createFileRoute("/console/account/profile")({
 
 function RouteComponent() {
   const queryClient = useQueryClient();
-  const { data: user } = useSuspenseQuery(orpc.users.me.get.queryOptions());
+  const { data: user } = useSuspenseQuery(getUserQuery({ id: "me" }));
 
-  const { mutateAsync, isPending, isSuccess, error } = useMutation(
-    orpc.users.me.update.mutationOptions({
-      onSuccess: async () => {
-        await queryClient.invalidateQueries({ queryKey: orpc.users.key() });
-      },
-    }),
-  );
+  const { mutateAsync, isPending, isSuccess, error } = useMutation({
+    ...updateUserMutation(),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["users", "me"] });
+    },
+  });
   const form = useAppForm({
     defaultValues: {
       firstName: user?.firstName || "",
@@ -37,13 +36,13 @@ function RouteComponent() {
         : "",
     },
     validators: {
-      onDynamic: updateMeSchema,
+      onDynamic: userSchema,
     },
     validationLogic: revalidateLogic(),
 
     onSubmit: async ({ value, formApi }) => {
       try {
-        await mutateAsync(value);
+        await mutateAsync({ ...value, id: "me" });
         formApi.reset(value);
       } catch (_e) {}
     },

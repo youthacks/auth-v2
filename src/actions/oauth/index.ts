@@ -2,10 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import dayjs from "dayjs";
 import { nanoid } from "nanoid";
 import z from "zod";
+import { requireSession } from "#/actions/auth/session/middleware";
 import { db } from "#/db";
 import { applicationConsents } from "#/db/schema/applications";
 import { oauthExchangeCodes } from "#/db/schema/oauth";
-import { requireSession } from "#/middleware/requireSession";
 import { oauthAuthorizeSchema } from "./schemas";
 
 export const oauthAuthorizeSilently = createServerFn()

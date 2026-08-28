@@ -40,26 +40,6 @@ const zAllowedCallbackUrls = () =>
     return urls;
   });
 
-export const createAppSchema = z.object({
-  name: z.string().min(1, "Required"),
-  description: z.string(),
-  homepageUrl: z
-    .httpUrl()
-    .or(z.url({ protocol: /^http$/, hostname: /^localhost$/ })),
-});
-
-export const updateAppSchema = z.object({
-  name: z.string().min(1, "Required"),
-  description: z.string(),
-  homepageUrl: z
-    .httpUrl()
-    .or(z.url({ protocol: /^http$/, hostname: /^localhost$/ })),
-});
-
-export const createOAuthSchema = z.object({
-  allowedCallbackUrls: zAllowedCallbackUrls(),
-});
-
-export const updateOAuthSchema = z.object({
+export const appOAuthSchema = z.object({
   allowedCallbackUrls: zAllowedCallbackUrls(),
 });
