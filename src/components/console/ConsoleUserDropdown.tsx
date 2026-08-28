@@ -25,7 +25,17 @@ export default function ConsoleUserDropdown() {
   return (
     <Menu.Root>
       <Menu.Trigger className="group flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-neutral-200 data-popup-open:bg-neutral-200">
-        <span className="size-8 flex-none rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></span>
+        <div className="size-8 flex-none overflow-clip rounded-full">
+          {user.avatar ? (
+            <img
+              src={user.avatar.url}
+              alt=""
+              className="size-full object-cover"
+            />
+          ) : (
+            <div className="size-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
+          )}
+        </div>
         <div className="w-full min-w-0">
           <p className="text-sm font-medium">{user.firstName}</p>
           <p className="text-xs text-neutral-600">{user.email}</p>
