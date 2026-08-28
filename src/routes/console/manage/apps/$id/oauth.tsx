@@ -14,8 +14,6 @@ import {
   updateOAuthConfigMutation,
 } from "#/actions/apps/oauth/queries";
 import { appOAuthSchema } from "#/actions/apps/oauth/schemas";
-import { orpc } from "#/api/client";
-import { updateOAuthSchema } from "#/api/routers/apps/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { Field } from "#/components/ui/Field";

@@ -8,8 +8,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { getUserQuery, updateUserMutation } from "#/actions/users/queries";
 import { userSchema } from "#/actions/users/schema";
-import { orpc } from "#/api/client";
-import { updateMeSchema } from "#/api/routers/users/schemas";
 import FormMessage from "#/components/form/FormMessage";
 import Button from "#/components/ui/Button";
 import { Fieldset } from "#/components/ui/Fieldset";
