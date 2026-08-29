@@ -75,7 +75,6 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
   });
 
 export const oauthGetAppInfo = createServerFn()
-  .middleware([requireSession])
   .validator(oauthAuthorizeSchema)
   .handler(async ({ data }) => {
     const app = await db.query.applications.findFirst({
@@ -85,6 +84,7 @@ export const oauthGetAppInfo = createServerFn()
           columns: { firstName: true },
         },
         logo: true,
+        background: true,
       },
     });
     if (!app) {
@@ -97,10 +97,17 @@ export const oauthGetAppInfo = createServerFn()
           url: await getAssetUrl(app.logo.id),
         }
       : null;
+    const backgroundPart = app.background
+      ? {
+          id: app.background.id,
+          url: await getAssetUrl(app.background.id),
+        }
+      : null;
 
     return {
       name: app.name,
       logo: logoPart,
+      background: backgroundPart,
       owner: {
         firstName: app.owner.firstName,
       },

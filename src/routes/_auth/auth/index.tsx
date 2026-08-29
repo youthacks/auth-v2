@@ -1,6 +1,6 @@
 import { revalidateLogic } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useLoaderData } from "@tanstack/react-router";
 import { KeyIcon } from "lucide-react";
 import z from "zod";
 
@@ -22,6 +22,9 @@ export const Route = createFileRoute("/_auth/auth/")({
 function RouteComponent() {
   const navigate = Route.useNavigate();
   const search = Route.useSearch();
+
+  const { app } = useLoaderData({ from: "/_auth" });
+
   const { mutate, isPending, error, submittedAt } = useMutation({
     mutationFn: discoverLogin,
     onSuccess: async (result, { data: { email } }) => {
@@ -54,7 +57,11 @@ function RouteComponent() {
       <h1 className="font-heading text-3xl font-bold">Log in or sign up</h1>
       <p className="mt-1 text-neutral-600">
         to continue to{" "}
-        <span className="font-semibold text-black">Youthacks</span>
+        {app ? (
+          <span className="font-semibold text-black">{app.name}</span>
+        ) : (
+          "your account"
+        )}
       </p>
       {/* <p className="mt-2 text-sm text-neutral-600">
         use signup@example.com, login@example.com, or login-org@example.com

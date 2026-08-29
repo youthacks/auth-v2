@@ -32,3 +32,17 @@
     @apply tracking-tight;
   }
 }
+
+.animate-background-in {
+  animation: background-in 1s var(--ease-in-out-expo) both;
+}
+@keyframes background-in {
+  0% {
+    scale: 1.1;
+    filter: blur(8px);
+  }
+  100% {
+    scale: 1;
+    filter: blur(0px);
+  }
+}

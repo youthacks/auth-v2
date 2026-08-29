@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
+import z from "zod";
 import { db } from "#/db";
 import { applications } from "#/db/schema/applications";
 import { getAssetUrl } from "#/lib/assets";

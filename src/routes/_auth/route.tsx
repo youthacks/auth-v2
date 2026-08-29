@@ -1,17 +1,79 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import background from "#/assets/backgrounds/coolashack5.jpg";
+import {
+  createFileRoute,
+  Outlet,
+  type ParsedLocation,
+} from "@tanstack/react-router";
+import { oauthGetAppInfo } from "#/actions/oauth";
+import { oauthAuthorizeSchema } from "#/actions/oauth/schemas";
+
+import coolashack1 from "#/assets/backgrounds/coolashack-1.jpg";
+import coolashack4 from "#/assets/backgrounds/coolashack-4.jpg";
+import coolashack5 from "#/assets/backgrounds/coolashack-5.jpg";
+import coolashack7 from "#/assets/backgrounds/coolashack-7.jpg";
+import daydreamLon2 from "#/assets/backgrounds/daydream-lon-2.jpg";
+import daydreamLon6 from "#/assets/backgrounds/daydream-lon-6.jpg";
+import daydreamLon7 from "#/assets/backgrounds/daydream-lon-7.jpg";
+import daydreamLon8 from "#/assets/backgrounds/daydream-lon-8.jpg";
 
 export const Route = createFileRoute("/_auth")({
+  loader: async ({ location }) => {
+    const background =
+      backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+    const meta = getOAuthMetaFromLocation(location);
+    if (meta) {
+      const app = await oauthGetAppInfo({ data: meta });
+      return { app, background };
+    }
+
+    return { background };
+  },
   component: RouteComponent,
 });
 
+const backgrounds = [
+  { url: coolashack1, caption: "Cool as Hack, 2025, Cambridge" },
+  { url: coolashack4, caption: "Cool as Hack, 2025, Cambridge" },
+  { url: coolashack5, caption: "Cool as Hack, 2025, Cambridge" },
+  { url: coolashack7, caption: "Cool as Hack, 2025, Cambridge" },
+  { url: daydreamLon2, caption: "Daydream London, 2025, London" },
+  { url: daydreamLon6, caption: "Daydream London, 2025, London" },
+  { url: daydreamLon7, caption: "Daydream London, 2025, London" },
+  { url: daydreamLon8, caption: "Daydream London, 2025, London" },
+] satisfies { url: string; caption: string }[];
+
+function getOAuthMetaFromLocation(location: ParsedLocation) {
+  if (location.pathname.startsWith("/oauth/authorize")) {
+    const result = oauthAuthorizeSchema.safeParse(location.search);
+    return result.data ?? null;
+  }
+
+  if (
+    "return_to" in location.search &&
+    typeof location.search.return_to === "string"
+  ) {
+    const returnToUrl = new URL(
+      location.search.return_to,
+      "https://example.com",
+    );
+    const searchParams = Object.fromEntries(returnToUrl.searchParams.entries());
+
+    const result = oauthAuthorizeSchema.safeParse(searchParams);
+    return result.data ?? null;
+  }
+
+  return null;
+}
+
 function RouteComponent() {
+  const { app, background } = Route.useLoaderData();
+
   return (
     <>
       <img
-        src={background}
-        className="fixed inset-0 -z-10 h-full w-full object-cover"
-        alt="Background"
+        src={app?.background?.url ?? background.url}
+        className="animate-background-in fixed inset-0 -z-10 h-full w-full object-cover"
+        alt=""
       />
       <div className="flex size-full flex-col items-center gap-4 overflow-auto p-8">
         <div className="mx-auto w-full max-w-lg overflow-clip rounded-xl border border-neutral-200 bg-white shadow-md">
@@ -24,7 +86,7 @@ function RouteComponent() {
           <p className="text-xs text-white/80">
             auth version aabb123
             <span className="mx-1.5 text-white/50">&middot;</span>
-            Cool as Hack, 2025, Cambridge
+            {app ? app.name : background.caption}
           </p>
         </div>
       </div>
