@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { listUsersQuery } from "#/actions/users/queries";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 
 export const Route = createFileRoute("/console/manage/users/")({
   loader: async ({ context }) => {
@@ -15,7 +16,7 @@ function RouteComponent() {
 
   return (
     <div className="p-8">
-      <h1 className="font-heading min-h-10 text-3xl font-bold">Users</h1>
+      <h1 className="min-h-10 font-heading text-3xl font-bold">Users</h1>
 
       <div className="mt-4 divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
         <div className="flex gap-4 bg-neutral-100 px-4 py-1.5 text-sm">
@@ -31,7 +32,17 @@ function RouteComponent() {
             className="group flex h-16 items-center gap-4 px-4 transition hover:bg-neutral-100"
           >
             <div className="flex min-w-0 flex-1 items-center gap-2.5">
-              <div className="size-8 rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
+              <div className="size-8 flex-none overflow-clip rounded-full border border-neutral-200">
+                {user.avatar ? (
+                  <img
+                    src={user.avatar.url}
+                    alt=""
+                    className="size-full object-cover"
+                  />
+                ) : (
+                  <DefaultAvatar>{user.firstName[0]}</DefaultAvatar>
+                )}
+              </div>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-rose-700 group-hover:text-rose-900">
                   {user.isLastNameFirst

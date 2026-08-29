@@ -23,8 +23,24 @@ export const listUsers = createServerFn()
         email: true,
         createdAt: true,
       },
+      with: {
+        avatar: {
+          with: { asset: true },
+        },
+      },
     });
-    return users;
+
+    return await Promise.all(
+      users.map(async (user) => ({
+        ...user,
+        avatar: user.avatar
+          ? {
+              id: user.avatar.asset.id,
+              url: await getAssetUrl(user.avatar.asset.id),
+            }
+          : null,
+      })),
+    );
   });
 
 export const getUser = createServerFn()

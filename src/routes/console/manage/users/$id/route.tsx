@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { getUserQuery } from "#/actions/users/queries";
 import { ConsoleTabLink } from "#/components/console/ConsoleTabItem";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 
 export const Route = createFileRoute("/console/manage/users/$id")({
   loader: async ({ params, context }) => {
@@ -27,8 +28,18 @@ function RouteComponent() {
           </Link>
         </div>
         <div className="flex items-center gap-3">
-          <div className="size-8 rounded-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
-          <h1 className="font-heading mt-0.5 text-3xl font-bold">
+          <div className="size-8 flex-none overflow-clip rounded-full border border-neutral-200">
+            {data.avatar ? (
+              <img
+                src={data.avatar.url}
+                alt=""
+                className="size-full object-cover"
+              />
+            ) : (
+              <DefaultAvatar>{data.firstName[0]}</DefaultAvatar>
+            )}
+          </div>
+          <h1 className="mt-0.5 font-heading text-3xl font-bold">
             {data.isLastNameFirst
               ? `${data.lastName} ${data.firstName}`
               : `${data.firstName} ${data.lastName}`}

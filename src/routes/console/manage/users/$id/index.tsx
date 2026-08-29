@@ -40,6 +40,7 @@ function RouteComponent() {
       lastName: user.lastName,
       dateOfBirth: dayjs(user.dateOfBirth).format("YYYY-MM-DD"),
       isLastNameFirst: user.isLastNameFirst,
+      avatarAssetId: user.avatar?.id || null,
     },
     validators: {
       onDynamic: userSchema,
@@ -109,6 +110,9 @@ function RouteComponent() {
           </Field.Root>
           <form.AppField name="dateOfBirth">
             {(field) => <field.TextField type="date" label="Date of birth" />}
+          </form.AppField>
+          <form.AppField name="avatarAssetId">
+            {(field) => <field.AvatarInputField label="Avatar" />}
           </form.AppField>
         </Fieldset.Root>
 
