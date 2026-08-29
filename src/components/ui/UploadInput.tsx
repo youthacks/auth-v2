@@ -2,6 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { usePrevious } from "@mantine/hooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
+import { AlertCircleIcon } from "lucide-react";
 import { type ComponentProps, useRef } from "react";
 import {
   getAssetInfoQuery,
@@ -46,7 +47,7 @@ export function UploadInput({
   });
   const previousAsset = usePrevious(asset);
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     ...uploadAvatarMutation(),
     onSuccess: (data, variables) => {
       const file = variables.get("file");
@@ -122,9 +123,16 @@ export function UploadInput({
                   <span className="italic">Existing file</span>
                 )}
               </p>
-              <p className="text-xs leading-snug text-neutral-600">
-                {bytesToReadable(asset.size)}
-              </p>
+              {error ? (
+                <div className="flex items-center gap-1 text-rose-700">
+                  <AlertCircleIcon className="size-3 flex-none" />
+                  <span className="text-xs">Must be an image, max 5MB</span>
+                </div>
+              ) : (
+                <p className="text-xs leading-snug text-neutral-600">
+                  {bytesToReadable(asset.size)}
+                </p>
+              )}
             </div>
             <Button onClick={() => inputRef.current?.click()} size="sm">
               Replace
@@ -135,7 +143,15 @@ export function UploadInput({
           </>
         ) : (
           <>
-            <p className="min-w-0 flex-1 text-sm">No file selected</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm">No file selected</p>
+              {error && (
+                <div className="flex items-center gap-1 text-rose-700">
+                  <AlertCircleIcon className="size-3 flex-none" />
+                  <span className="text-xs">Must be an image, max 5MB</span>
+                </div>
+              )}
+            </div>
             <Button onClick={() => inputRef.current?.click()} size="sm">
               Upload
             </Button>
