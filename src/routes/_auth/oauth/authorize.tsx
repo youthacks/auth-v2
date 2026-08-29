@@ -69,6 +69,7 @@ function RouteComponent() {
     <div className="p-8">
       <FormHeader
         firstName={user.firstName}
+        avatarUrl={user.avatar?.url}
         onLogout={() => navigate({ to: "/auth" })}
       />
       <div className="flex justify-between">

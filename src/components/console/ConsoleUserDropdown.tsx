@@ -8,6 +8,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronUpIcon, LogOutIcon, SettingsIcon } from "lucide-react";
 import { logout } from "#/actions/auth/session";
 import { getUserQuery } from "#/actions/users/queries";
+import { DefaultAvatar } from "../ui/Avatar";
 
 export default function ConsoleUserDropdown() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function ConsoleUserDropdown() {
   return (
     <Menu.Root>
       <Menu.Trigger className="group flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left transition-colors hover:bg-neutral-200 data-popup-open:bg-neutral-200">
-        <div className="size-8 flex-none overflow-clip rounded-full">
+        <div className="size-8 flex-none overflow-clip rounded-full border border-neutral-200">
           {user.avatar ? (
             <img
               src={user.avatar.url}
@@ -33,7 +34,7 @@ export default function ConsoleUserDropdown() {
               className="size-full object-cover"
             />
           ) : (
-            <div className="size-full bg-linear-to-br from-blue-600 to-indigo-700"></div>
+            <DefaultAvatar>{user.firstName[0]}</DefaultAvatar>
           )}
         </div>
         <div className="w-full min-w-0">

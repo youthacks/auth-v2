@@ -45,6 +45,7 @@ function RouteComponent() {
     <div className="p-8">
       <FormHeader
         firstName={signup.firstName}
+        avatarUrl={undefined}
         onLogout={() => navigate({ to: "/auth" })}
       />
       <h1 className="font-heading text-3xl font-bold">Verify your email</h1>

@@ -1,12 +1,15 @@
 import { useIsMutating } from "@tanstack/react-query";
 import { useRouterState } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { DefaultAvatar } from "../ui/Avatar";
 
 export function FormHeader({
   firstName,
+  avatarUrl,
   onLogout,
 }: {
   firstName: string;
+  avatarUrl: string | undefined;
   onLogout: () => void;
 }) {
   const isMutating = useIsMutating();
@@ -17,8 +20,14 @@ export function FormHeader({
   );
 
   return (
-    <div className="mb-5 flex items-center gap-2">
-      <span className="size-5 rounded-full bg-linear-to-br from-rose-600 to-red-600"></span>
+    <div className="mb-4 flex items-center gap-2">
+      <div className="size-6 flex-none overflow-clip rounded-full border border-neutral-200">
+        {avatarUrl ? (
+          <img src={avatarUrl} alt="" className="size-full object-cover" />
+        ) : (
+          <DefaultAvatar className="text-xs">{firstName[0]}</DefaultAvatar>
+        )}
+      </div>
       <span className="text-sm leading-none">{firstName}</span>
       <div className="flex-1"></div>
       <button
