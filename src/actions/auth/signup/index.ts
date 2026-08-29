@@ -1,12 +1,18 @@
 import { createServerFn } from "@tanstack/react-start";
-import { deleteCookie, setCookie } from "@tanstack/react-start/server";
+import {
+  deleteCookie,
+  getRequestHeader,
+  setCookie,
+} from "@tanstack/react-start/server";
 import { eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { db } from "#/db";
 import { signups, users } from "#/db/schema/base";
+import { verifyMxRecord } from "#/lib/email";
 import { sendOtp, verifyOtp } from "#/lib/otp";
 import { createSession } from "#/lib/session";
 import sha256 from "#/lib/sha256";
+import { getSessionName } from "#/lib/userAgent";
 import { requireSignup } from "#/middleware/requireSignup";
 import {
   acceptSignupTermsSchema,
@@ -17,6 +23,11 @@ import {
 export const createSignup = createServerFn({ method: "POST" })
   .validator(createSignupSchema)
   .handler(async ({ data }) => {
+    const validEmail = await verifyMxRecord(data.email);
+    if (!validEmail) {
+      throw new Error("Invalid email address");
+    }
+
     const existingUser = await db.query.users.findFirst({
       where: { email: data.email },
       columns: { id: true },
@@ -28,7 +39,13 @@ export const createSignup = createServerFn({ method: "POST" })
     const verifier = nanoid(32);
     const verifierHash = await sha256(verifier);
 
-    const { id: verificationId, expiresAt } = await sendOtp(data.email);
+    const userAgent = getRequestHeader("User-Agent");
+    const deviceName = getSessionName(userAgent);
+
+    const { id: verificationId, expiresAt } = await sendOtp(data.email, {
+      firstName: data.firstName,
+      deviceName,
+    });
 
     const [{ id }] = await db
       .insert(signups)

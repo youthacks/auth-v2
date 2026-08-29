@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "imports": {
-    "#/*": "./src/*"
+    "#/*": "./src/*",
+    "#emails/*": "./emails/*"
   },
   "scripts": {
     "dev": "vite dev --port 3000",
@@ -17,7 +18,8 @@
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "email:dev": "email dev"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -46,12 +48,15 @@
     "nitro": "npm:nitro-nightly@latest",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-email": "^6.9.3",
+    "resend": "^6.25.0",
     "tailwindcss": "^4.1.18",
     "ua-parser-js": "^2.0.10",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.11",
+    "@react-email/ui": "^6.9.3",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "latest",
     "@tanstack/router-cli": "^1.167.33",

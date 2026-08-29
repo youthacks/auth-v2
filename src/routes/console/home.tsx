@@ -34,7 +34,9 @@ function RouteComponent() {
       <h1 className="font-heading text-3xl font-bold">
         {greeting}, {user?.firstName}
       </h1>
-      <p className="mt-0.5 text-neutral-600">it's {date.format("h:mm a")}</p>
+      <p className="mt-0.5 text-neutral-600" suppressHydrationWarning={true}>
+        it's {date.format("h:mm a")}
+      </p>
 
       <section className="mt-8">
         <h2 className="font-heading text-xl font-bold">Apps</h2>
