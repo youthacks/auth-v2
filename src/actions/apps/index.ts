@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { eq } from "drizzle-orm";
 import { db } from "#/db";
 import { applications } from "#/db/schema/applications";
+import { getAssetUrl } from "#/lib/assets";
 import { requireSession } from "../auth/session/middleware";
 import { withApplication } from "./middleware";
 import { appSchema } from "./schemas";
@@ -36,14 +37,30 @@ export const listApps = createServerFn()
 
     const apps = await db.query.applications.findMany({
       orderBy: { createdAt: "desc" },
+      with: {
+        logo: true,
+      },
     });
-    return apps;
+    return await Promise.all(
+      apps.map(async (app) => ({
+        ...app,
+        logo: app.logo
+          ? { id: app.logo.id, url: await getAssetUrl(app.logo.id) }
+          : null,
+      })),
+    );
   });
 
 export const getApp = createServerFn()
   .middleware([withApplication])
   .handler(async ({ context }) => {
-    return context.app;
+    const logoPart = context.app.logoAssetId
+      ? {
+          id: context.app.logoAssetId,
+          url: await getAssetUrl(context.app.logoAssetId),
+        }
+      : null;
+    return { ...context.app, logo: logoPart };
   });
 
 export const updateApp = createServerFn({ method: "POST" })
@@ -56,6 +73,8 @@ export const updateApp = createServerFn({ method: "POST" })
         name: data.name,
         description: data.description || null,
         homepageUrl: data.homepageUrl,
+        logoAssetId: data.logoAssetId || null,
+        backgroundAssetId: data.backgroundAssetId || null,
       })
       .where(eq(applications.id, context.app.id));
   });

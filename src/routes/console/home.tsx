@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { getConsentsQuery } from "#/actions/users/consents/queries";
 import { getUserQuery } from "#/actions/users/queries";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 
 export const Route = createFileRoute("/console/home")({
   component: RouteComponent,
@@ -56,7 +57,17 @@ function RouteComponent() {
                   rel="noopener noreferrer"
                   className="flex h-24 flex-col items-center justify-center rounded-lg border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95"
                 >
-                  <div className="mt-1 size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
+                  <div className="mt-1 size-8 flex-none overflow-clip rounded-sm border border-neutral-200">
+                    {appConsent.app.logo ? (
+                      <img
+                        src={appConsent.app.logo.url}
+                        alt=""
+                        className="size-full object-cover"
+                      />
+                    ) : (
+                      <DefaultAvatar>{appConsent.app.name[0]}</DefaultAvatar>
+                    )}
+                  </div>
                   <p className="mt-2 text-sm">{appConsent.app.name}</p>
                 </a>
               ))}

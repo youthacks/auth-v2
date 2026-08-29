@@ -112,7 +112,7 @@ function RouteComponent() {
             {(field) => <field.TextField type="date" label="Date of birth" />}
           </form.AppField>
           <form.AppField name="avatarAssetId">
-            {(field) => <field.AvatarInputField label="Avatar" />}
+            {(field) => <field.UploadInputField as="avatar" label="Avatar" />}
           </form.AppField>
         </Fieldset.Root>
 

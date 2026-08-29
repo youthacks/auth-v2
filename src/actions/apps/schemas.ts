@@ -6,4 +6,6 @@ export const appSchema = z.object({
   homepageUrl: z
     .httpUrl()
     .or(z.url({ protocol: /^http$/, hostname: /^localhost$/ })),
+  logoAssetId: z.string().nullable(),
+  backgroundAssetId: z.string().nullable(),
 });

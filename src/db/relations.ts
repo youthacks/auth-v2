@@ -63,6 +63,14 @@ export const relations = defineRelations(
         to: r.users.id,
         optional: false,
       }),
+      logo: r.one.assets({
+        from: r.applications.logoAssetId,
+        to: r.assets.id,
+      }),
+      background: r.one.assets({
+        from: r.applications.backgroundAssetId,
+        to: r.assets.id,
+      }),
     },
     applicationConsents: {
       app: r.one.applications({

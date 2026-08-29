@@ -11,6 +11,7 @@ import {
   deleteConsentMutation,
   getConsentsQuery,
 } from "#/actions/users/consents/queries";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/console/manage/users/$id/apps")({
@@ -54,7 +55,17 @@ function RouteComponent() {
               <Accordion.Header className="group data-open:bg-neutral-100">
                 <Accordion.Trigger className="flex h-16 w-full items-center gap-4 px-4 text-left transition hover:bg-neutral-100">
                   <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                    <div className="size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
+                    <div className="mt-1 size-8 flex-none overflow-clip rounded-sm border border-neutral-200">
+                      {appConsent.app.logo ? (
+                        <img
+                          src={appConsent.app.logo.url}
+                          alt=""
+                          className="size-full object-cover"
+                        />
+                      ) : (
+                        <DefaultAvatar>{appConsent.app.name[0]}</DefaultAvatar>
+                      )}
+                    </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">
                         {appConsent.app.name}

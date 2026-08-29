@@ -33,6 +33,8 @@ function RouteComponent() {
       name: data.name,
       description: data.description || "",
       homepageUrl: data.homepageUrl || "",
+      logoAssetId: data.logoAssetId,
+      backgroundAssetId: data.backgroundAssetId,
     },
     validators: {
       onDynamic: appSchema,
@@ -88,6 +90,17 @@ function RouteComponent() {
                 type="url"
                 label="Homepage URL"
                 placeholder={data.homepageUrl}
+              />
+            )}
+          </form.AppField>
+          <form.AppField name="logoAssetId">
+            {(field) => <field.UploadInputField as="logo" label="Logo" />}
+          </form.AppField>
+          <form.AppField name="backgroundAssetId">
+            {(field) => (
+              <field.UploadInputField
+                label="Background"
+                description="Replaces the default background when users sign in to your app."
               />
             )}
           </form.AppField>

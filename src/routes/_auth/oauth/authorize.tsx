@@ -10,6 +10,7 @@ import { oauthAuthorizeSchema } from "#/actions/oauth/schemas";
 import { getUser } from "#/actions/users";
 import { FormHeader } from "#/components/form/FormHeader";
 import FormMessage from "#/components/form/FormMessage";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 import Button from "#/components/ui/Button";
 
 export const Route = createFileRoute("/_auth/oauth/authorize")({
@@ -80,7 +81,13 @@ function RouteComponent() {
             {app.owner.firstName}
           </p>
         </div>
-        <div className="mt-1 size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
+        <div className="mt-1 size-12 flex-none overflow-clip rounded-sm border border-neutral-200">
+          {app.logo ? (
+            <img src={app.logo.url} alt="" className="size-full object-cover" />
+          ) : (
+            <DefaultAvatar>{app.name[0]}</DefaultAvatar>
+          )}
+        </div>
       </div>
 
       {error && (

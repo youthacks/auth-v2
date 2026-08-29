@@ -6,10 +6,10 @@ import { type ComponentProps, useMemo } from "react";
 import Button from "#/components/ui/Button";
 import Checkbox from "#/components/ui/Checkbox";
 import { Field } from "#/components/ui/Field";
-import { AvatarInput } from "#/components/ui/FileInput";
 import type Input from "#/components/ui/Input";
 import { OTPField as BaseOTPField } from "#/components/ui/OTPField";
 import Textarea from "#/components/ui/Textarea";
+import { UploadInput } from "#/components/ui/UploadInput";
 import { useFieldContext, useFormContext } from "./context";
 
 function ErrorMessage({ errors }: { errors: string | { message: string }[] }) {
@@ -121,21 +121,21 @@ export function CheckboxField({
   );
 }
 
-export function AvatarInputField({
+export function UploadInputField({
   label,
   description,
   ...props
 }: { label: string; description?: string } & Omit<
-  ComponentProps<typeof AvatarInput>,
+  ComponentProps<typeof UploadInput>,
   "value" | "onChange"
 >) {
-  const field = useFieldContext<File | null | undefined>();
+  const field = useFieldContext<string | null>();
   const errors = useSelector(field.store, (state) => state.meta.errors);
 
   return (
     <Field.Root>
       <Field.Label>{label}</Field.Label>
-      <AvatarInput
+      <UploadInput
         {...props}
         value={field.state.value}
         onBlur={field.handleBlur}

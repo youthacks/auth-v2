@@ -8,6 +8,7 @@ import {
   oauthExchangeCodes,
   oauthRefreshTokens,
 } from "#/db/schema/oauth";
+import { getAssetUrl } from "#/lib/assets";
 import { withUser } from "../middleware";
 
 export const getConsents = createServerFn()
@@ -16,11 +17,24 @@ export const getConsents = createServerFn()
     const consents = await db.query.applicationConsents.findMany({
       where: { userId: context.withUser.id },
       with: {
-        app: { columns: { name: true, homepageUrl: true } },
+        app: { columns: { name: true, homepageUrl: true, logoAssetId: true } },
       },
     });
 
-    return consents;
+    return await Promise.all(
+      consents.map(async (consent) => ({
+        ...consent,
+        app: {
+          ...consent.app,
+          logo: consent.app.logoAssetId
+            ? {
+                id: consent.app.logoAssetId,
+                url: await getAssetUrl(consent.app.logoAssetId),
+              }
+            : null,
+        },
+      })),
+    );
   });
 
 export const deleteConsent = createServerFn({ method: "POST" })

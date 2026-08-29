@@ -6,6 +6,7 @@ import { requireSession } from "#/actions/auth/session/middleware";
 import { db } from "#/db";
 import { applicationConsents } from "#/db/schema/applications";
 import { oauthExchangeCodes } from "#/db/schema/oauth";
+import { getAssetUrl } from "#/lib/assets";
 import { oauthAuthorizeSchema } from "./schemas";
 
 export const oauthAuthorizeSilently = createServerFn()
@@ -83,14 +84,23 @@ export const oauthGetAppInfo = createServerFn()
         owner: {
           columns: { firstName: true },
         },
+        logo: true,
       },
     });
     if (!app) {
       throw new Error("Invalid client_id");
     }
 
+    const logoPart = app.logo
+      ? {
+          id: app.logo.id,
+          url: await getAssetUrl(app.logo.id),
+        }
+      : null;
+
     return {
       name: app.name,
+      logo: logoPart,
       owner: {
         firstName: app.owner.firstName,
       },

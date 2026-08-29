@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { PlusIcon } from "lucide-react";
 import { listAppsQuery } from "#/actions/apps/queries";
+import { DefaultAvatar } from "#/components/ui/Avatar";
 import Button from "#/components/ui/Button";
 import { Dialog } from "#/components/ui/Dialog";
 import NewAppDialog from "./-new";
@@ -26,7 +27,7 @@ function RouteComponent() {
     <>
       <div className="p-8">
         <div className="flex justify-between gap-4">
-          <h1 className="font-heading min-h-10 text-3xl font-bold">
+          <h1 className="min-h-10 font-heading text-3xl font-bold">
             Applications
           </h1>
           <Dialog.Trigger
@@ -52,7 +53,17 @@ function RouteComponent() {
               className="group flex h-16 items-center gap-4 px-4 transition hover:bg-neutral-100"
             >
               <div className="flex min-w-0 flex-1 items-center gap-2.5">
-                <div className="size-8 rounded-sm bg-linear-to-br from-rose-600 to-red-700"></div>
+                <div className="size-8 flex-none overflow-clip rounded-sm border border-neutral-200">
+                  {app.logo ? (
+                    <img
+                      src={app.logo.url}
+                      alt=""
+                      className="size-full object-cover"
+                    />
+                  ) : (
+                    <DefaultAvatar>{app.name[0]}</DefaultAvatar>
+                  )}
+                </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-rose-700 group-hover:text-rose-900">
                     {app.name}

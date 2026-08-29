@@ -1,4 +1,5 @@
 import { blob, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { assets } from "./assets";
 import { users } from "./base";
 import { applicationId } from "./utils/ids";
 import { createdAt, updatedAt } from "./utils/timestamps";
@@ -8,6 +9,9 @@ export const applications = sqliteTable("applications", {
   name: text().notNull(),
   description: text(),
   homepageUrl: text("homepage_url").notNull(),
+
+  logoAssetId: text("logo_asset_id").references(() => assets.id),
+  backgroundAssetId: text("background_asset_id").references(() => assets.id),
 
   ownerId: text("owner_id")
     .notNull()

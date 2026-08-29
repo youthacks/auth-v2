@@ -24,18 +24,20 @@ function bytesToReadable(bytes: number): string {
 
 const fileNames = new Map<string, string>();
 
-type AvatarInputProps = Omit<ComponentProps<"div">, "value" | "onChange"> & {
+type UploadInputProps = Omit<ComponentProps<"div">, "value" | "onChange"> & {
   value: string | null;
   onChange: (assetId: string | null) => void;
+  as?: "avatar" | "logo" | "image";
   placeholder?: string;
 };
 
-export function AvatarInput({
+export function UploadInput({
   value,
   onChange,
+  as = "image",
   placeholder,
   ...props
-}: AvatarInputProps) {
+}: UploadInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const { data: asset } = useQuery({
@@ -64,22 +66,42 @@ export function AvatarInput({
           value ? "h-24" : "h-2",
         )}
       >
-        <div className="flex h-full min-h-24 items-center justify-center pb-2">
-          <div
-            className={clsx(
-              "size-16 flex-none overflow-clip rounded-full border border-neutral-200 bg-neutral-100 transition duration-500 ease-in-out-expo",
-              value ? "" : "scale-50 opacity-0",
-            )}
-          >
-            {(asset || previousAsset) && (
-              <img
-                src={asset?.url ?? previousAsset?.url}
-                alt=""
-                className="size-full object-cover"
-              />
-            )}
+        {as === "avatar" || as === "logo" ? (
+          <div className="flex h-full min-h-24 items-center justify-center pb-2">
+            <div
+              className={clsx(
+                "size-16 flex-none overflow-clip border border-neutral-200 bg-neutral-100 transition duration-500 ease-in-out-expo",
+                as === "avatar" ? "rounded-full" : "rounded-lg",
+                value ? "" : "scale-50 opacity-0",
+              )}
+            >
+              {(asset || previousAsset) && (
+                <img
+                  src={asset?.url ?? previousAsset?.url}
+                  alt=""
+                  className="size-full object-cover"
+                />
+              )}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="h-full min-h-24">
+            <div
+              className={clsx(
+                "size-full bg-neutral-100 transition duration-500 ease-in-out-expo",
+                value ? "" : "opacity-0",
+              )}
+            >
+              {(asset || previousAsset) && (
+                <img
+                  src={asset?.url ?? previousAsset?.url}
+                  alt=""
+                  className="size-full object-cover"
+                />
+              )}
+            </div>
+          </div>
+        )}
       </div>
       <div className="relative flex h-14 items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-4 shadow-xs">
         {isPending ? (
