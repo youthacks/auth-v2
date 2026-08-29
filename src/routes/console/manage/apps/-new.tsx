@@ -35,6 +35,8 @@ export default function NewAppDialog({
       name: "",
       description: "",
       homepageUrl: "",
+      logoAssetId: null as string | null,
+      backgroundAssetId: null as string | null,
     },
     validators: {
       onDynamic: appSchema,
