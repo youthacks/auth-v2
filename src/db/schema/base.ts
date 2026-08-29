@@ -1,10 +1,11 @@
 import {
-  blob,
-  integer,
-  sqliteTable,
+  boolean,
+  bytea,
+  pgEnum,
+  pgTable,
   text,
   uniqueIndex,
-} from "drizzle-orm/sqlite-core";
+} from "drizzle-orm/pg-core";
 import { assets } from "./assets";
 import {
   loginId,
@@ -15,28 +16,26 @@ import {
 } from "./utils/ids";
 import { createdAt, expiresAt, updatedAt } from "./utils/timestamps";
 
-export const users = sqliteTable(
+export const userRole = pgEnum("user_role", ["user", "admin"]);
+
+export const users = pgTable(
   "users",
   {
     id: text().primaryKey().$defaultFn(userId),
     firstName: text("first_name").notNull(),
     lastName: text("last_name").notNull(),
-    isLastNameFirst: integer("is_last_name_first", { mode: "boolean" })
-      .notNull()
-      .default(false),
+    isLastNameFirst: boolean("is_last_name_first").notNull().default(false),
     email: text().notNull().unique(),
     dateOfBirth: text("date_of_birth").notNull(),
 
-    role: text({ enum: ["user", "admin"] })
-      .notNull()
-      .default("user"),
+    role: userRole().notNull().default("user"),
 
     createdAt,
     updatedAt,
   },
   (t) => [uniqueIndex("email_idx").on(t.email)],
 );
-export const userAvatars = sqliteTable("user_avatars", {
+export const userAvatars = pgTable("user_avatars", {
   userId: text("user_id")
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -45,7 +44,7 @@ export const userAvatars = sqliteTable("user_avatars", {
     .references(() => assets.id, { onDelete: "cascade" }),
 });
 
-export const sessions = sqliteTable("sessions", {
+export const sessions = pgTable("sessions", {
   id: text().primaryKey().$defaultFn(sessionId),
   userId: text("user_id")
     .notNull()
@@ -57,7 +56,7 @@ export const sessions = sqliteTable("sessions", {
   expiresAt,
 });
 
-export const verifications = sqliteTable("verifications", {
+export const verifications = pgTable("verifications", {
   id: text().primaryKey().$defaultFn(verificationId),
   email: text().notNull(),
   code: text().notNull(),
@@ -66,9 +65,9 @@ export const verifications = sqliteTable("verifications", {
   expiresAt,
 });
 
-export const logins = sqliteTable("logins", {
+export const logins = pgTable("logins", {
   id: text().primaryKey().$defaultFn(loginId),
-  verifierHash: blob("verifier_hash", { mode: "buffer" }).notNull(),
+  verifierHash: bytea("verifier_hash").notNull(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -80,13 +79,13 @@ export const logins = sqliteTable("logins", {
   createdAt,
 });
 
-export const signups = sqliteTable("signups", {
+export const signups = pgTable("signups", {
   id: text().primaryKey().$defaultFn(signupId),
-  verifierHash: blob("verifier_hash", { mode: "buffer" }).notNull(),
+  verifierHash: bytea("verifier_hash").notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   email: text().notNull(),
-  emailVerified: integer("email_verified", { mode: "boolean" }).default(false),
+  emailVerified: boolean("email_verified").default(false),
   dateOfBirth: text("date_of_birth").notNull(),
 
   verificationId: text("verification_id").references(() => verifications.id, {

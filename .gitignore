@@ -13,3 +13,5 @@ __unconfig*
 todos.json
 
 *.db
+
+docker-compose.local.yml

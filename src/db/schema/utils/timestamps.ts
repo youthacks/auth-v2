@@ -1,10 +1,5 @@
-import { sql } from "drizzle-orm";
-import { integer } from "drizzle-orm/sqlite-core";
+import { timestamp } from "drizzle-orm/pg-core";
 
-export const createdAt = integer("created_at", { mode: "timestamp" })
-  .notNull()
-  .default(sql`(unixepoch())`);
-export const updatedAt = integer("updated_at", { mode: "timestamp" }).$onUpdate(
-  () => sql`(unixepoch())`,
-);
-export const expiresAt = integer("expires_at", { mode: "timestamp" }).notNull();
+export const createdAt = timestamp("created_at").notNull().defaultNow();
+export const updatedAt = timestamp("updated_at").$onUpdate(() => new Date());
+export const expiresAt = timestamp("expires_at").notNull();

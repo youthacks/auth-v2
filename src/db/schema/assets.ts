@@ -1,9 +1,9 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, pgTable, text } from "drizzle-orm/pg-core";
 import { users } from "./base";
 import { assetId } from "./utils/ids";
 import { createdAt, updatedAt } from "./utils/timestamps";
 
-export const assets = sqliteTable("assets", {
+export const assets = pgTable("assets", {
   id: text().primaryKey().$defaultFn(assetId),
   mime: text().notNull(),
   size: integer().notNull(),

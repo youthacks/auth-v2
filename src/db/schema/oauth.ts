@@ -1,9 +1,9 @@
-import { blob, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { bytea, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { applications } from "./applications";
 import { sessions, users } from "./base";
 import { createdAt, expiresAt } from "./utils/timestamps";
 
-export const oauthExchangeCodes = sqliteTable("oauth_exchange_codes", {
+export const oauthExchangeCodes = pgTable("oauth_exchange_codes", {
   code: text().primaryKey(),
   scopes: text().notNull(),
 
@@ -25,9 +25,9 @@ export const oauthExchangeCodes = sqliteTable("oauth_exchange_codes", {
   expiresAt,
 });
 
-export const oauthAccessTokens = sqliteTable("oauth_access_tokens", {
+export const oauthAccessTokens = pgTable("oauth_access_tokens", {
   id: text().primaryKey(),
-  secretHash: blob("secret_hash", { mode: "buffer" }).notNull(),
+  secretHash: bytea("secret_hash").notNull(),
   scopes: text().notNull(),
 
   appId: text("app_id")
@@ -51,9 +51,9 @@ export const oauthAccessTokens = sqliteTable("oauth_access_tokens", {
   expiresAt,
 });
 
-export const oauthRefreshTokens = sqliteTable("oauth_refresh_tokens", {
+export const oauthRefreshTokens = pgTable("oauth_refresh_tokens", {
   id: text().primaryKey(),
-  secretHash: blob("secret_hash", { mode: "buffer" }).notNull(),
+  secretHash: bytea("secret_hash").notNull(),
   scopes: text().notNull(),
 
   appId: text("app_id")
@@ -70,8 +70,8 @@ export const oauthRefreshTokens = sqliteTable("oauth_refresh_tokens", {
     onDelete: "cascade",
   }),
 
-  authTime: integer("auth_time", { mode: "timestamp" }).notNull(),
-  revokedAt: integer("revoked_at", { mode: "timestamp" }),
+  authTime: timestamp("auth_time").notNull(),
+  revokedAt: timestamp("revoked_at"),
 
   createdAt,
   expiresAt,

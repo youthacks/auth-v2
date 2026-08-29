@@ -1,0 +1,17 @@
+# example docker-compose file for running a local Postgres database (for development)
+
+# in your .env.local file, set DATABASE_URL to
+# "postgres://postgres:<your_password_below>@localhost:5432/postgres"
+
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.db:/var/lib/postgresql
+    environment:
+      # replace this password!
+      POSTGRES_PASSWORD: example

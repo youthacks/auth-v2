@@ -20,10 +20,9 @@ export const oauthAuthorizeSilently = createServerFn()
       throw new Error("Invalid client_id");
     }
 
-    const allowedRedirectUris = new Set(
-      oauthConfig.allowedCallbackUrls.split("\n"),
-    );
-    if (!allowedRedirectUris.has(data.redirect_uri)) {
+    if (
+      !oauthConfig.allowedCallbackUrls.split("\n").includes(data.redirect_uri)
+    ) {
       throw new Error("Invalid redirect_uri");
     }
 
@@ -66,10 +65,9 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
       throw new Error("Invalid client_id");
     }
 
-    const allowedRedirectUris = new Set(
-      oauthConfig.allowedCallbackUrls.split("\n"),
-    );
-    if (!allowedRedirectUris.has(data.redirect_uri)) {
+    if (
+      !oauthConfig.allowedCallbackUrls.split("\n").includes(data.redirect_uri)
+    ) {
       throw new Error("Invalid redirect_uri");
     }
 

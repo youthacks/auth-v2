@@ -1,10 +1,10 @@
-import { blob, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { bytea, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
 import { assets } from "./assets";
 import { users } from "./base";
 import { applicationId } from "./utils/ids";
 import { createdAt, updatedAt } from "./utils/timestamps";
 
-export const applications = sqliteTable("applications", {
+export const applications = pgTable("applications", {
   id: text().primaryKey().$defaultFn(applicationId),
   name: text().notNull(),
   description: text(),
@@ -21,23 +21,20 @@ export const applications = sqliteTable("applications", {
   updatedAt,
 });
 
-export const applicationOAuthConfig = sqliteTable(
-  "application_oauth2_configs",
-  {
-    appId: text("app_id")
-      .primaryKey()
-      .references(() => applications.id, {
-        onDelete: "cascade",
-      }),
-    clientSecretEnc: blob("client_secret_enc", { mode: "buffer" }).notNull(),
-    allowedCallbackUrls: text("allowed_callback_urls").notNull(),
+export const applicationOAuthConfig = pgTable("application_oauth2_configs", {
+  appId: text("app_id")
+    .primaryKey()
+    .references(() => applications.id, {
+      onDelete: "cascade",
+    }),
+  clientSecretEnc: bytea("client_secret_enc").notNull(),
+  allowedCallbackUrls: text("allowed_callback_urls").notNull(),
 
-    createdAt,
-    updatedAt,
-  },
-);
+  createdAt,
+  updatedAt,
+});
 
-export const applicationConsents = sqliteTable(
+export const applicationConsents = pgTable(
   "application_consents",
   {
     appId: text("app_id")
