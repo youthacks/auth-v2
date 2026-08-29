@@ -85,8 +85,9 @@ export async function getAccessToken(
     },
   });
 
+  const blankHash = await sha256("");
   const isSecretEqual = timingSafeEqual(
-    accessToken?.secretHash || Buffer.from(""),
+    accessToken?.secretHash || blankHash,
     await sha256(secret),
   );
   if (!accessToken || !isSecretEqual) return NULL_SESSION;
