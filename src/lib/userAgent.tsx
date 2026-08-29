@@ -21,7 +21,9 @@ interface UserAgentData {
   deviceName?: string;
 }
 
-export function parseUserAgent(userAgent: string | null): UserAgentData | null {
+export function parseUserAgent(
+  userAgent: string | null | undefined,
+): UserAgentData | null {
   if (!userAgent) return null;
 
   const { browser, os, device } = new UAParser(userAgent).getResult();
@@ -33,7 +35,7 @@ export function parseUserAgent(userAgent: string | null): UserAgentData | null {
       [device.vendor, device.model].filter(Boolean).join(" ") || undefined,
   };
 }
-export function getSessionName(userAgent: string | null): string {
+export function getSessionName(userAgent: string | null | undefined): string {
   const parsed = parseUserAgent(userAgent);
 
   if (parsed?.deviceName) return parsed.deviceName;

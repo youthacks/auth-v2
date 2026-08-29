@@ -1,10 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { setCookie } from "@tanstack/react-start/server";
+import { getRequestHeader, setCookie } from "@tanstack/react-start/server";
 import { nanoid } from "nanoid";
 import { db } from "#/db";
 import { logins } from "#/db/schema/base";
 import { sendOtp } from "#/lib/otp";
 import sha256 from "#/lib/sha256";
+import { getSessionName } from "#/lib/userAgent";
 import { discoverLoginSchema } from "./schemas";
 
 export const discoverLogin = createServerFn({ method: "POST" })
@@ -12,14 +13,20 @@ export const discoverLogin = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const existingUser = await db.query.users.findFirst({
       where: { email: data.email },
-      columns: { id: true },
+      columns: { id: true, firstName: true },
     });
 
     if (existingUser) {
       const verifier = nanoid(32);
       const verifierHash = await sha256(verifier);
 
-      const { id: verificationId, expiresAt } = await sendOtp(data.email);
+      const userAgent = getRequestHeader("User-Agent");
+      const deviceName = getSessionName(userAgent);
+
+      const { id: verificationId, expiresAt } = await sendOtp(data.email, {
+        firstName: existingUser.firstName,
+        deviceName,
+      });
 
       const [{ id }] = await db
         .insert(logins)

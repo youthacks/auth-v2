@@ -4,10 +4,15 @@ import { eq } from "drizzle-orm";
 import { customAlphabet } from "nanoid";
 import { db } from "#/db";
 import { verifications } from "#/db/schema/base";
+import VerifyEmail from "#emails/verify-email";
+import { resend } from "./email";
 
 const genOtp = customAlphabet("0123456789", 6);
 
-export async function sendOtp(email: string) {
+export async function sendOtp(
+  email: string,
+  data: { firstName: string; deviceName?: string },
+) {
   const code = genOtp();
   const expiresAt = dayjs().add(15, "minutes").toDate();
   const [{ id }] = await db
@@ -19,7 +24,25 @@ export async function sendOtp(email: string) {
     })
     .returning();
 
-  console.log(`Verification code for ${email}: ${code}`);
+  if (process.env.NODE_ENV === "production") {
+    if (process.env.RESEND_FROM) {
+      void resend.emails.send({
+        from: process.env.RESEND_FROM,
+        to: email,
+        subject: `${code} is your Youthacks login code`,
+        react: VerifyEmail({
+          firstName: data.firstName,
+          code,
+          deviceName: data.deviceName,
+          expiresInMinutes: 15,
+        }),
+      });
+    } else {
+      console.error("RESEND_FROM environment variable is not set");
+    }
+  } else {
+    console.log(`Verification code for ${email}: ${code}`);
+  }
 
   return { id, expiresAt };
 }

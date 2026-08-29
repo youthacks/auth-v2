@@ -18,7 +18,6 @@ import {
 export namespace VerifyEmail {
   export interface Props {
     firstName: string;
-    email: string;
     code: string;
 
     deviceName?: string;
@@ -97,7 +96,6 @@ export default function VerifyEmail(props: VerifyEmail.Props) {
 }
 VerifyEmail.PreviewProps = {
   firstName: "Joe",
-  email: "joe@example.com",
   code: "123456",
 
   deviceName: "Chrome on Android",
