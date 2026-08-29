@@ -4,17 +4,12 @@ import { FSDriver } from "flydrive/drivers/fs";
 import { db } from "#/db";
 import { assets } from "#/db/schema/assets";
 
-const mimeToExtensionMap: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-};
-
 const fsDriver = new FSDriver({
   location: path.join(process.cwd(), "public/uploads"),
   visibility: "public",
   urlBuilder: {
     async generateURL(key, _filePath) {
-      return `/uploads/${key}`;
+      return `${import.meta.env.PUBLIC_URL}/uploads/${key}`;
     },
   },
 });
@@ -22,11 +17,6 @@ const fsDriver = new FSDriver({
 const disk = new Disk(fsDriver);
 
 export async function saveAsset(file: File, { ownerId }: { ownerId: string }) {
-  const extension = mimeToExtensionMap[file.type];
-  if (!extension) {
-    throw new Error(`Unsupported file type: ${file.type}`);
-  }
-
   const [{ id }] = await db
     .insert(assets)
     .values({

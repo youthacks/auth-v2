@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { Elysia, status, t } from "elysia";
 import { db } from "#/db";
 import { oauthExchangeCodes } from "#/db/schema/oauth";
+import { getAssetUrl } from "#/lib/assets";
 import { decrypt } from "#/lib/encryption";
 import { createTokenPair, refreshTokenPair } from "#/lib/tokens";
 import { base } from "../base";
@@ -114,6 +115,13 @@ export const oauthApi = new Elysia({ prefix: "/oauth" })
     async ({ user, accessToken }) => {
       const tokenScopes = accessToken.scopes.split(" ");
 
+      const avatar = await db.query.userAvatars.findFirst({
+        where: { userId: user.id },
+        with: {
+          asset: true,
+        },
+      });
+
       const profilePart = {
         name: user.isLastNameFirst
           ? `${user.lastName} ${user.firstName}`
@@ -121,6 +129,7 @@ export const oauthApi = new Elysia({ prefix: "/oauth" })
         given_name: user.firstName,
         family_name: user.lastName,
         nickname: user.firstName,
+        picture: avatar ? await getAssetUrl(avatar.asset.id) : null,
         updated_at: user.updatedAt,
       };
       const emailPart = {
