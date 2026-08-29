@@ -13,6 +13,41 @@ export const oauthAuthorizeSilently = createServerFn()
   .middleware([requireSession])
   .validator(oauthAuthorizeSchema)
   .handler(async ({ data, context }) => {
+    const oauthConfig = await db.query.applicationOAuthConfig.findFirst({
+      where: { appId: data.client_id },
+    });
+    if (!oauthConfig) {
+      throw new Error("Invalid client_id");
+    }
+
+    const allowedRedirectUris = new Set(
+      oauthConfig.allowedCallbackUrls.split("\n"),
+    );
+    if (!allowedRedirectUris.has(data.redirect_uri)) {
+      throw new Error("Invalid redirect_uri");
+    }
+
+    const existingConsent = await db.query.applicationConsents.findFirst({
+      where: { appId: oauthConfig.appId, userId: context.user.id },
+    });
+    const canSilentlyAuthorize =
+      existingConsent &&
+      data.scope
+        .split(/\s/)
+        .every((scope) => existingConsent.scopes.includes(scope));
+
+    if (canSilentlyAuthorize) {
+      const code = nanoid(32);
+      await db.insert(oauthExchangeCodes).values({
+        code,
+        scopes: data.scope,
+        appId: oauthConfig.appId,
+        userId: context.user.id,
+        expiresAt: dayjs().add(15, "minutes").toDate(),
+      });
+      return { code };
+    }
+
     return null;
   });
 

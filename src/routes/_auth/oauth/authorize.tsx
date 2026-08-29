@@ -33,7 +33,13 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
       data: search,
     });
     if (result) {
-      // do something here
+      const newSearch = new URLSearchParams();
+      newSearch.set("code", result.code);
+      if (search.state) newSearch.set("state", search.state);
+
+      throw redirect({
+        href: `${search.redirect_uri}?${newSearch.toString()}`,
+      });
     }
 
     const app = await oauthGetAppInfo({
