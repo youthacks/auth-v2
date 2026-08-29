@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { NotebookTextIcon, User2Icon } from "lucide-react";
+import { useMemo } from "react";
 import {
   oauthAuthorize,
   oauthAuthorizeSilently,
@@ -52,11 +53,42 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
   component: RouteComponent,
 });
 
+function ProfileScopes({ scopes: requestedScopes }: { scopes: string[] }) {
+  const scopes = ["openid", "profile", "email", "birthdate"];
+
+  const viewText = useMemo(() => {
+    const items = [
+      requestedScopes.includes("profile") && "name",
+      requestedScopes.includes("profile") && "profile picture",
+      requestedScopes.includes("email") && "email",
+      requestedScopes.includes("birthdate") && "date of birth",
+    ].filter(Boolean);
+
+    if (items.length <= 2) return items.join(" and ");
+
+    return `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`;
+  }, [requestedScopes]);
+
+  if (!requestedScopes.some((scope) => scopes.includes(scope))) return null;
+
+  return (
+    <div className="flex items-center gap-2">
+      <User2Icon className="size-4" />
+      <span>{viewText ? `View your ${viewText}` : "Identify you"}</span>
+    </div>
+  );
+}
+
 function RouteComponent() {
   const { app, user } = Route.useLoaderData();
 
   const search = Route.useSearch();
   const navigate = useNavigate();
+
+  const scopes = useMemo(
+    () => search.scope.split(/\s/).filter(Boolean),
+    [search.scope],
+  );
 
   const { isPending, error, mutate } = useMutation({
     mutationFn: oauthAuthorize,
@@ -104,10 +136,7 @@ function RouteComponent() {
 
       <p className="mt-6">If you allow, this app will be able to:</p>
       <div className="mt-3 space-y-3 rounded-lg border border-neutral-300 p-3 px-4 text-neutral-600 shadow-xs">
-        <div className="flex items-center gap-2">
-          <User2Icon className="size-4" />
-          <span>View your name, email and date of birth</span>
-        </div>
+        <ProfileScopes scopes={scopes} />
         {/*<div className="flex items-center gap-2">
           <NotebookTextIcon className="size-4" />
           <span>Add events to your logbook</span>
