@@ -54,8 +54,7 @@ export async function createTokenPair(data: {
   return {
     accessToken,
     refreshToken,
-    // expiresIn: 60 * 60, // 1 hour
-    expiresIn: 30,
+    expiresIn: 60 * 60, // 1 hour
     scopes: data.scopes,
   };
 }
