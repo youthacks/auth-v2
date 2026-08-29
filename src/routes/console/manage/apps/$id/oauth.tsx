@@ -143,19 +143,19 @@ function RouteComponent() {
           <CopyField label="Client secret" value={data.clientSecret} hidden />
           <CopyField
             label="Discovery URL"
-            value={"https://example.com/.well-known/openid-configuration"}
+            value={`${import.meta.env.PUBLIC_URL}/.well-known/openid-configuration`}
           />
           <CopyField
             label="Authorization URL"
-            value={"https://example.com/oauth/authorize"}
+            value={`${import.meta.env.PUBLIC_URL}/oauth/authorize`}
           />
           <CopyField
             label="Token exchange URL"
-            value={"https://example.com/oauth/token"}
+            value={`${import.meta.env.PUBLIC_URL}/oauth/token`}
           />
           <CopyField
             label="User info URL"
-            value={"https://example.com/oauth/userinfo"}
+            value={`${import.meta.env.PUBLIC_URL}/oauth/userinfo`}
           />
           <p className="text-sm font-semibold text-rose-700">Get started →</p>
         </Fieldset.Root>
