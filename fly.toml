@@ -1,3 +1,5 @@
+# fly.toml app configuration file generated for yth-auth on 2026-08-30T12:52:57+01:00
+#
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
@@ -5,7 +7,6 @@ app = 'yth-auth'
 primary_region = 'lhr'
 
 [build]
-
 [http_service]
   internal_port = 3000
   force_https = true
@@ -15,6 +16,6 @@ primary_region = 'lhr'
   processes = ['app']
 
 [[vm]]
-  memory = '512mb'
-  cpu_kind = 'shared'
+  memory = '256mb'
   cpus = 1
+  memory_mb = 256
