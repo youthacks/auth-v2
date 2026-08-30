@@ -32,14 +32,14 @@ export const Route = createFileRoute("/_auth")({
 });
 
 const backgrounds = [
-  { url: coolashack1, caption: "Cool as Hack, 2025, Cambridge" },
-  { url: coolashack4, caption: "Cool as Hack, 2025, Cambridge" },
-  { url: coolashack5, caption: "Cool as Hack, 2025, Cambridge" },
-  { url: coolashack7, caption: "Cool as Hack, 2025, Cambridge" },
-  { url: daydreamLon2, caption: "Daydream London, 2025, London" },
-  { url: daydreamLon6, caption: "Daydream London, 2025, London" },
-  { url: daydreamLon7, caption: "Daydream London, 2025, London" },
-  { url: daydreamLon8, caption: "Daydream London, 2025, London" },
+  { url: coolashack1, caption: "Cool as Hack, Cambridge, 2025" },
+  { url: coolashack4, caption: "Cool as Hack, Cambridge, 2025" },
+  { url: coolashack5, caption: "Cool as Hack, Cambridge, 2025" },
+  { url: coolashack7, caption: "Cool as Hack, Cambridge, 2025" },
+  { url: daydreamLon2, caption: "Daydream London, 2025" },
+  { url: daydreamLon6, caption: "Daydream London, 2025" },
+  { url: daydreamLon7, caption: "Daydream London, 2025" },
+  { url: daydreamLon8, caption: "Daydream London, 2025" },
 ] satisfies { url: string; caption: string }[];
 
 function getOAuthMetaFromLocation(location: ParsedLocation) {
