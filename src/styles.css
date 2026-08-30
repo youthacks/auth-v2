@@ -1,5 +1,5 @@
 @import "./assets/fonts/fonts.css";
-@import "tailwindcss";
+@import "tailwindcss" source("./");
 
 @theme {
   --font-sans: "Work Sans", ui-sans-serif, system-ui, sans-serif;
