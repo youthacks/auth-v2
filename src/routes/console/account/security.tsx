@@ -176,7 +176,7 @@ function RouteComponent() {
         <hr className="border-neutral-200" />
         <Fieldset.Root>
           <Fieldset.Legend>Two-factor authentication</Fieldset.Legend>
-          <div className="rounded-lg border-2 border-dashed border-neutral-300 p-4">
+          <div className="rounded-lg border-2 border-dashed border-neutral-300 p-4 opacity-50">
             <p className="font-medium">2FA is not set up</p>
             <p className="mt-0.5 text-sm text-neutral-600">
               Verify it's you with an authenticator app or Yubikey, before
