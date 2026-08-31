@@ -20,12 +20,14 @@ import { Route as ConsoleLogbookRouteImport } from './routes/console/logbook'
 import { Route as ConsoleManageRouteRouteImport } from './routes/console/manage/route'
 import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
 import { Route as AuthAuthFinishRouteImport } from './routes/_auth/auth/finish'
+import { Route as AuthAuthSignupRouteRouteImport } from './routes/_auth/auth/signup/route'
 import { Route as AuthOauthSplatRouteImport } from './routes/_auth/oauth/$'
 import { Route as AuthOauthAuthorizeRouteImport } from './routes/_auth/oauth/authorize'
 import { Route as ConsoleAccountIndexRouteImport } from './routes/console/account/index'
 import { Route as ConsoleAccountAppsRouteImport } from './routes/console/account/apps'
 import { Route as ConsoleAccountProfileRouteImport } from './routes/console/account/profile'
 import { Route as ConsoleAccountSecurityRouteImport } from './routes/console/account/security'
+import { Route as AuthAuthLoginIdRouteRouteImport } from './routes/_auth/auth/login.$id/route'
 import { Route as AuthAuthSignupIndexRouteImport } from './routes/_auth/auth/signup/index'
 import { Route as ConsoleManageAppsIndexRouteImport } from './routes/console/manage/apps/index'
 import { Route as ConsoleManageAppsIdRouteRouteImport } from './routes/console/manage/apps/$id/route'
@@ -97,6 +99,11 @@ const AuthAuthFinishRoute = AuthAuthFinishRouteImport.update({
   path: '/finish',
   getParentRoute: () => AuthAuthRouteRoute,
 } as any)
+const AuthAuthSignupRouteRoute = AuthAuthSignupRouteRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthAuthRouteRoute,
+} as any)
 const AuthOauthSplatRoute = AuthOauthSplatRouteImport.update({
   id: '/oauth/$',
   path: '/oauth/$',
@@ -127,10 +134,15 @@ const ConsoleAccountSecurityRoute = ConsoleAccountSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => ConsoleAccountRouteRoute,
 } as any)
-const AuthAuthSignupIndexRoute = AuthAuthSignupIndexRouteImport.update({
-  id: '/signup/',
-  path: '/signup/',
+const AuthAuthLoginIdRouteRoute = AuthAuthLoginIdRouteRouteImport.update({
+  id: '/login/$id',
+  path: '/login/$id',
   getParentRoute: () => AuthAuthRouteRoute,
+} as any)
+const AuthAuthSignupIndexRoute = AuthAuthSignupIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthAuthSignupRouteRoute,
 } as any)
 const ConsoleManageAppsIndexRoute = ConsoleManageAppsIndexRouteImport.update({
   id: '/apps/',
@@ -155,19 +167,19 @@ const ConsoleManageUsersIdRouteRoute =
     getParentRoute: () => ConsoleManageRouteRoute,
   } as any)
 const AuthAuthLoginIdOtpRoute = AuthAuthLoginIdOtpRouteImport.update({
-  id: '/login/$id/otp',
-  path: '/login/$id/otp',
-  getParentRoute: () => AuthAuthRouteRoute,
+  id: '/otp',
+  path: '/otp',
+  getParentRoute: () => AuthAuthLoginIdRouteRoute,
 } as any)
 const AuthAuthSignupIdOtpRoute = AuthAuthSignupIdOtpRouteImport.update({
-  id: '/signup/$id/otp',
-  path: '/signup/$id/otp',
-  getParentRoute: () => AuthAuthRouteRoute,
+  id: '/$id/otp',
+  path: '/$id/otp',
+  getParentRoute: () => AuthAuthSignupRouteRoute,
 } as any)
 const AuthAuthSignupIdTermsRoute = AuthAuthSignupIdTermsRouteImport.update({
-  id: '/signup/$id/terms',
-  path: '/signup/$id/terms',
-  getParentRoute: () => AuthAuthRouteRoute,
+  id: '/$id/terms',
+  path: '/$id/terms',
+  getParentRoute: () => AuthAuthSignupRouteRoute,
 } as any)
 const ConsoleManageAppsIdIndexRoute =
   ConsoleManageAppsIdIndexRouteImport.update({
@@ -227,6 +239,7 @@ export interface FileRoutesByFullPath {
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
+  '/auth/signup': typeof AuthAuthSignupRouteRouteWithChildren
   '/auth/finish': typeof AuthAuthFinishRoute
   '/oauth/$': typeof AuthOauthSplatRoute
   '/oauth/authorize': typeof AuthOauthAuthorizeRoute
@@ -235,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/console/account/security': typeof ConsoleAccountSecurityRoute
   '/auth/': typeof AuthAuthIndexRoute
   '/console/account/': typeof ConsoleAccountIndexRoute
+  '/auth/login/$id': typeof AuthAuthLoginIdRouteRouteWithChildren
   '/console/manage/apps/$id': typeof ConsoleManageAppsIdRouteRouteWithChildren
   '/console/manage/users/$id': typeof ConsoleManageUsersIdRouteRouteWithChildren
   '/auth/signup/': typeof AuthAuthSignupIndexRoute
@@ -266,6 +280,7 @@ export interface FileRoutesByTo {
   '/console/account/security': typeof ConsoleAccountSecurityRoute
   '/auth': typeof AuthAuthIndexRoute
   '/console/account': typeof ConsoleAccountIndexRoute
+  '/auth/login/$id': typeof AuthAuthLoginIdRouteRouteWithChildren
   '/auth/signup': typeof AuthAuthSignupIndexRoute
   '/console/manage/apps': typeof ConsoleManageAppsIndexRoute
   '/console/manage/users': typeof ConsoleManageUsersIndexRoute
@@ -291,6 +306,7 @@ export interface FileRoutesById {
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
+  '/_auth/auth/signup': typeof AuthAuthSignupRouteRouteWithChildren
   '/_auth/auth/finish': typeof AuthAuthFinishRoute
   '/_auth/oauth/$': typeof AuthOauthSplatRoute
   '/_auth/oauth/authorize': typeof AuthOauthAuthorizeRoute
@@ -299,6 +315,7 @@ export interface FileRoutesById {
   '/console/account/security': typeof ConsoleAccountSecurityRoute
   '/_auth/auth/': typeof AuthAuthIndexRoute
   '/console/account/': typeof ConsoleAccountIndexRoute
+  '/_auth/auth/login/$id': typeof AuthAuthLoginIdRouteRouteWithChildren
   '/console/manage/apps/$id': typeof ConsoleManageAppsIdRouteRouteWithChildren
   '/console/manage/users/$id': typeof ConsoleManageUsersIdRouteRouteWithChildren
   '/_auth/auth/signup/': typeof AuthAuthSignupIndexRoute
@@ -327,6 +344,7 @@ export interface FileRouteTypes {
     | '/console/home'
     | '/console/logbook'
     | '/console/'
+    | '/auth/signup'
     | '/auth/finish'
     | '/oauth/$'
     | '/oauth/authorize'
@@ -335,6 +353,7 @@ export interface FileRouteTypes {
     | '/console/account/security'
     | '/auth/'
     | '/console/account/'
+    | '/auth/login/$id'
     | '/console/manage/apps/$id'
     | '/console/manage/users/$id'
     | '/auth/signup/'
@@ -366,6 +385,7 @@ export interface FileRouteTypes {
     | '/console/account/security'
     | '/auth'
     | '/console/account'
+    | '/auth/login/$id'
     | '/auth/signup'
     | '/console/manage/apps'
     | '/console/manage/users'
@@ -390,6 +410,7 @@ export interface FileRouteTypes {
     | '/console/home'
     | '/console/logbook'
     | '/console/'
+    | '/_auth/auth/signup'
     | '/_auth/auth/finish'
     | '/_auth/oauth/$'
     | '/_auth/oauth/authorize'
@@ -398,6 +419,7 @@ export interface FileRouteTypes {
     | '/console/account/security'
     | '/_auth/auth/'
     | '/console/account/'
+    | '/_auth/auth/login/$id'
     | '/console/manage/apps/$id'
     | '/console/manage/users/$id'
     | '/_auth/auth/signup/'
@@ -501,6 +523,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthFinishRouteImport
       parentRoute: typeof AuthAuthRouteRoute
     }
+    '/_auth/auth/signup': {
+      id: '/_auth/auth/signup'
+      path: '/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthAuthSignupRouteRouteImport
+      parentRoute: typeof AuthAuthRouteRoute
+    }
     '/_auth/oauth/$': {
       id: '/_auth/oauth/$'
       path: '/oauth/$'
@@ -543,12 +572,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConsoleAccountSecurityRouteImport
       parentRoute: typeof ConsoleAccountRouteRoute
     }
+    '/_auth/auth/login/$id': {
+      id: '/_auth/auth/login/$id'
+      path: '/login/$id'
+      fullPath: '/auth/login/$id'
+      preLoaderRoute: typeof AuthAuthLoginIdRouteRouteImport
+      parentRoute: typeof AuthAuthRouteRoute
+    }
     '/_auth/auth/signup/': {
       id: '/_auth/auth/signup/'
-      path: '/signup'
+      path: '/'
       fullPath: '/auth/signup/'
       preLoaderRoute: typeof AuthAuthSignupIndexRouteImport
-      parentRoute: typeof AuthAuthRouteRoute
+      parentRoute: typeof AuthAuthSignupRouteRoute
     }
     '/console/manage/apps/': {
       id: '/console/manage/apps/'
@@ -580,24 +616,24 @@ declare module '@tanstack/react-router' {
     }
     '/_auth/auth/login/$id/otp': {
       id: '/_auth/auth/login/$id/otp'
-      path: '/login/$id/otp'
+      path: '/otp'
       fullPath: '/auth/login/$id/otp'
       preLoaderRoute: typeof AuthAuthLoginIdOtpRouteImport
-      parentRoute: typeof AuthAuthRouteRoute
+      parentRoute: typeof AuthAuthLoginIdRouteRoute
     }
     '/_auth/auth/signup/$id/otp': {
       id: '/_auth/auth/signup/$id/otp'
-      path: '/signup/$id/otp'
+      path: '/$id/otp'
       fullPath: '/auth/signup/$id/otp'
       preLoaderRoute: typeof AuthAuthSignupIdOtpRouteImport
-      parentRoute: typeof AuthAuthRouteRoute
+      parentRoute: typeof AuthAuthSignupRouteRoute
     }
     '/_auth/auth/signup/$id/terms': {
       id: '/_auth/auth/signup/$id/terms'
-      path: '/signup/$id/terms'
+      path: '/$id/terms'
       fullPath: '/auth/signup/$id/terms'
       preLoaderRoute: typeof AuthAuthSignupIdTermsRouteImport
-      parentRoute: typeof AuthAuthRouteRoute
+      parentRoute: typeof AuthAuthSignupRouteRoute
     }
     '/console/manage/apps/$id/': {
       id: '/console/manage/apps/$id/'
@@ -658,22 +694,44 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AuthAuthRouteRouteChildren {
-  AuthAuthFinishRoute: typeof AuthAuthFinishRoute
-  AuthAuthIndexRoute: typeof AuthAuthIndexRoute
+interface AuthAuthSignupRouteRouteChildren {
   AuthAuthSignupIndexRoute: typeof AuthAuthSignupIndexRoute
-  AuthAuthLoginIdOtpRoute: typeof AuthAuthLoginIdOtpRoute
   AuthAuthSignupIdOtpRoute: typeof AuthAuthSignupIdOtpRoute
   AuthAuthSignupIdTermsRoute: typeof AuthAuthSignupIdTermsRoute
 }
 
-const AuthAuthRouteRouteChildren: AuthAuthRouteRouteChildren = {
-  AuthAuthFinishRoute: AuthAuthFinishRoute,
-  AuthAuthIndexRoute: AuthAuthIndexRoute,
+const AuthAuthSignupRouteRouteChildren: AuthAuthSignupRouteRouteChildren = {
   AuthAuthSignupIndexRoute: AuthAuthSignupIndexRoute,
-  AuthAuthLoginIdOtpRoute: AuthAuthLoginIdOtpRoute,
   AuthAuthSignupIdOtpRoute: AuthAuthSignupIdOtpRoute,
   AuthAuthSignupIdTermsRoute: AuthAuthSignupIdTermsRoute,
+}
+
+const AuthAuthSignupRouteRouteWithChildren =
+  AuthAuthSignupRouteRoute._addFileChildren(AuthAuthSignupRouteRouteChildren)
+
+interface AuthAuthLoginIdRouteRouteChildren {
+  AuthAuthLoginIdOtpRoute: typeof AuthAuthLoginIdOtpRoute
+}
+
+const AuthAuthLoginIdRouteRouteChildren: AuthAuthLoginIdRouteRouteChildren = {
+  AuthAuthLoginIdOtpRoute: AuthAuthLoginIdOtpRoute,
+}
+
+const AuthAuthLoginIdRouteRouteWithChildren =
+  AuthAuthLoginIdRouteRoute._addFileChildren(AuthAuthLoginIdRouteRouteChildren)
+
+interface AuthAuthRouteRouteChildren {
+  AuthAuthSignupRouteRoute: typeof AuthAuthSignupRouteRouteWithChildren
+  AuthAuthFinishRoute: typeof AuthAuthFinishRoute
+  AuthAuthIndexRoute: typeof AuthAuthIndexRoute
+  AuthAuthLoginIdRouteRoute: typeof AuthAuthLoginIdRouteRouteWithChildren
+}
+
+const AuthAuthRouteRouteChildren: AuthAuthRouteRouteChildren = {
+  AuthAuthSignupRouteRoute: AuthAuthSignupRouteRouteWithChildren,
+  AuthAuthFinishRoute: AuthAuthFinishRoute,
+  AuthAuthIndexRoute: AuthAuthIndexRoute,
+  AuthAuthLoginIdRouteRoute: AuthAuthLoginIdRouteRouteWithChildren,
 }
 
 const AuthAuthRouteRouteWithChildren = AuthAuthRouteRoute._addFileChildren(

@@ -50,6 +50,14 @@ export const Route = createFileRoute("/_auth/oauth/authorize")({
 
     return { app, user };
   },
+
+  head: ({ loaderData }) => ({
+    meta: [
+      {
+        title: `Authorise ${loaderData?.app.name || "app"} - Youthacks Account`,
+      },
+    ],
+  }),
   component: RouteComponent,
 });
 

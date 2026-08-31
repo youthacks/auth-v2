@@ -13,6 +13,13 @@ import Button from "#/components/ui/Button";
 import { useAppForm } from "#/integrations/form";
 
 export const Route = createFileRoute("/_auth/auth/")({
+  head: () => ({
+    meta: [
+      {
+        title: "Log in or sign up - Youthacks Account",
+      },
+    ],
+  }),
   validateSearch: z.object({
     exit: z.boolean().optional().catch(undefined),
   }),
