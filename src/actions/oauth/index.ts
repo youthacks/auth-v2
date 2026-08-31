@@ -40,6 +40,7 @@ export const oauthAuthorizeSilently = createServerFn()
       await db.insert(oauthExchangeCodes).values({
         code,
         scopes: data.scope,
+        redirectUri: data.redirect_uri,
         appId: oauthConfig.appId,
         userId: context.user.id,
         expiresAt: dayjs().add(15, "minutes").toDate(),
@@ -98,6 +99,7 @@ export const oauthAuthorize = createServerFn({ method: "POST" })
       await tx.insert(oauthExchangeCodes).values({
         code,
         scopes: data.scope,
+        redirectUri: data.redirect_uri,
         appId: oauthConfig.appId,
         userId: context.user.id,
         expiresAt: dayjs().add(15, "minutes").toDate(),

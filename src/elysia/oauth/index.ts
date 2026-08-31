@@ -36,7 +36,10 @@ export const oauthApi = new Elysia({ prefix: "/oauth" })
             return status(400, "Invalid or expired exchange code");
           }
 
-          // TODO: verify redirect_uri matches the one used to generate the exchange code
+          if (body.redirect_uri !== exchangeCode.redirectUri) {
+            return status(400, "Redirect URI does not match");
+          }
+
           try {
             const clientIdMatch = timingSafeEqual(
               Buffer.from(body.client_id),

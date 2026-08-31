@@ -6,6 +6,7 @@ import { createdAt, expiresAt } from "./utils/timestamps";
 export const oauthExchangeCodes = pgTable("oauth_exchange_codes", {
   code: text().primaryKey(),
   scopes: text().notNull(),
+  redirectUri: text("redirect_uri").notNull(),
 
   appId: text("app_id")
     .notNull()

@@ -1,0 +1,1 @@
+ALTER TABLE "oauth_exchange_codes" ADD COLUMN "redirect_uri" text NOT NULL;
