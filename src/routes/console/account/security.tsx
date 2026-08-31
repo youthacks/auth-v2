@@ -70,7 +70,9 @@ function Sessions() {
                             <span className="mx-1">&middot;</span>
                           </>
                         )}
-                        1.2.3.4
+                        {session.ipAddress || (
+                          <span className="italic">unknown IP</span>
+                        )}
                       </p>
                     </div>
                   </div>

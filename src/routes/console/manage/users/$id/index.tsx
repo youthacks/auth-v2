@@ -142,7 +142,11 @@ function RouteComponent() {
                     <p className="text-sm font-medium">
                       {getSessionName(session.userAgent)}
                     </p>
-                    <p className="text-xs text-neutral-600">1.2.3.4</p>
+                    <p className="text-xs text-neutral-600">
+                      {session.ipAddress || (
+                        <span className="italic">unknown IP</span>
+                      )}
+                    </p>
                   </div>
                 </div>
                 <p

@@ -27,12 +27,19 @@ export function useAppSession() {
 export async function createSession(userId: string) {
   const userAgent = getRequestHeader("User-Agent");
 
+  let ipAddress: string | null = null;
+  if (process.env.FLY_MACHINE_ID) {
+    // https://www.fly.io/docs/networking/request-headers/#fly-client-ip
+    ipAddress = getRequestHeader("Fly-Client-IP") ?? null;
+  }
+
   const [{ id }] = await db
     .insert(sessions)
     .values({
       userId,
       expiresAt: dayjs().add(7, "days").toDate(),
       userAgent,
+      ipAddress,
     })
     .returning();
 
