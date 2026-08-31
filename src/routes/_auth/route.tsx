@@ -75,17 +75,15 @@ function RouteComponent() {
         className="animate-background-in fixed inset-0 -z-10 h-full w-full object-cover"
         alt=""
       />
-      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-8">
-        <div className="mx-auto w-full max-w-lg overflow-clip rounded-xl border border-neutral-200 bg-white shadow-md">
+      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-4 sm:p-8">
+        <div className="mx-auto w-full overflow-clip rounded-xl border border-neutral-200 bg-white shadow-md sm:max-w-lg">
           <Outlet />
         </div>
 
         <div className="flex-1"></div>
 
         <div className="rounded-full bg-black/50 px-3 py-2 backdrop-blur-md">
-          <p className="text-xs text-white/80">
-            auth version aabb123
-            <span className="mx-1.5 text-white/50">&middot;</span>
+          <p className="text-center text-xs text-white/80">
             {app ? app.name : background.caption}
           </p>
         </div>

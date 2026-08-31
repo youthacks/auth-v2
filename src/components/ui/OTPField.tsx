@@ -28,7 +28,7 @@ function Root({
     <OTPFieldContext value={{ length: props.length, autoFocus }}>
       <BaseOTPField.Root
         {...props}
-        className={clsx("flex items-center gap-3", className)}
+        className={clsx("flex items-center gap-2", className)}
       >
         {children}
       </BaseOTPField.Root>
@@ -46,7 +46,7 @@ function Input({
       {...props}
       placeholder={placeholder}
       className={clsx(
-        "h-16 w-full min-w-0 flex-1 rounded-lg border border-neutral-300 px-4 text-center text-2xl shadow-xs ring-rose-600 transition outline-none placeholder:text-neutral-400 focus:border-rose-600 focus:ring-1 focus:placeholder:text-transparent disabled:bg-neutral-200 disabled:text-neutral-500",
+        "h-16 w-full min-w-0 flex-1 rounded-lg border border-neutral-300 text-center text-xl shadow-xs ring-rose-600 transition outline-none placeholder:text-neutral-400 focus:border-rose-600 focus:ring-1 focus:placeholder:text-transparent disabled:bg-neutral-200 disabled:text-neutral-500 sm:text-2xl",
         className,
       )}
     />
