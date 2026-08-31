@@ -28,6 +28,7 @@ export const listUsers = createServerFn()
           with: { asset: true },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     return await Promise.all(

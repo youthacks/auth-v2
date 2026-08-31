@@ -11,6 +11,7 @@ export const getSessions = createServerFn()
   .handler(async ({ context }) => {
     const sessions = await db.query.sessions.findMany({
       where: { userId: context.withUser.id },
+      orderBy: { createdAt: "desc" },
     });
     return sessions.map((session) => ({
       ...session,

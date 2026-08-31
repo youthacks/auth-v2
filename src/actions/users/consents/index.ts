@@ -19,6 +19,7 @@ export const getConsents = createServerFn()
       with: {
         app: { columns: { name: true, homepageUrl: true, logoAssetId: true } },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     return await Promise.all(
