@@ -29,7 +29,7 @@ export function parseUserAgent(
   const { browser, os, device } = new UAParser(userAgent).getResult();
   return {
     type: mapDeviceType(device.type),
-    browserName: browser.name,
+    browserName: browser.name?.replace(/^Mobile /i, ""),
     osName: os.name,
     // deviceName:
     //   [device.vendor, device.model].filter(Boolean).join(" ") || undefined,
