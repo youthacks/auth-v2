@@ -14,6 +14,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG PUBLIC_URL="https://yth-auth.fly.dev"
+
 # Build the application
 RUN corepack enable pnpm
 RUN pnpm build
