@@ -31,14 +31,13 @@ export function parseUserAgent(
     type: mapDeviceType(device.type),
     browserName: browser.name,
     osName: os.name,
-    deviceName:
-      [device.vendor, device.model].filter(Boolean).join(" ") || undefined,
+    // deviceName:
+    //   [device.vendor, device.model].filter(Boolean).join(" ") || undefined,
   };
 }
 export function getSessionName(userAgent: string | null | undefined): string {
   const parsed = parseUserAgent(userAgent);
 
-  if (parsed?.deviceName) return parsed.deviceName;
   if (parsed?.osName && parsed?.browserName) {
     return `${parsed.browserName} on ${parsed.osName}`;
   }
