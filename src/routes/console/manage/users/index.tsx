@@ -21,7 +21,9 @@ function RouteComponent() {
       <div className="mt-4 divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
         <div className="flex gap-4 bg-neutral-100 px-4 py-1.5 text-sm">
           <p className="min-w-0 flex-1 truncate font-medium">Name</p>
-          <p className="w-48 flex-none truncate font-medium">Created at</p>
+          <p className="w-48 flex-none truncate font-medium max-sm:hidden">
+            Created at
+          </p>
         </div>
         {data.map((user) => (
           <Link
@@ -54,7 +56,7 @@ function RouteComponent() {
             </div>
             <p
               title={dayjs(user.createdAt).toString()}
-              className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2"
+              className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2 max-sm:hidden"
             >
               {dayjs(user.createdAt).fromNow()}
             </p>

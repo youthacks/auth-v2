@@ -45,7 +45,9 @@ function Sessions() {
       <Accordion.Root className="mt-3 divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
         <div className="flex gap-4 bg-neutral-100 px-4 py-1.5 text-sm">
           <p className="min-w-0 flex-1 truncate font-medium">Device</p>
-          <p className="w-48 flex-none truncate font-medium">Created at</p>
+          <p className="w-48 flex-none truncate font-medium max-sm:hidden">
+            Created at
+          </p>
           <div className="w-4 flex-none"></div>
         </div>
         {sessions ? (
@@ -74,7 +76,7 @@ function Sessions() {
                   </div>
                   <p
                     title={dayjs(session.createdAt).toString()}
-                    className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2"
+                    className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2 max-sm:hidden"
                   >
                     {dayjs(session.createdAt).fromNow()}
                   </p>
@@ -126,44 +128,46 @@ function RouteComponent() {
   return (
     <div className="space-y-8 p-8">
       <div className="flex flex-col gap-8 rounded-xl border border-neutral-200 p-6">
-        <Fieldset.Root className="gap-y-0!">
+        <Fieldset.Root>
           <Fieldset.Legend>Log-in settings</Fieldset.Legend>
-          <div className="flex h-8 items-center gap-3 *:opacity-50">
-            <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
-              <MailIcon className="size-4 text-neutral-600" />
+          <div>
+            <div className="flex h-8 items-center gap-3 *:opacity-50">
+              <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
+                <MailIcon className="size-4 text-neutral-600" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium">Email</p>
+                <p className="mt-px text-xs text-neutral-600">{user?.email}</p>
+              </div>
+              <div className="flex flex-none items-center gap-0.5">
+                <Button size="sm">Change</Button>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium">Email</p>
-              <p className="mt-px text-xs text-neutral-600">{user?.email}</p>
+            <hr className="my-4 border-neutral-200" />
+            <div className="flex h-8 items-center gap-3 *:opacity-50">
+              <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
+                <RectangleEllipsisIcon className="size-4 text-neutral-600" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium">Password</p>
+                <p className="mt-px text-xs text-neutral-600">not set</p>
+              </div>
+              <div className="flex flex-none items-center gap-0.5">
+                <Button size="sm">Add</Button>
+              </div>
             </div>
-            <div className="flex flex-none items-center gap-0.5">
-              <Button size="sm">Change</Button>
-            </div>
-          </div>
-          <hr className="my-4 border-neutral-200" />
-          <div className="flex h-8 items-center gap-3 *:opacity-50">
-            <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
-              <RectangleEllipsisIcon className="size-4 text-neutral-600" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium">Password</p>
-              <p className="mt-px text-xs text-neutral-600">not set</p>
-            </div>
-            <div className="flex flex-none items-center gap-0.5">
-              <Button size="sm">Add</Button>
-            </div>
-          </div>
-          <hr className="my-4 border-neutral-200" />
-          <div className="flex h-8 items-center gap-3 *:opacity-50">
-            <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
-              <KeyIcon className="size-4 text-neutral-600" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium">Passkeys</p>
-              <p className="mt-px text-xs text-neutral-600">3 added</p>
-            </div>
-            <div className="flex flex-none items-center gap-0.5">
-              <Button size="sm">Manage</Button>
+            <hr className="my-4 border-neutral-200" />
+            <div className="flex h-8 items-center gap-3 *:opacity-50">
+              <div className="grid size-8 place-items-center rounded-sm border border-neutral-200 bg-neutral-100">
+                <KeyIcon className="size-4 text-neutral-600" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium">Passkeys</p>
+                <p className="mt-px text-xs text-neutral-600">3 added</p>
+              </div>
+              <div className="flex flex-none items-center gap-0.5">
+                <Button size="sm">Manage</Button>
+              </div>
             </div>
           </div>
         </Fieldset.Root>

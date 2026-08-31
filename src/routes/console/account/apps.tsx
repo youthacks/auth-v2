@@ -47,7 +47,9 @@ function RouteComponent() {
         <Accordion.Root className="divide-y divide-neutral-200 overflow-clip rounded-lg border border-neutral-200">
           <div className="flex gap-4 bg-neutral-100 px-4 py-1.5 text-sm">
             <p className="min-w-0 flex-1 truncate font-medium">Name</p>
-            <p className="w-48 flex-none truncate font-medium">Linked at</p>
+            <p className="w-48 flex-none truncate font-medium max-sm:hidden">
+              Linked at
+            </p>
             <div className="w-4 flex-none"></div>
           </div>
           {apps.map((appConsent) => (
@@ -77,7 +79,7 @@ function RouteComponent() {
                   </div>
                   <p
                     title={dayjs(appConsent.createdAt).toString()}
-                    className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2"
+                    className="w-48 flex-none truncate text-sm underline decoration-dotted underline-offset-2 max-sm:hidden"
                   >
                     {dayjs(appConsent.createdAt).fromNow()}
                   </p>
@@ -89,23 +91,29 @@ function RouteComponent() {
                   <hr className="mb-4 border-neutral-200" />
                   <div className="space-y-1">
                     <div className="flex">
-                      <p className="w-32 text-sm font-medium">Homepage</p>
+                      <p className="w-32 flex-none text-sm font-medium">
+                        Homepage
+                      </p>
                       <a
                         href={appConsent.app.homepageUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center text-sm font-medium text-rose-700 hover:text-rose-900 hover:underline"
+                        className="flex min-w-0 flex-1 items-center truncate text-sm font-medium text-rose-700 hover:text-rose-900 hover:underline"
                       >
-                        {appConsent.app.homepageUrl}
+                        <span className="truncate">
+                          {appConsent.app.homepageUrl}
+                        </span>
                         <ArrowUpRightIcon
                           strokeWidth={2.5}
-                          className="ml-1 inline-block size-3"
+                          className="ml-1 inline-block size-3 flex-none"
                         />
                       </a>
                     </div>
                     <div className="flex">
-                      <p className="w-32 text-sm font-medium">Permissions</p>
-                      <p className="text-sm text-neutral-600">
+                      <p className="w-32 flex-none text-sm font-medium">
+                        Permissions
+                      </p>
+                      <p className="min-w-0 flex-1 truncate text-sm text-neutral-600">
                         {appConsent.scopes}
                       </p>
                     </div>

@@ -23,7 +23,7 @@ function Viewport({ className, ...props }: BaseDialog.Viewport.Props) {
     <BaseDialog.Viewport
       {...props}
       className={clsx(
-        "fixed inset-0 z-20 flex items-center justify-center p-8",
+        "fixed inset-0 z-20 flex items-center justify-center p-4",
         className,
       )}
     />
