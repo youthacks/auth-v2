@@ -58,7 +58,7 @@ function RouteComponent() {
       <div className="flex w-full max-w-7xl flex-none overflow-x-clip">
         <div
           className={clsx(
-            "relative flex h-full w-full min-w-0 flex-none flex-col justify-between gap-8 overflow-y-auto border-r border-neutral-200 p-8 max-lg:transition lg:w-80",
+            "relative flex h-full w-full min-w-0 flex-none flex-col justify-between gap-8 overflow-y-auto border-r border-neutral-200 p-8 duration-300 ease-in-out-expo max-lg:transition lg:w-80",
             menuOpen ? "" : "max-lg:-translate-x-1/4",
           )}
         >
@@ -123,7 +123,7 @@ function RouteComponent() {
         </div>
         <div
           className={clsx(
-            "w-full min-w-0 flex-none overflow-x-hidden overflow-y-auto bg-white max-lg:transition lg:flex-1",
+            "w-full min-w-0 flex-none overflow-x-hidden overflow-y-auto bg-white duration-300 ease-in-out-expo max-lg:transition lg:flex-1",
             menuOpen ? "" : "max-lg:-translate-x-full",
           )}
         >
