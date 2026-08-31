@@ -30,7 +30,7 @@ function RouteComponent() {
   }, [date]);
 
   return (
-    <div className="p-8">
+    <div className="@container p-8">
       <h1 className="font-heading text-3xl font-bold">
         {greeting}, {user?.firstName}
       </h1>
@@ -50,7 +50,7 @@ function RouteComponent() {
               </p>
             </div>
           ) : (
-            <div className="mt-4 grid grid-cols-4 gap-4">
+            <div className="mt-4 grid grid-cols-1 gap-4 @sm:grid-cols-2 @lg:grid-cols-3 @2xl:grid-cols-4">
               {apps.map((appConsent) => (
                 <a
                   key={appConsent.appId}
