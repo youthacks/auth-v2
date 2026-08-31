@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { NotebookTextIcon, User2Icon } from "lucide-react";
 import { useMemo } from "react";
@@ -85,16 +85,31 @@ function RouteComponent() {
   const search = Route.useSearch();
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+
   const scopes = useMemo(
     () => search.scope.split(/\s/).filter(Boolean),
     [search.scope],
   );
 
-  const { isPending, error, mutate } = useMutation({
+  const { error, mutate } = useMutation({
     mutationFn: oauthAuthorize,
     onSuccess: async (data) => {
       const newSearch = new URLSearchParams();
       newSearch.set("code", data.code);
+      if (search.state) newSearch.set("state", search.state);
+
+      navigate({
+        href: `${search.redirect_uri}?${newSearch.toString()}`,
+      });
+      await new Promise(() => {}); // wait for navigation to finish
+    },
+  });
+
+  const { mutate: cancel } = useMutation({
+    mutationFn: async () => {
+      const newSearch = new URLSearchParams();
+      newSearch.set("error", "access_denied");
       if (search.state) newSearch.set("state", search.state);
 
       navigate({
@@ -161,11 +176,17 @@ function RouteComponent() {
         </p>
       </div>
       <div className="mt-6 grid grid-cols-2 gap-4">
-        <Button size="lg">Cancel</Button>
+        <Button
+          size="lg"
+          disabled={!!queryClient.isMutating()}
+          onClick={() => cancel()}
+        >
+          Cancel
+        </Button>
         <Button
           size="lg"
           color="primary"
-          disabled={isPending}
+          disabled={!!queryClient.isMutating()}
           onClick={() => mutate({ data: { ...search, consent: true } })}
         >
           Allow
