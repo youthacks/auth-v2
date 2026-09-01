@@ -70,12 +70,19 @@ function RouteComponent() {
 
   return (
     <>
+      <div className="fixed inset-x-0 top-0 flex h-10 items-center justify-center-safe overflow-x-auto bg-amber-700 px-4 text-sm">
+        <p className="flex-none text-white">
+          This is{" "}
+          <span className="font-semibold">not a production system.</span> You
+          may wish not to enter your real name or personal information.
+        </p>
+      </div>
       <img
         src={app?.background?.url ?? background.url}
         className="animate-background-in fixed inset-0 -z-10 h-full w-full object-cover"
         alt=""
       />
-      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-4 sm:p-8">
+      <div className="flex size-full flex-col items-center gap-4 overflow-auto p-4 pt-14 sm:p-8 sm:pt-18">
         <div className="mx-auto w-full overflow-clip rounded-xl border border-neutral-200 bg-white shadow-md sm:max-w-lg">
           <Outlet />
         </div>
