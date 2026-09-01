@@ -52,6 +52,26 @@ export const listApps = createServerFn()
     );
   });
 
+export const listPublicApps = createServerFn()
+  .middleware([requireSession])
+  .handler(async () => {
+    const apps = await db.query.applications.findMany({
+      where: { public: true },
+      orderBy: { createdAt: "desc" },
+      with: {
+        logo: true,
+      },
+    });
+    return await Promise.all(
+      apps.map(async (app) => ({
+        ...app,
+        logo: app.logo
+          ? { id: app.logo.id, url: await getAssetUrl(app.logo.id) }
+          : null,
+      })),
+    );
+  });
+
 export const getApp = createServerFn()
   .middleware([withApplication])
   .handler(async ({ context }) => {

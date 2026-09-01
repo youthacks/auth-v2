@@ -1,4 +1,4 @@
-import { bytea, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
+import { boolean, bytea, pgTable, primaryKey, text } from "drizzle-orm/pg-core";
 import { assets } from "./assets";
 import { users } from "./base";
 import { applicationId } from "./utils/ids";
@@ -9,6 +9,7 @@ export const applications = pgTable("applications", {
   name: text().notNull(),
   description: text(),
   homepageUrl: text("homepage_url").notNull(),
+  public: boolean().notNull().default(true),
 
   logoAssetId: text("logo_asset_id").references(() => assets.id),
   backgroundAssetId: text("background_asset_id").references(() => assets.id),

@@ -1,0 +1,1 @@
+ALTER TABLE "applications" ADD COLUMN "public" boolean DEFAULT true NOT NULL;

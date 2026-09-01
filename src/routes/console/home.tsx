@@ -2,6 +2,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
+import { listPublicAppsQuery } from "#/actions/apps/queries";
 import { getConsentsQuery } from "#/actions/users/consents/queries";
 import { getUserQuery } from "#/actions/users/queries";
 import { DefaultAvatar } from "#/components/ui/Avatar";
@@ -12,7 +13,13 @@ export const Route = createFileRoute("/console/home")({
 
 function RouteComponent() {
   const { data: user } = useSuspenseQuery(getUserQuery({ id: "me" }));
-  const { data: apps } = useQuery(getConsentsQuery({ id: "me" }));
+  const { data: consents } = useQuery(getConsentsQuery({ id: "me" }));
+  const { data: publicApps } = useQuery(listPublicAppsQuery());
+
+  const apps = useMemo(
+    () => [...(consents || []).map((c) => c.app), ...(publicApps || [])],
+    [consents, publicApps],
+  );
 
   const [date, setDate] = useState(() => dayjs());
   useEffect(() => {
@@ -51,26 +58,26 @@ function RouteComponent() {
             </div>
           ) : (
             <div className="mt-4 grid grid-cols-1 gap-4 @sm:grid-cols-2 @lg:grid-cols-3 @2xl:grid-cols-4">
-              {apps.map((appConsent) => (
+              {apps.map((app) => (
                 <a
-                  key={appConsent.appId}
-                  href={appConsent.app.homepageUrl}
+                  key={app.id}
+                  href={app.homepageUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-24 flex-col items-center justify-center rounded-lg border border-gray-300 bg-white text-center shadow-xs transition hover:bg-neutral-100 active:scale-95"
                 >
                   <div className="mt-1 size-8 flex-none overflow-clip rounded-sm border border-neutral-200">
-                    {appConsent.app.logo ? (
+                    {app.logo ? (
                       <img
-                        src={appConsent.app.logo.url}
+                        src={app.logo.url}
                         alt=""
                         className="size-full object-cover"
                       />
                     ) : (
-                      <DefaultAvatar>{appConsent.app.name[0]}</DefaultAvatar>
+                      <DefaultAvatar>{app.name[0]}</DefaultAvatar>
                     )}
                   </div>
-                  <p className="mt-2 text-sm">{appConsent.app.name}</p>
+                  <p className="mt-2 text-sm">{app.name}</p>
                 </a>
               ))}
             </div>

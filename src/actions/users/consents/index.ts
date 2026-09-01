@@ -17,7 +17,14 @@ export const getConsents = createServerFn()
     const consents = await db.query.applicationConsents.findMany({
       where: { userId: context.withUser.id },
       with: {
-        app: { columns: { name: true, homepageUrl: true, logoAssetId: true } },
+        app: {
+          columns: {
+            id: true,
+            name: true,
+            homepageUrl: true,
+            logoAssetId: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });

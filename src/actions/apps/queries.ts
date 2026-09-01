@@ -1,11 +1,17 @@
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
 import type { Data } from "#/actions/types";
-import { createApp, getApp, listApps, updateApp } from ".";
+import { createApp, getApp, listApps, listPublicApps, updateApp } from ".";
 
 export const listAppsQuery = () =>
   queryOptions({
     queryKey: ["apps"],
     queryFn: () => listApps(),
+  });
+
+export const listPublicAppsQuery = () =>
+  queryOptions({
+    queryKey: ["apps", "public"],
+    queryFn: () => listPublicApps(),
   });
 
 export const getAppQuery = (data: Data<typeof getApp>) =>
