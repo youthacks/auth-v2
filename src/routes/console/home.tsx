@@ -16,10 +16,14 @@ function RouteComponent() {
   const { data: consents } = useQuery(getConsentsQuery({ id: "me" }));
   const { data: publicApps } = useQuery(listPublicAppsQuery());
 
-  const apps = useMemo(
-    () => [...(consents || []).map((c) => c.app), ...(publicApps || [])],
-    [consents, publicApps],
-  );
+  const apps = useMemo(() => {
+    if (!consents || !publicApps) return [];
+
+    return [
+      ...consents.map((c) => c.app),
+      ...publicApps.filter((a) => !consents.some((c) => c.app.id === a.id)),
+    ];
+  }, [consents, publicApps]);
 
   const [date, setDate] = useState(() => dayjs());
   useEffect(() => {

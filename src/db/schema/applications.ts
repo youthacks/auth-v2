@@ -9,7 +9,7 @@ export const applications = pgTable("applications", {
   name: text().notNull(),
   description: text(),
   homepageUrl: text("homepage_url").notNull(),
-  public: boolean().notNull().default(true),
+  public: boolean().notNull().default(false),
 
   logoAssetId: text("logo_asset_id").references(() => assets.id),
   backgroundAssetId: text("background_asset_id").references(() => assets.id),
