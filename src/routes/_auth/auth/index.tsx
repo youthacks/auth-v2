@@ -113,10 +113,10 @@ function RouteComponent() {
         </form.AppForm>
       </form>
 
-      <Button className="mt-6 w-full" size="lg" color="outline">
+      {/* <Button className="mt-6 w-full opacity-50" size="lg" color="outline">
         <KeyIcon strokeWidth={2.5} className="size-4" />
         <span>Log in with passkey</span>
-      </Button>
+      </Button> */}
     </div>
   );
 }
