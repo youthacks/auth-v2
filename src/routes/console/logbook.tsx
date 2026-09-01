@@ -16,7 +16,7 @@ function RouteComponent() {
             things you made + learned!
           </p>
         </div>
-        <section className="flex gap-6">
+        <section className="flex gap-6 opacity-50">
           <div className="flex-none pt-4 text-center text-neutral-600">
             <p className="text-lg leading-none">2</p>
             <p className="mt-px text-sm">Aug</p>
@@ -43,7 +43,7 @@ function RouteComponent() {
             </div>
           </div>
         </section>
-        <section className="flex gap-6">
+        <section className="flex gap-6 opacity-50">
           <div className="flex-none pt-4 text-center text-neutral-600">
             <p className="text-lg leading-none">2</p>
             <p className="mt-px text-sm">Aug</p>
