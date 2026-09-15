@@ -12,12 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as ConsoleRouteRouteImport } from './routes/console/route'
+import { Route as TestRouteRouteImport } from './routes/test/route'
 import { Route as AuthAuthRouteRouteImport } from './routes/_auth/auth/route'
 import { Route as ConsoleIndexRouteImport } from './routes/console/index'
 import { Route as ConsoleAccountRouteRouteImport } from './routes/console/account/route'
 import { Route as ConsoleHomeRouteImport } from './routes/console/home'
 import { Route as ConsoleLogbookRouteImport } from './routes/console/logbook'
 import { Route as ConsoleManageRouteRouteImport } from './routes/console/manage/route'
+import { Route as TestCallbackRouteRouteImport } from './routes/test/callback/route'
 import { Route as AuthAuthIndexRouteImport } from './routes/_auth/auth/index'
 import { Route as AuthAuthFinishRouteImport } from './routes/_auth/auth/finish'
 import { Route as AuthAuthSignupRouteRouteImport } from './routes/_auth/auth/signup/route'
@@ -59,6 +61,11 @@ const ConsoleRouteRoute = ConsoleRouteRouteImport.update({
   path: '/console',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TestRouteRoute = TestRouteRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthAuthRouteRoute = AuthAuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -88,6 +95,11 @@ const ConsoleManageRouteRoute = ConsoleManageRouteRouteImport.update({
   id: '/manage',
   path: '/manage',
   getParentRoute: () => ConsoleRouteRoute,
+} as any)
+const TestCallbackRouteRoute = TestCallbackRouteRouteImport.update({
+  id: '/callback',
+  path: '/callback',
+  getParentRoute: () => TestRouteRoute,
 } as any)
 const AuthAuthIndexRoute = AuthAuthIndexRouteImport.update({
   id: '/',
@@ -233,9 +245,11 @@ const ConsoleManageAppsIdAddSamlRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/console': typeof ConsoleRouteRouteWithChildren
+  '/test': typeof TestRouteRouteWithChildren
   '/auth': typeof AuthAuthRouteRouteWithChildren
   '/console/account': typeof ConsoleAccountRouteRouteWithChildren
   '/console/manage': typeof ConsoleManageRouteRouteWithChildren
+  '/test/callback': typeof TestCallbackRouteRoute
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
@@ -268,7 +282,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/test': typeof TestRouteRouteWithChildren
   '/console/manage': typeof ConsoleManageRouteRouteWithChildren
+  '/test/callback': typeof TestCallbackRouteRoute
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console': typeof ConsoleIndexRoute
@@ -300,9 +316,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/console': typeof ConsoleRouteRouteWithChildren
+  '/test': typeof TestRouteRouteWithChildren
   '/_auth/auth': typeof AuthAuthRouteRouteWithChildren
   '/console/account': typeof ConsoleAccountRouteRouteWithChildren
   '/console/manage': typeof ConsoleManageRouteRouteWithChildren
+  '/test/callback': typeof TestCallbackRouteRoute
   '/console/home': typeof ConsoleHomeRoute
   '/console/logbook': typeof ConsoleLogbookRoute
   '/console/': typeof ConsoleIndexRoute
@@ -338,9 +356,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/console'
+    | '/test'
     | '/auth'
     | '/console/account'
     | '/console/manage'
+    | '/test/callback'
     | '/console/home'
     | '/console/logbook'
     | '/console/'
@@ -373,7 +393,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/test'
     | '/console/manage'
+    | '/test/callback'
     | '/console/home'
     | '/console/logbook'
     | '/console'
@@ -404,9 +426,11 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/console'
+    | '/test'
     | '/_auth/auth'
     | '/console/account'
     | '/console/manage'
+    | '/test/callback'
     | '/console/home'
     | '/console/logbook'
     | '/console/'
@@ -442,6 +466,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   ConsoleRouteRoute: typeof ConsoleRouteRouteWithChildren
+  TestRouteRoute: typeof TestRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -465,6 +490,13 @@ declare module '@tanstack/react-router' {
       path: '/console'
       fullPath: '/console'
       preLoaderRoute: typeof ConsoleRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/auth': {
@@ -508,6 +540,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/console/manage'
       preLoaderRoute: typeof ConsoleManageRouteRouteImport
       parentRoute: typeof ConsoleRouteRoute
+    }
+    '/test/callback': {
+      id: '/test/callback'
+      path: '/callback'
+      fullPath: '/test/callback'
+      preLoaderRoute: typeof TestCallbackRouteRouteImport
+      parentRoute: typeof TestRouteRoute
     }
     '/_auth/auth/': {
       id: '/_auth/auth/'
@@ -861,10 +900,23 @@ const ConsoleRouteRouteWithChildren = ConsoleRouteRoute._addFileChildren(
   ConsoleRouteRouteChildren,
 )
 
+interface TestRouteRouteChildren {
+  TestCallbackRouteRoute: typeof TestCallbackRouteRoute
+}
+
+const TestRouteRouteChildren: TestRouteRouteChildren = {
+  TestCallbackRouteRoute: TestCallbackRouteRoute,
+}
+
+const TestRouteRouteWithChildren = TestRouteRoute._addFileChildren(
+  TestRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   ConsoleRouteRoute: ConsoleRouteRouteWithChildren,
+  TestRouteRoute: TestRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
