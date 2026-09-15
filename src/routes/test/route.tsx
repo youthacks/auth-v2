@@ -188,7 +188,7 @@ function RouteComponent() {
                 </div>
                 <div className="border-b border-neutral-200 p-3 px-4">
                   <p className="text-sm font-medium text-rose-700">client ID</p>
-                  <p className="mt-0.5 font-mono">client_id</p>
+                  <p className="mt-0.5 font-mono">{clientId}</p>
                   <p className="mt-1 text-xs text-pretty text-neutral-600">
                     the client ID for this app.
                   </p>
@@ -257,7 +257,7 @@ function RouteComponent() {
                     "token_type": "Bearer",
                   </p>
                   <p className="pl-6 font-mono text-neutral-600">
-                    "expires_in": 15778800,
+                    "expires_in": 3600,
                   </p>
                   <p className="pl-6 font-mono text-neutral-600">
                     "refresh_token": "ythrf.abcdefgh12345678...",
