@@ -226,27 +226,32 @@ function RouteComponent() {
                     <span className="text-purple-700">POST</span>{" "}
                     {import.meta.env.PUBLIC_URL}/oauth/token
                   </p>
-                  <p className="pl-10 font-mono">
-                    ?<span className="text-rose-700">client_id={clientId}</span>
+                  <p className="font-mono">Content-Type: application/json</p>
+                  <p className="font-mono">{"{"}</p>
+                  <p className="pl-6 font-mono">
+                    <span className="text-rose-700">
+                      "client_id": "{clientId}",
+                    </span>
                   </p>
-                  <p className="pl-10 font-mono">
-                    &
+                  <p className="pl-6 font-mono">
                     <span className="text-amber-700">
-                      client_secret=[secret]
+                      "client_secret": "[secret]",
                     </span>
                   </p>
-                  <p className="pl-10 font-mono">
-                    &
+                  <p className="pl-6 font-mono">
                     <span className="text-cyan-700">
-                      redirect_uri={redirectUri}
+                      "redirect_uri": "{redirectUri}",
                     </span>
                   </p>
-                  <p className="pl-10 font-mono">
-                    &<span className="text-neutral-600">code={code}</span>
+                  <p className="pl-6 font-mono">
+                    <span className="text-neutral-600">"code": "{code}",</span>
                   </p>
-                  <p className="pl-10 font-mono">
-                    &grant_type=authorization_code
+                  <p className="pl-6 font-mono">
+                    <span className="text-neutral-600">
+                      "grant_type": "authorization_code"
+                    </span>
                   </p>
+                  <p className="font-mono">{"}"}</p>
 
                   <p className="mt-4 font-mono">200 OK</p>
                   <p className="font-mono">{"{"}</p>

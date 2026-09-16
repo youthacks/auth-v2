@@ -66,7 +66,7 @@ export const Route = createFileRoute("/test/callback")({
 
           console.error(_e);
           throw redirect({
-            to: "/",
+            to: "/test",
             search: { auth_error: "Internal error" },
           });
         }
